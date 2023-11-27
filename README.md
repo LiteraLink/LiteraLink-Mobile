@@ -1,8 +1,5 @@
 # LiteraLink
 
-## Pipeline Status
-[![Release](https://github.com/LiteraLink/LiteraLink/actions/workflows/pbp-deploy.yml/badge.svg)](https://github.com/LiteraLink/LiteraLink/actions/workflows/pbp-deploy.yml)
-
 ## Kelompok 03 👨‍💻
 - [Martin Marcelino Tarigan](https://github.com/MartinTarigan) (2206029645)
 - [Georgina Elena Shinta Dewi Achti](https://github.com/georginaelena) (2206810995)
@@ -24,7 +21,7 @@
 ### Tautan 🔗
 [LiteraLink](http://literalink-e03-tk.pbp.cs.ui.ac.id/)
 
-## Cerita dan Manfaat Aplikasi 📙
+## Deskripsi Aplikasi 📙
 Di Indonesia, masalah rendahnya tingkat literasi telah menjadi perhatian yang mendalam. Faktor-faktor seperti keterbatasan akses ke toko buku, kurangnya minat membaca, dan bahkan keterbatasan waktu untuk pergi ke perpustakaan telah menjadi hambatan yang signifikan. Terlebih lagi, gaya hidup yang sibuk membuat banyak orang enggan untuk menghabiskan waktu berjam-jam di toko buku atau perpustakaan tradisional. Melihat kesuksesan dan inovasi yang dihadirkan oleh startup seperti Gojek, yang telah merubah cara orang memandang transportasi dan pengantaran makanan, tim kami terinspirasi untuk menghadirkan solusi serupa dalam dunia literasi. Oleh karena itu, kami memulai proyek yang bernama LiteraLink dengan fitur-fitur inovatif yang terinspirasi dari Gojek, dengan harapan dapat menghadirkan perubahan positif dalam cara orang mengakses dan berinteraksi dengan buku, serta mendorong budaya literasi yang lebih kuat di seluruh Indonesia.
 
 Nama "LiteraLink" sendiri terinspirasi dari kata "Literally" dan "Literasi" yang mencerminkan fokus pada literasi dan "Link" merujuk pada kemampuan buku-buku yang dapat di-"link" sesuai dengan kebutuhan pengguna melalui fitur-fitur yang ada dalam aplikasi ini. Kami percaya bahwa LiteraLink bukan hanya sebuah aplikasi, tetapi juga sebuah alat yang akan membantu menghubungkan individu dengan dunia pengetahuan dan imajinasi tanpa batasan geografis. Dalam era digital ini, kami melihat peluang besar untuk menghadirkan perubahan positif dalam cara orang berinteraksi dengan buku, memfasilitasi akses yang lebih mudah dan nyaman, dan akhirnya, meningkatkan tingkat literasi di seluruh negeri. Kami berkomitmen untuk menjadikan LiteraLink sebagai mitra setia dalam perjalanan membaca dan literasi banyak orang, memberikan kemudahan dalam mengakses pengetahuan dan cerita-cerita inspiratif yang buku-buku tawarkan.
@@ -32,19 +29,17 @@ Nama "LiteraLink" sendiri terinspirasi dari kata "Literally" dan "Literasi" yang
 ### <b>Manfaat Aplikasi ✅</b><br/>
 berikut adalah beberapa manfaat yang dapat diberikan oleh aplikasi LiteraLink:
 
-- **Akses Mudah ke Buku**: LiteraLink akan memberikan akses yang mudah dan cepat ke berbagai jenis buku, baik fiksi maupun non-fiksi, tanpa perlu pergi ke toko buku atau perpustakaan. Ini akan sangat membantu individu yang tinggal di daerah terpencil atau tidak memiliki akses mudah ke sumber bacaan.
+- **Akses Mudah ke Buku**: LiteraLink akan memberikan akses yang mudah dan cepat ke berbagai jenis buku, baik fiksi maupun non-fiksi, tanpa perlu pergi ke toko buku atau perpustakaan. Pembaca bisa mengakses lokasi buku atau melakukan order buku secara online.
 
 - **Kemudahan dalam Memilih Buku**: Aplikasi ini akan menyediakan fitur penilaian dan ulasan pengguna untuk membantu pengguna memilih buku yang sesuai dengan minat dan preferensi mereka. Ini dapat mengurangi kebingungan dalam memilih buku yang tepat.
 
-- **Ketersediaan 24/7**: Pengguna dapat mengakses buku-buku melalui LiteraLink kapan saja dan di mana saja, bahkan pada malam hari atau saat liburan. Ini memberikan fleksibilitas yang besar dalam membaca.
+- **Ketersediaan**: Pengguna dapat mengakses buku-buku melalui LiteraLink kapan saja dan di mana saja, tergantung jam operational yang dicantumkan pada aplikasi.
 
 - **Membantu Pengarang Lokal**: LiteraLink dapat menjadi platform untuk pengarang lokal untuk mempublikasikan karya-karya mereka, memperluas jangkauan dan audiens mereka.
 
 - **Statistik dan Pelacakan Kemajuan**: Aplikasi ini dapat mencatat statistik bacaan pengguna dan membantu mereka melacak kemajuan literasi mereka dari waktu ke waktu. Hal ini dapat menjadi motivasi tambahan untuk membaca lebih banyak.
 
-- **Menyimpan Ruang dan Lingkungan**: Dengan mengurangi penggunaan buku fisik, LiteraLink juga berkontribusi pada pelestarian lingkungan dan menghemat ruang penyimpanan di rumah.
-
-- **Berkolaborasi dengan Pendidikan**: LiteraLink dapat bekerja sama dengan lembaga pendidikan untuk menyediakan akses buku digital kepada siswa, membantu dalam meningkatkan literasi pendidikan di Indonesia.
+- **Efisiensi**: LiteraLink berkontribusi pada pelestarian lingkungan dan menghemat waktu untuk pemilihan/peminjaman buku
 
 - **Komunitas Baca**: Aplikasi ini dapat memfasilitasi pembentukan komunitas pembaca online di mana pengguna dapat berbagi pengalaman membaca, diskusi buku, dan saling mendukung dalam perjalanan literasi mereka.
 
@@ -101,11 +96,24 @@ Dengan semua manfaat ini, LiteraLink dapat menjadi alat yang efektif dalam memer
       </tr>
     </table>
   </div>
- 
+
  ## Alur Pengintegrasian Flutter-Django
+![](https://i.imgur.com/ytXyCyQ.png)
+1. **Menginisialisasi proyek Flutter** yang akan menjadi wadah antarmuka pengguna dalam repositori baru.
+2. **Mengimplementasikan sistem autentikasi** pada Django dan memastikan Flutter telah terintegrasi dengan sistem autentikasinya.
+3. **Mengimplementasikan endpoint** untuk memberikan data dari Django ke Flutter.
+4. **Membuat skema model data** yang akan digunakan di Django untuk merepresentasikan struktur data aplikasi secara keseluruhan.
+5. **Menerapkan metode pengambilan data** dari Django untuk ditampilkan dalam aplikasi Flutter menggunakan model dan fungsi encode-decode respons berupa json.
+6. **Mengoptimalkan proses request data** pada aplikasi Flutter untuk meminimalisir latency dan memaksimalkan performa.
+7. **Mengintegrasikan Flutter** dengan sistem autentikasi yang telah dibuat di sisi Django.
+8. **Memastikan response** yang diberikan dari Flutter sesuai dengan yang dibutuhkan sistem autentikasi baik Sign In maupun Sign Up
+9. **Uji integrasi** antara Flutter dan Django, termasuk penanganan kesalahan.
+10. **Membangun sistem logout** pada Flutter yang memastikan penutupan sesi pengguna dan pembersihan data sesi dari perangkat dengan aman.
+11. **Memastikan semua fungsionalitas** berjalan lancar baik autentikasi maupun logika bisnis.
+12. **Melakukan deployment Django** dan **konfigurasikan aplikasi Flutter** untuk menggunakan URL API yang di-deploy.
+13. **Melanjutkan pengembangan aplikasi** dan push secara berkala untuk update deployment.
 
  ## Tautan Berita Acara
+  Berita Acara dapat diakses melalui tautan berikut,
 
- Berita Acara dapat diakses melalui tautan berikut,
-
- http://bit.ly/Berita-Acara-PBP-E03 
+ http://bit.ly/Berita-Acara-PBP-E03
