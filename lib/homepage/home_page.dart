@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/homepage/profile.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/main.dart';
@@ -67,6 +68,20 @@ class _HomePageState extends State<HomePage> {
           )
         ),
         backgroundColor: LiteraLink.limeGreen,
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/images/User.png', // Ganti dengan path yang benar ke file gambar
+            width: 24, // Sesuaikan ukuran ikon sesuai kebutuhan
+            height: 24,
+          ),
+          onPressed: () {
+            // Navigasi ke halaman baru di sini
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfileScreen()),
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
