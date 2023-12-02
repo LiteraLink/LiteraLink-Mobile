@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:literalink/antar/screens/form_pemesanan.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
 import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
@@ -174,7 +175,7 @@ class _AntarPageState extends State<AntarPage> {
   Widget buildBookList() {
     return FutureBuilder<List<Book>>(
       future: fetchItem(),
-      builder: (context, snapshot) {
+      builder: (context, snapshot,) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
@@ -222,6 +223,10 @@ class _AntarPageState extends State<AntarPage> {
                               ElevatedButton(
                                 onPressed: () {
                                   // pergi ke halaman form data pengantaran 
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ShopFormPage(bookId: book.fields.bookId)),
+                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
