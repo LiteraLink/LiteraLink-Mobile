@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:literalink/authentication/models/user.dart';
+import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/main.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -16,6 +17,20 @@ class ProfileScreen extends StatelessWidget {
             const Text("Profile", style: TextStyle(color: LiteraLink.offWhite)),
         backgroundColor: LiteraLink.tealDeep,
         // Tambahkan properti lain sesuai kebutuhan Anda
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/images/back_icon.png', // Ganti dengan path yang benar ke file gambar
+            width: 24, // Sesuaikan ukuran ikon sesuai kebutuhan
+            height: 24,
+          ),
+          onPressed: () {
+            // Navigasi ke halaman baru di sini
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),
       ),
       body: Column(
         children: [
