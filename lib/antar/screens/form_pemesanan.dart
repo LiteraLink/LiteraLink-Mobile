@@ -2,29 +2,42 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
+import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 class ShopFormPage extends StatefulWidget {
-  final String bookId;
+  final int bookId;
+  final User user;
 
-  const ShopFormPage({Key? key, required this.bookId}) : super(key: key);
+  const ShopFormPage({Key? key, required this.bookId, required this.user}) : super(key: key);
 
   @override
-  State<ShopFormPage> createState() => _ShopFormPageState(bookId);
+  State<ShopFormPage> createState() => _ShopFormPageState();
 }
 
 class _ShopFormPageState extends State<ShopFormPage> {
-  _ShopFormPageState(this.bookId);
 
   final _formKey = GlobalKey<FormState>();
+  
   String _namaLengkap = "";
   String _nomorTelepon = "";
   String _alamatPengiriman = "";
   int _jumlahBukudiPesan = 0;
   int _durasiPeminjaman = 0;
-  String bookId;
+  
+  // Menggunakan widget.user dan widget.bookId untuk mendapatkan nilai yang dilewatkan ke widget
+  late final int bookId;
+  late final User user;
+
+  @override
+  void initState() {
+    super.initState();
+    // Inisialisasi variabel dengan nilai dari widget
+    bookId = widget.bookId;
+    user = loggedInUser;
+  }
   
   
   
@@ -195,16 +208,17 @@ class _ShopFormPageState extends State<ShopFormPage> {
                         MaterialStateProperty.all(LiteraLink.limeGreen),
                   ),
                   onPressed: () async {
+                    int idBuku = bookId;
+                    String username = user.username;
                     if (_formKey.currentState!.validate()) {
-                      int idBuku = int.parse(bookId);
                       // Kirim ke Django dan tunggu respons
                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
                           // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://127.0.0.1:8000/antar-buku-flutter/$idBuku",
+                          "http://127.0.0.1:8000/antar/antar-buku-flutter/$idBuku/$username",
                           jsonEncode(<String, String>{
                             'nama_lengkap': _namaLengkap,
-                            'normor_telepon': _nomorTelepon,
+                            'nomor_telepon': _nomorTelepon,
                             'alamat_pengiriman': _alamatPengiriman,
                             'jumlah_buku_dipesan': _jumlahBukudiPesan.toString(),
                             'durasi_peminjaman': _durasiPeminjaman.toString(),

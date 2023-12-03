@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:literalink/antar/screens/form_pemesanan.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
+import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:literalink/main.dart';
@@ -225,7 +226,7 @@ class _AntarPageState extends State<AntarPage> {
                                   // pergi ke halaman form data pengantaran 
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ShopFormPage(bookId: book.fields.bookId)),
+                                    MaterialPageRoute(builder: (context) => ShopFormPage(bookId: book.pk, user: loggedInUser,)),
                                   );
                                 },
                                 style: ButtonStyle(
