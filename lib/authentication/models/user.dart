@@ -1,4 +1,9 @@
-User loggedInUser = User(username: "Null", password: "Null", fullName: "Null", email: "Null", role: "Null");
+User loggedInUser = User(
+    username: "Null",
+    password: "Null",
+    fullName: "Null",
+    email: "Null",
+    role: "Null");
 
 class User {
   String username;
@@ -8,12 +13,9 @@ class User {
   String role;
 
   User(
-    {
-      required this.username, 
-      required this.password, 
+      {required this.username,
+      required this.password,
       required this.fullName,
       required this.email,
-      required this.role
-    }
-  );
+      required this.role});
 }

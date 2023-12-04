@@ -19,7 +19,8 @@ class HomePage extends StatefulWidget {
   static List<ShopItem> items = [
     ShopItem("Antar", 'assets/images/Antar_Icon.png', AntarPage()),
     ShopItem("BacaDiTempat", 'assets/images/Bibliofilia_Icon.png', VenuePage()),
-    ShopItem("DimanaSajaKapanSaja", 'assets/images/DSKS_Icon.png', DimanaSajaKapanSajaPage()),
+    ShopItem("DimanaSajaKapanSaja", 'assets/images/DSKS_Icon.png',
+        DimanaSajaKapanSajaPage()),
     ShopItem("Bibliofilia", 'assets/images/Bibliofilia_Icon.png', ForumPage()),
     ShopItem("Logout", 'assets/images/DSKS_Icon.png', SignInPage()),
   ];
@@ -53,19 +54,14 @@ class _HomePageState extends State<HomePage> {
 
   void setSelectedCategory(String category) {
     setState(() => selectedCategory = category);
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "LiteraLink", 
-          style: TextStyle(
-            color: LiteraLink.tealDeep
-          )
-        ),
+        title: const Text("LiteraLink",
+            style: TextStyle(color: LiteraLink.tealDeep)),
         backgroundColor: LiteraLink.limeGreen,
       ),
       body: SingleChildScrollView(
@@ -75,13 +71,10 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    'Feature',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold
-                    )
-                  ),
+                  child: Text('Feature',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 ),
                 buildFeatureList(),
                 const SizedBox(height: 10),
@@ -128,12 +121,13 @@ class _HomePageState extends State<HomePage> {
                 String category = categories.elementAt(index);
                 return Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: OutlinedButton(
+                  child: ElevatedButton(
                     onPressed: () => setSelectedCategory(category),
-                    style: OutlinedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: selectedCategory == category
                           ? LiteraLink.tealDeep
-                          : const Color(0xFFD0E2AB), // Change color when selected
+                          : const Color(
+                              0xFFD0E2AB), // Change color when selected
                     ),
                     child: Container(
                       alignment: Alignment.center,
@@ -165,53 +159,54 @@ class _HomePageState extends State<HomePage> {
         } else {
           return Column(
             children: snapshot.data!
-              .where((book) =>
-                selectedCategory == "All" ||
-                book.fields.categories == selectedCategory)
-              .map<Widget>((book) => Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(20.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Material(
-                    color: LiteraLink.limeGreen,
-                    child: Row(
-                      children: [
-                        Image.network(book.fields.thumbnail),
-                        const SizedBox(width: 10),
-                        SizedBox(
-                          width: 180,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                .where((book) =>
+                    selectedCategory == "All" ||
+                    book.fields.categories == selectedCategory)
+                .map<Widget>((book) => Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.all(20.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Material(
+                          color: LiteraLink.limeGreen,
+                          child: Row(
                             children: [
-                              Text(
-                                book.fields.categories,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 249, 241, 241),
+                              Image.network(book.fields.thumbnail),
+                              const SizedBox(width: 10),
+                              SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      book.fields.categories,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color:
+                                            Color.fromARGB(255, 249, 241, 241),
+                                      ),
+                                    ),
+                                    Text(
+                                      book.fields.title,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Text(
+                                      book.fields.displayAuthors,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                book.fields.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20
-                                ),
-                              ),
-                              Text(
-                                book.fields.displayAuthors,
-                                style: const TextStyle(color: Colors.white),
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ).toList(),
+                      ),
+                    ))
+                .toList(),
           );
         }
       },
@@ -247,18 +242,19 @@ class BookCard extends StatelessWidget {
           onTap: () async {
             if (item.name != "Logout") {
               Navigator.push(
-                context, 
+                context,
                 MaterialPageRoute(builder: (context) => item.page),
               );
             } else {
-              final response = await request.logout("http://localhost:8000/auth/signout-flutter/");
+              final response = await request
+                  .logout("http://localhost:8000/auth/signout-flutter/");
               String message = response["message"];
 
               if (response['status']) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text("$message Sampai jumpa, ${loggedInUser.username}.")
-                  ),
+                      content: Text(
+                          "$message Sampai jumpa, ${loggedInUser.username}.")),
                 );
                 Navigator.pushReplacement(
                   context,
@@ -279,33 +275,23 @@ class BookCard extends StatelessWidget {
                 width: 100,
                 height: 100,
               ),
-              item.name == "DimanaSajaKapanSaja" ?
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "DimanaSaja", 
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold
-                      )
+              item.name == "DimanaSajaKapanSaja"
+                  ? const Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("DimanaSaja",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold)),
+                        Text("KapanSaja",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold)),
+                      ],
+                    )
+                  : Text(
+                      item.name,
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "KapanSaja", 
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold
-                      )
-                    ),
-                  ],
-                )
-              : Text(
-                  item.name, 
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
             ],
           ),
         ),
