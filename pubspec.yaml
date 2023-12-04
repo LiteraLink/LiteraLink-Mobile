@@ -39,6 +39,9 @@ dependencies:
   pbp_django_auth: ^0.4.0
   http: ^1.1.0
   dropdown_button2: ^2.3.9
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:
