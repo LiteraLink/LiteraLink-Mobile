@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:literalink/main.dart';
 
-Widget authField(
-  TextEditingController controller,
-  String label,
-  GlobalKey<FormState> formKey,
-  {TextEditingController? otherController}
-) {
-  
+Widget authField(TextEditingController controller, String label,
+    GlobalKey<FormState> formKey,
+    {TextEditingController? otherController}) {
   bool isPasswordField = label.startsWith("Password");
 
   String labelText = label == "Password2"
-    ? "Repeat your Password"
-    : label == "Password1"
-    ? "Enter your Password"
-    : "Enter your $label";
+      ? "Repeat your Password"
+      : label == "Password1"
+          ? "Enter your Password"
+          : "Enter your $label";
 
   return SizedBox(
     height: 82,
@@ -48,7 +44,8 @@ Widget authField(
   );
 }
 
-String? _validateField(String? value, String label, TextEditingController? otherController) {
+String? _validateField(
+    String? value, String label, TextEditingController? otherController) {
   if (value == null || value.isEmpty) {
     return 'Field cannot be empty';
   }
@@ -60,7 +57,9 @@ String? _validateField(String? value, String label, TextEditingController? other
       return 'Password cannot be entirely numeric';
     }
   }
-  if (label == "Password2" && otherController != null && value != otherController.text) {
+  if (label == "Password2" &&
+      otherController != null &&
+      value != otherController.text) {
     return 'Passwords do not match';
   }
   if (label == "Email" && !value.contains('@')) {
