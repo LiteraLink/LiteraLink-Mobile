@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:literalink/main.dart';
 
-Widget authField(TextEditingController controller, String label,
-    GlobalKey<FormState> formKey,
-    {TextEditingController? otherController}) {
+Widget addStationField(
+  TextEditingController controller,
+  String label,
+  GlobalKey<FormState> formKey,
+  String? initialValue, // membuat parameter ini nullable
+) {
+  // Hanya set nilai awal jika initialValue tidak null
+  if (initialValue != null && controller.text.isEmpty) {
+    controller.text = initialValue;
+  }
+
   bool isPasswordField = label.startsWith("Password");
-  bool isEmailField = label.startsWith("Email");
 
   String labelText = label == "Password2"
       ? "Repeat your Password"
@@ -14,19 +20,18 @@ Widget authField(TextEditingController controller, String label,
           : "Enter your $label";
 
   return SizedBox(
-    height: 82,
+    height: 77,
     child: TextFormField(
       controller: controller,
       decoration: InputDecoration(
         fillColor: const Color(0xFFF7F8F9),
         filled: true,
-        prefixIcon: Icon(isPasswordField ? Icons.lock : isEmailField? Icons.mail : Icons.person),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDADADA)),
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: LiteraLink.tealDeep),
+          borderSide: BorderSide(color: Colors.teal), // Contoh warna
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         errorBorder: const OutlineInputBorder(
@@ -41,35 +46,17 @@ Widget authField(TextEditingController controller, String label,
         labelStyle: const TextStyle(color: Color(0xFF8391A1)),
       ),
       obscureText: isPasswordField,
-      validator: (value) => _validateField(value, label, otherController),
+      validator: (value) => _validateField(
+          value, label), // Pastikan Anda memiliki fungsi validator ini
     ),
   );
 }
 
-String? _validateField(
-    String? value, String label, TextEditingController? otherController) {
+String? _validateField(String? value, String label) {
+  // Implementasikan logika validasi di sini
+  // Contoh sederhana:
   if (value == null || value.isEmpty) {
-    return 'Field cannot be empty';
-  }
-  if (label.startsWith("Password")) {
-    if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    }
-    if (isNumericOnly(value)) {
-      return 'Password cannot be entirely numeric';
-    }
-  }
-  if (label == "Password2" &&
-      otherController != null &&
-      value != otherController.text) {
-    return 'Passwords do not match';
-  }
-  if (label == "Email" && !value.contains('@')) {
-    return 'Please enter a valid email';
+    return 'Please enter your $label';
   }
   return null;
-}
-
-bool isNumericOnly(String password) {
-  return RegExp(r'^\d+$').hasMatch(password);
 }

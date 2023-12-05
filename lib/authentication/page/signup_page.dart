@@ -39,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _password1Controller = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
 
-  final List<String> genderItems = ['Member', 'Admin'];
+  final List<String> roleItems = ['Member', 'Admin'];
   String? selectedRole;
 
   final _formKey = GlobalKey<FormState>();
@@ -165,7 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
           if (mainFormIsValid && roleFormIsValid) {
             final response = await request
-                .login("http://localhost:8000/auth/signup-flutter/", {
+                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/", {
               'full_name': _fullNameController.text,
               'username': _usernameController.text,
               'email': _emailController.text,
@@ -268,7 +268,7 @@ class _SignUpPageState extends State<SignUpPage> {
           style: TextStyle(
               fontSize: 16, fontFamily: 'Satoshi', color: Color(0xFF8391A1)),
         ),
-        items: genderItems
+        items: roleItems
             .map((item) => DropdownMenuItem<String>(
                   value: item,
                   child: Text(
