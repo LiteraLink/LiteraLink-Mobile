@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   String? selectedCategoryBtn;
 
   Future<List<Book>> fetchItem() async {
-    var url = Uri.parse('http://localhost:8000/show_json/');
+    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/show_json/');
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
 
@@ -247,7 +247,7 @@ class BookCard extends StatelessWidget {
               );
             } else {
               final response = await request
-                  .logout("http://localhost:8000/auth/signout-flutter/");
+                  .logout("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signout-flutter/");
               String message = response["message"];
 
               if (response['status']) {

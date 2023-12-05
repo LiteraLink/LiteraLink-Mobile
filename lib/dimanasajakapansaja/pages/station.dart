@@ -31,7 +31,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
 
   Future<List<Station>> fetchStation() async {
     var url =
-        Uri.parse('http://localhost:8000/dimanasajakapansaja/station-json/');
+        Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/station-json/');
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
 
@@ -267,7 +267,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                               ElevatedButton(
                                   onPressed: () async {
                                     final response = await request.postJson(
-                                        "http://localhost:8000/dimanasajakapansaja/del_station_flutter/",
+                                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/del_station_flutter/",
                                         jsonEncode(<String, int>{
                                           'station_id': station.pk,
                                         }));
@@ -296,7 +296,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
     return InkWell(
         onTap: () async {
           var uri = Uri.parse(
-              "http://localhost:8000/dimanasajakapansaja/add_station_flutter/");
+              "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/add_station_flutter/");
           var request = http.MultipartRequest('POST', uri);
 
           request.fields['name'] = _nameController.text;
@@ -362,7 +362,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
     return InkWell(
         onTap: () async {
           var uri = Uri.parse(
-              "http://localhost:8000/dimanasajakapansaja/edit_station_flutter/${station.pk}/");
+              "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/edit_station_flutter/${station.pk}/");
           var request = http.MultipartRequest('POST', uri);
 
           request.fields['name'] = _nameController.text;
