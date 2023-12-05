@@ -5,6 +5,7 @@ Widget authField(TextEditingController controller, String label,
     GlobalKey<FormState> formKey,
     {TextEditingController? otherController}) {
   bool isPasswordField = label.startsWith("Password");
+  bool isEmailField = label.startsWith("Email");
 
   String labelText = label == "Password2"
       ? "Repeat your Password"
@@ -19,6 +20,7 @@ Widget authField(TextEditingController controller, String label,
       decoration: InputDecoration(
         fillColor: const Color(0xFFF7F8F9),
         filled: true,
+        prefixIcon: Icon(isPasswordField ? Icons.lock : isEmailField? Icons.mail : Icons.person),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDADADA)),
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
