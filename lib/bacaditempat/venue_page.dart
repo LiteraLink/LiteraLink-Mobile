@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 
-class VenuePage extends StatefulWidget {
-  const VenuePage({super.key});
-
+class BacaDiTempat extends StatefulWidget {
   @override
-  _VenuePageState createState() => _VenuePageState();
+  _BacaDiTempatState createState() => _BacaDiTempatState();
 }
 
-class _VenuePageState extends State<VenuePage> {
+class _BacaDiTempatState extends State<BacaDiTempat> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Baca Di Tempat'),
+      ),
+      body: Center(
+        child: Text('Selamat Datang di Baca Di Tempat!'),
+      ),
+    );
   }
 }
+

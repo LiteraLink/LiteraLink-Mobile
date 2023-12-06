@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
   static List<ShopItem> items = [
     ShopItem("Antar", 'assets/images/Antar_Icon.png', AntarPage()),
-    ShopItem("BacaDiTempat", 'assets/images/Bibliofilia_Icon.png', VenuePage()),
+    ShopItem("BacaDiTempat", 'assets/images/BacaDiTempat_Icon.png', BacaDiTempat()),
     ShopItem("DimanaSajaKapanSaja", 'assets/images/DSKS_Icon.png', DimanaSajaKapanSajaPage()),
     ShopItem("Bibliofilia", 'assets/images/Bibliofilia_Icon.png', ForumPage()),
     ShopItem("Logout", 'assets/images/DSKS_Icon.png', SignInPage()),
