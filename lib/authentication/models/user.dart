@@ -3,7 +3,7 @@ User loggedInUser = User(
     password: "Null",
     fullName: "Null",
     email: "Null",
-    role: "Null");
+    role: "A");
 
 class User {
   String username;

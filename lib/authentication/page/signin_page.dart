@@ -1,21 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:literalink/homepage/components/navbar.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/main.dart';
-import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signup_page.dart';
 import 'package:literalink/authentication/components/auth_field.dart';
 
 void main() {
-  runApp(const LoginApp());
+  runApp(const SiginInApp());
 }
 
-class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+class SiginInApp extends StatelessWidget {
+  const SiginInApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
   @override
-  _SignInPageState createState() => _SignInPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
@@ -145,11 +145,12 @@ class _SignInPageState extends State<SignInPage> {
         onTap: () async {
           String password = _passwordController.text;
           if (_formKey.currentState!.validate()) {
-            final response = await request
-                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/", {
-              'username': _usernameController.text,
-              'password': password,
-            });
+            final response = await request.login(
+              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
+              {
+                'username': _usernameController.text,
+                'password': password,
+              });
 
             if (request.loggedIn) {
               String message = response['message'];
@@ -162,7 +163,8 @@ class _SignInPageState extends State<SignInPage> {
 
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
+                MaterialPageRoute(
+                    builder: (context) => PersistentBottomNavPage()),
               );
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
