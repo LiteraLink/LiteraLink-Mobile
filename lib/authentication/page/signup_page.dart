@@ -29,7 +29,7 @@ class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
@@ -164,16 +164,18 @@ class _SignUpPageState extends State<SignUpPage> {
           bool roleFormIsValid = _roleFormKey.currentState?.validate() ?? false;
 
           if (mainFormIsValid && roleFormIsValid) {
-            final response = await request
-                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/", {
-              'full_name': _fullNameController.text,
-              'username': _usernameController.text,
-              'email': _emailController.text,
-              'role': selectedRole,
-              'password1': _password1Controller.text,
-              'password2': _password2Controller.text,
-              'submit': 'Daftar'
-            });
+            final response = await request.login(
+              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/",
+              {
+                'full_name': _fullNameController.text,
+                'username': _usernameController.text,
+                'email': _emailController.text,
+                'role': selectedRole,
+                'password1': _password1Controller.text,
+                'password2': _password2Controller.text,
+                'submit': 'Daftar'
+              }
+            );
 
             if (request.loggedIn) {
               String message = response['message'];
