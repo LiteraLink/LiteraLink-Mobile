@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -7,7 +8,6 @@ import 'package:literalink/dimanasajakapansaja/models/station.dart';
 import 'package:literalink/dimanasajakapansaja/models/station_book.dart';
 import 'package:literalink/dimanasajakapansaja/models/user_book.dart';
 import 'package:literalink/homepage/home_page.dart';
-import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class StationDetailPage extends StatefulWidget {
   const StationDetailPage({super.key, required this.station});
 
   @override
-  _StationDetailPageState createState() => _StationDetailPageState();
+  State<StationDetailPage> createState() => _StationDetailPageState();
 }
 
 class _StationDetailPageState extends State<StationDetailPage> {
@@ -32,19 +32,23 @@ class _StationDetailPageState extends State<StationDetailPage> {
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
 
-    var data = jsonDecode(utf8.decode(response.bodyBytes));
-    List<StationBook> listBook = [];
+    if (response.statusCode == 200) {
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      List<StationBook> listBook = [];
 
-    for (var d in data) {
-      if (d != null) {
-        StationBook book = StationBook.fromJson(d);
-        listBook.add(book);
-        if (book.fields.categories != "None") {
-          categories.add(book.fields.categories);
+      for (var d in data) {
+        if (d != null) {
+          StationBook book = StationBook.fromJson(d);
+          listBook.add(book);
+          if (book.fields.categories != "None") {
+            categories.add(book.fields.categories);
+          }
         }
       }
+      return listBook;
+    } else {
+      throw Exception('Failed to fetch station book');
     }
-    return listBook;
   }
 
   Future<List<UserBook>> fetchRentedBook() async {
@@ -72,230 +76,300 @@ class _StationDetailPageState extends State<StationDetailPage> {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Scaffold(
+      backgroundColor: const Color(0xFFEEF5ED),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    width: 37,
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        color: LiteraLink.tealDeep,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const Row(
-                      children: [
-                        SizedBox(width: 5),
-                        Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.network(
-                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/media/${widget.station.fields.mapLocation}/"),
-                    const SizedBox(height: 10),
-                    Text("Open ${widget.station.fields.openingHours}"),
-                    Text(
-                      widget.station.fields.name,
-                      style: const TextStyle(
-                          fontSize: 30, color: Colors.black),
-                    ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(Icons.add_location_alt_outlined),
-                        SizedBox(
-                          width: 300,
-                          child: Text(widget.station.fields.address),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFFA8A8A8),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            widget.station.fields.name,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 25, color: Color(0xFF252525)),
+                          ),
                         )
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    const Row(
+                    const SizedBox(height: 5),
+                    Container(
+                      padding: const EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40),
+                          color: const Color(0xFFFFFFFF)),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: Image.network(
+                            "https://literalink-e03-tk.pbp.cs.ui.ac.id/media/${widget.station.fields.mapLocation}/"),
+                      ),
+                    ),
+                    const SizedBox(height: 26),
+                    Row(
                       children: [
-                        Icon(Icons.info),
-                        Text("Information Status")
+                        SvgPicture.asset(
+                          "assets/images/Time Circle.svg",
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          "Open ${widget.station.fields.openingHours}",
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
+                    Text(
+                      widget.station.fields.name,
+                      style: const TextStyle(
+                          fontSize: 25, color: Color(0xFF252525)),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      child: Text(
+                        widget.station.fields.address,
+                        style: const TextStyle(color: Color(0xFF7C7C7C)),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
+                          width: 130,
+                          height: 115,
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: const Color(0xFFFFFFFF),
                               borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             children: [
-                              const Text(
-                                "Rentable",
-                                style: TextStyle(color: Colors.black),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFE6F3EC)),
+                                    child: const Icon(
+                                      Icons.arrow_upward_rounded,
+                                      color: Color(0xFF018845),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    "Rentable",
+                                    style: TextStyle(
+                                        color: Color(0xFF018845),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
                               Text(
                                 widget.station.fields.rentable.toString(),
                                 style: const TextStyle(
-                                    color: Colors.black,
+                                    fontSize: 35,
+                                    color: Color(0xFF018845),
                                     fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                "Books",
+                                style: TextStyle(
+                                    color: Color(0xFF018845), fontSize: 16),
                               )
                             ],
                           ),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 21),
                         Container(
+                          width: 130,
+                          height: 115,
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: const Color(0xFFFFFFFF),
                               borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             children: [
-                              const Text(
-                                "Returnable",
-                                style: TextStyle(color: Colors.black),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFFFF0ED)),
+                                    child: const Icon(
+                                      Icons.arrow_downward_rounded,
+                                      color: Color(0xFFEB6645),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    "Returnable",
+                                    style: TextStyle(
+                                        color: Color(0xFFEB6645),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
                               Text(
                                 widget.station.fields.returnable.toString(),
                                 style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              )
+                                    color: Color(0xFFEB6645),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 35),
+                              ),
+                              const Text(
+                                "Slots",
+                                style: TextStyle(
+                                    color: Color(0xFFEB6645),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                              ),
                             ],
                           ),
                         ),
-                        InkWell(
-                          onTap: () => showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return SafeArea(
-                                    child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: const Text(
-                                          "Buku yang kamu pinjam",
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Align(
-                                          child: FutureBuilder(
-                                            future: fetchRentedBook(),
-                                            builder: (context, snapshot) {
-                                              if (snapshot
-                                                      .connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              } else if (snapshot
-                                                  .hasError) {
-                                                return Text(
-                                                    'Error: ${snapshot.error}');
-                                              } else if (!snapshot
-                                                  .hasData) {
-                                                return const Text(
-                                                    "Tidak ada data item.");
-                                              } else {
-                                                return SingleChildScrollView(
-                                                  child: Column(
-                                                    children: snapshot.data!
-                                                        .map<Widget>(
-                                                            (book) =>
-                                                                Container(
-                                                                  width:
-                                                                      200,
-                                                                  margin: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          10),
-                                                                  child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(10),
-                                                                    child:
-                                                                        Material(
-                                                                      color:
-                                                                          LiteraLink.limeGreen,
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Image.network(
-                                                                            book.fields.thumbnail,
-                                                                          ),
-                                                                          Text(book.fields.title),
-                                                                          Text(book.fields.displayAuthors),
-                                                                          ElevatedButton(
-                                                                              onPressed: () async {
-                                                                                final response = await request.postJson(
-                                                                                    "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/return_book_flutter/${widget.station.pk}/${book.pk}/",
-                                                                                    jsonEncode(<String, String>{
-                                                                                      'book_id': book.fields.bookId,
-                                                                                      'title': book.fields.title,
-                                                                                      'authors': book.fields.authors,
-                                                                                      'display_authors': book.fields.displayAuthors,
-                                                                                      'description': book.fields.description,
-                                                                                      'categories': book.fields.categories,
-                                                                                      'thumbnail': book.fields.thumbnail,
-                                                                                    }));
-                                                                                if (response["status"] == 'success') {
-                                                                                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                                                                    content: Text("Silakan ambil buku pada tray!"),
-                                                                                  ));
-                                                                                  Navigator.pushReplacement(
-                                                                                    context,
-                                                                                    MaterialPageRoute(builder: (context) => const HomePage()),
-                                                                                  );
-                                                                                }
-                                                                              },
-                                                                              child: Text("Kembalikan")), // Child parameter for ElevatedButton
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ))
-                                                        .toList(),
-                                                  ),
-                                                );
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ));
-                              }),
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.yellow),
-                            child: const Text("Kembalikan"),
-                          ),
-                        )
                       ],
                     ),
                   ],
                 ),
               ),
-              
-              const SizedBox(height: 10),
+              InkWell(
+                onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SafeArea(
+                          child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Text(
+                                "Buku yang kamu pinjam",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            Expanded(
+                              child: Align(
+                                child: FutureBuilder(
+                                  future: fetchRentedBook(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    } else if (!snapshot.hasData) {
+                                      return const Text("Tidak ada data item.");
+                                    } else {
+                                      return SingleChildScrollView(
+                                        child: Column(
+                                          children: snapshot.data!
+                                              .map<Widget>((book) => Container(
+                                                    width: 200,
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 10,
+                                                        vertical: 10),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: Material(
+                                                        child: Column(
+                                                          children: [
+                                                            Image.network(
+                                                              book.fields
+                                                                  .thumbnail,
+                                                            ),
+                                                            Text(book
+                                                                .fields.title),
+                                                            Text(book.fields
+                                                                .displayAuthors),
+                                                            ElevatedButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  final response = await request
+                                                                      .postJson(
+                                                                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/return_book_flutter/${widget.station.pk}/${book.pk}/",
+                                                                          jsonEncode(<String,
+                                                                              String>{
+                                                                            'book_id':
+                                                                                book.fields.bookId,
+                                                                            'title':
+                                                                                book.fields.title,
+                                                                            'authors':
+                                                                                book.fields.authors,
+                                                                            'display_authors':
+                                                                                book.fields.displayAuthors,
+                                                                            'description':
+                                                                                book.fields.description,
+                                                                            'categories':
+                                                                                book.fields.categories,
+                                                                            'thumbnail':
+                                                                                book.fields.thumbnail,
+                                                                          }));
+                                                                  if (response[
+                                                                          "status"] ==
+                                                                      'success') {
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                            const SnackBar(
+                                                                      content: Text(
+                                                                          "Silakan ambil buku pada tray!"),
+                                                                    ));
+                                                                    Navigator
+                                                                        .pushReplacement(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              const HomePage()),
+                                                                    );
+                                                                  }
+                                                                },
+                                                                child: const Text(
+                                                                    "Kembalikan")),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ));
+                    }),
+                child: Container(
+                  decoration: const BoxDecoration(color: Colors.yellow),
+                  child: const Text("Kembalikan"),
+                ),
+              ),
+              const SizedBox(height: 24),
               buildCategoryList(),
               const SizedBox(height: 10),
               buildBookList(request)
@@ -323,134 +397,147 @@ class _StationDetailPageState extends State<StationDetailPage> {
                     selectedCategory == "All" ||
                     book.fields.categories == selectedCategory)
                 .map<Widget>((book) => Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      margin: const EdgeInsets.symmetric(horizontal: 6),
                       padding: const EdgeInsets.all(20.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Material(
-                          color: LiteraLink.limeGreen,
-                          child: Row(
+                          color: const Color(0xFFFFFFFF),
+                          child: Column(
                             children: [
-                              Image.network(book.fields.thumbnail),
-                              const SizedBox(width: 10),
-                              SizedBox(
-                                width: 180,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Padding(
+                                padding: const EdgeInsets.all(14.0),
+                                child: Row(
                                   children: [
-                                    Text(
-                                      book.fields.categories,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        color:
-                                            Color.fromARGB(255, 249, 241, 241),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child:
+                                          Image.network(book.fields.thumbnail),
+                                    ),
+                                    const SizedBox(width: 18),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 18),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                color: const Color(0xFFEB6645)),
+                                            child: Text(
+                                              book.fields.categories,
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                                color: Color(0xFFFFFFFF),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            book.fields.title,
+                                            style: const TextStyle(
+                                              color: Color(0xFF252525),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Text(
+                                            book.fields.displayAuthors,
+                                            style: TextStyle(
+                                                color: const Color(0xFF252525)
+                                                    .withOpacity(0.6)),
+                                          ),
+                                          const SizedBox(height: 20),
+                                        ],
                                       ),
                                     ),
-                                    Text(
-                                      book.fields.title,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
-                                    Text(
-                                      book.fields.displayAuthors,
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            final response = await request.postJson(
-                                                "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/rent_book_flutter/${book.pk}/",
-                                                jsonEncode(<String, String>{
-                                                  'book_id': book.fields.bookId,
-                                                  'title': book.fields.title,
-                                                  'authors':
-                                                      book.fields.authors,
-                                                  'display_authors': book
-                                                      .fields.displayAuthors,
-                                                  'description':
-                                                      book.fields.description,
-                                                  'categories':
-                                                      book.fields.categories,
-                                                  'thumbnail':
-                                                      book.fields.thumbnail,
-                                                  'username':
-                                                      loggedInUser.username,
-                                                  'station_id': widget
-                                                      .station.pk
-                                                      .toString(),
-                                                }));
-                                            if (response["status"] ==
-                                                'success') {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                content: Text(
-                                                    "Silakan ambil buku pada tray!"),
-                                              ));
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const HomePage()),
-                                              );
-                                            }
-                                          },
-                                          child: ClipRRect(
-                                            child: Container(
-                                              width: 70,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: const Align(
-                                                child: Text(
-                                                  "Pinjam",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        InkWell(
-                                          onTap: () => print('abc'),
-                                          child: ClipRRect(
-                                            child: Container(
-                                              width: 70,
-                                              height: 50,
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: const Align(
-                                                child: Text(
-                                                  "Lihat",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
                               ),
+                              Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                color: const Color(0xFFDAE9D8),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        final response = await request.postJson(
+                                            "https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja/rent_book_flutter/${book.pk}/",
+                                            jsonEncode(<String, String>{
+                                              'book_id': book.fields.bookId,
+                                              'title': book.fields.title,
+                                              'authors': book.fields.authors,
+                                              'display_authors':
+                                                  book.fields.displayAuthors,
+                                              'description':
+                                                  book.fields.description,
+                                              'categories':
+                                                  book.fields.categories,
+                                              'thumbnail':
+                                                  book.fields.thumbnail,
+                                              'username': loggedInUser.username,
+                                              'station_id':
+                                                  widget.station.pk.toString(),
+                                            }));
+                                        if (response["status"] == 'success') {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                            content: Text(
+                                                "Silakan ambil buku pada tray!"),
+                                          ));
+                                          Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const HomePage()),
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 36),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: const Color(0xFF005F3D)),
+                                        child: const Text(
+                                          "Pinjam",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    InkWell(
+                                      onTap: () => print('abc'),
+                                      child: ClipRRect(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 44),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFBAD4C2),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: const Text(
+                                            "Lihat",
+                                            style: TextStyle(
+                                                color: Color(0xFF005F3D),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ),
@@ -489,15 +576,18 @@ class _StationDetailPageState extends State<StationDetailPage> {
                     onPressed: () => setSelectedCategory(category),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: selectedCategory == category
-                          ? LiteraLink.tealDeep
+                          ? const Color(0xFF018845)
                           : const Color(
-                              0xFFD0E2AB), // Change color when selected
+                              0xFFD6EADC), // Change color when selected
                     ),
                     child: Container(
                       alignment: Alignment.center,
                       child: Text(
                         category,
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: selectedCategory == category
+                                ? const Color(0xFFFFFFFF)
+                                : const Color(0xFF018845)),
                       ),
                     ),
                   ),
