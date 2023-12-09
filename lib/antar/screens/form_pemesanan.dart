@@ -232,7 +232,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
                           // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://127.0.0.1:8000/antar/antar-buku-flutter/$idBuku/$username",
+                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/antar-buku-flutter/$idBuku/$username",
                           jsonEncode(<String, String>{
                             'nama_lengkap': _namaLengkap,
                             'nomor_telepon': _nomorTelepon,

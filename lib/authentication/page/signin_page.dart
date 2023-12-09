@@ -1,19 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:literalink/homepage/components/navbar.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/main.dart';
-import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signup_page.dart';
 import 'package:literalink/authentication/components/auth_field.dart';
 
 void main() {
-  runApp(const LoginApp());
+  runApp(const SiginInApp());
 }
 
-class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+class SiginInApp extends StatelessWidget {
+  const SiginInApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
 
   @override
-  _SignInPageState createState() => _SignInPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
@@ -100,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
         Text(
           "Sign In with your username or email",
           style: TextStyle(
-            fontSize: 17, 
+            fontSize: 17,
             color: LiteraLink.tealDeep,
           ),
         ),
@@ -140,88 +142,89 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget signInBtn(request) {
     return InkWell(
-      onTap: () async {
-        String password = _passwordController.text;
-        if (_formKey.currentState!.validate()) {
-          final response = await request
-              .login("http://localhost:8000/auth/signin-flutter/", {
-            'username': _usernameController.text,
-            'password': password,
-          });
-          if (request.loggedIn) {
-            String message = response['message'];
-            loggedInUser = User(
-                username: response["username"],
-                password: password,
-                fullName: response["full_name"],
-                email: response["email"],
-                role: response["role"]
-                );
+        onTap: () async {
+          String password = _passwordController.text;
+          if (_formKey.currentState!.validate()) {
+            final response = await request.login(
+              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
+              {
+                'username': _usernameController.text,
+                'password': password,
+              });
 
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(
-                  content: Text(
-                      "$message Selamat datang, ${loggedInUser.username}.")));
-          } else {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Login Gagal'),
-                content: Text(response['message']),
-                actions: [
-                  TextButton(
-                    child: const Text('OK'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+            if (request.loggedIn) {
+              String message = response['message'];
+              loggedInUser = User(
+                  username: response["username"],
+                  password: password,
+                  fullName: response["full_name"],
+                  email: response["email"],
+                  role: response["role"]);
+
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PersistentBottomNavPage()),
+              );
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(SnackBar(
+                    content: Text(
+                        "$message Selamat datang, ${loggedInUser.username}.")));
+            } else {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Login Gagal'),
+                  content: Text(response['message']),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            }
+            _formKey.currentState!.reset();
+          }
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: LiteraLink.tealDeep),
+          height: 50,
+          width: 200,
+          child: Row(
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      color: LiteraLink.limeGreen),
+                  height: 50,
+                  width: 150,
+                  child: const Align(
+                      child: Text(
+                    "Sign In",
+                    style: TextStyle(
+                        color: LiteraLink.tealDeep,
+                        fontWeight: FontWeight.bold),
+                  ))),
+              const Row(
+                children: [
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: LiteraLink.limeGreen,
                   ),
                 ],
-              ),
-            );
-          }
-          _formKey.currentState!.reset();
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: LiteraLink.tealDeep),
-        height: 50,
-        width: 200,
-        child: Row(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: LiteraLink.limeGreen),
-                height: 50,
-                width: 150,
-                child: const Align(
-                    child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                      color: LiteraLink.tealDeep,
-                      fontWeight: FontWeight.bold),
-                ))),
-            const Row(
-              children: [
-                SizedBox(
-                  width: 12,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: LiteraLink.limeGreen,
-                ),
-              ],
-            )
-          ],
-        ),
-      )
-    );
+              )
+            ],
+          ),
+        ));
   }
 }

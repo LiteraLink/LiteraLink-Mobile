@@ -23,7 +23,7 @@ class _AntarPageState extends State<AntarPage> {
   String selectedName = "All";
 
   Future<List<Book>> fetchItem() async {
-    var url = Uri.parse('http://localhost:8000/show_json/');
+    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/show_json/');
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
 

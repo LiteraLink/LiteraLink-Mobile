@@ -28,7 +28,7 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
   }
 
   Future<void> updateDeliveryStatus(int deliveryId, String newStatus) async {
-    final url = Uri.parse('http://localhost:8000/antar/update_order_status/');
+    final url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/update_order_status/');
     final headers = {"Content-Type": "application/json"};
     final body = json.encode({
       'delivery_id': deliveryId,

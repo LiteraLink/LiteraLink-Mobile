@@ -26,7 +26,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<List<Person>> fetchProduct() async {
     var url = Uri.parse(
-        'http://localhost:8000/antar/show-list-checkout-flutter/${widget.username}');
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/show-list-checkout-flutter/${widget.username}');
     var response = await http.get(
       url,
       headers: {"Content-Type": "application/json"},
@@ -49,7 +49,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> addStock(int id) async {
     final response = await http.post(
-      Uri.parse('http://localhost:8000/antar/add_stock_flutter/$id/'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/add_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
@@ -68,7 +68,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> subtractStock(int id) async {
     final response = await http.post(
-      Uri.parse('http://localhost:8000/antar/sub_stock_flutter/$id/'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/sub_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
@@ -86,7 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> deleteProduct(int id) async {
     final response = await http.delete(
-      Uri.parse('http://localhost:8000/antar/delete_product_flutter/$id'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/delete_product_flutter/$id'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server

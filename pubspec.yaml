@@ -39,6 +39,10 @@ dependencies:
   pbp_django_auth: ^0.4.0
   http: ^1.1.0
   dropdown_button2: ^2.3.9
+  image_picker: ^1.0.4
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +71,8 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: "Satoshi"
+    - family: "Poppins"
       fonts:
-        - asset: assets/fonts/Satoshi-Regular.otf
+        - asset: assets/fonts/Poppins-Regular.ttf
+        
 
