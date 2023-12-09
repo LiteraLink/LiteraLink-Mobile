@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/homepage/profile.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/antar/antar_page.dart';
@@ -15,11 +16,11 @@ import 'package:literalink/dimanasajakapansaja/pages/station.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const List<Feature> items = [
+  static List<Feature> items = [
     Feature(
       "Antar",
       'assets/images/Antar_Icon.png',
-      AntarPage(),
+      AntarPage(user: loggedInUser,),
       Color(0xFF005F3D),
     ),
     Feature(
