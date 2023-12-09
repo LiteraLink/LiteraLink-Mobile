@@ -10,11 +10,17 @@ import 'package:literalink/main.dart';
 import 'package:http/http.dart' as http;
 
 class AntarPage extends StatefulWidget {
+  final User user;
+  
+  const AntarPage({Key? key, required this.user}) : super(key: key);
   @override
   _AntarPageState createState() => _AntarPageState();
 }
 
 class _AntarPageState extends State<AntarPage> {
+  TextEditingController searchController = TextEditingController();
+  Set<String> names = {"All"};
+  String selectedName = "All";
 
   Future<List<Book>> fetchItem() async {
     var url = Uri.parse('http://localhost:8000/show_json/');
@@ -28,10 +34,27 @@ class _AntarPageState extends State<AntarPage> {
       if (d != null) {
         Book book = Book.fromJson(d);
         listBook.add(book);
-        // categories.add(book.fields.categories);
+        names.add(book.fields.categories);
       }
     }
     return listBook;
+  }
+
+  void setSelectedName() {
+    setState(() {
+      // Jika searchController.text tidak kosong, gunakan teks tersebut
+      // jika tidak, set selectedName ke "All"
+      selectedName =
+          searchController.text.isEmpty ? "All" : searchController.text;
+    });
+  }
+
+  late final User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = loggedInUser;
   }
 
   @override
@@ -82,29 +105,39 @@ class _AntarPageState extends State<AntarPage> {
                       const SizedBox(height: 70),
                       const Text(
                         'Antar',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: LiteraLink.tealDeep),
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: LiteraLink.tealDeep),
                       ),
                       const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                         child: Text(
                           'Layanan pengantaran buku ke alamat yang diinginkan',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, color: LiteraLink.tealDeep),
+                          style: TextStyle(
+                              fontSize: 16, color: LiteraLink.tealDeep),
                         ),
                       ),
                       const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
                           // Navigasi ke halaman baru di sini
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const CheckoutScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => CheckoutScreen(
+                                      username: loggedInUser.username,
+                                    )),
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              LiteraLink.limeGreen),
                         ),
-                        child: const Text('List Pengantaran Buku', style: TextStyle(color: LiteraLink.tealDeep)),
+                        child: const Text('List Pengantaran Buku',
+                            style: TextStyle(color: LiteraLink.tealDeep)),
                       ),
                       const SizedBox(height: 60),
                       Positioned(
@@ -130,37 +163,50 @@ class _AntarPageState extends State<AntarPage> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 40),
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 5),
-                      color: Theme.of(context).primaryColor.withOpacity(.2),
-                      spreadRadius: 2,
-                      blurRadius: 5
-                    )
-                  ]
-                ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          offset: const Offset(0, 5),
+                          color: Theme.of(context).primaryColor.withOpacity(.2),
+                          spreadRadius: 2,
+                          blurRadius: 5)
+                    ]),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: searchController,
                         decoration: InputDecoration(
-                          hintText: 'Search books',
-                          hintStyle: TextStyle(color: Colors.grey.shade400),
-                          border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 20)
-                        ),
+                            hintText: 'Search books',
+                            hintStyle: TextStyle(color: Colors.grey.shade400),
+                            border: InputBorder.none,
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 20)),
                       ),
                     ),
                     Container(
                       padding: const EdgeInsets.all(5),
                       margin: const EdgeInsets.only(right: 10),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: LiteraLink.limeGreen,
-                        shape: BoxShape.circle
+                        shape: BoxShape.circle,
+                        // Jika Anda ingin menambahkan shadow seperti ElevatedButton, tambahkan di sini
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      child: const Center(child: Icon(Icons.search, color: LiteraLink.tealDeep, size: 22)),
+                      child: IconButton(
+                        icon: Icon(Icons.search,
+                            color: LiteraLink.tealDeep, size: 22),
+                        onPressed:
+                            setSelectedName, // Referensi ke fungsi tanpa tanda kurung
+                      ),
                     )
                   ],
                 ),
@@ -176,7 +222,10 @@ class _AntarPageState extends State<AntarPage> {
   Widget buildBookList() {
     return FutureBuilder<List<Book>>(
       future: fetchItem(),
-      builder: (context, snapshot,) {
+      builder: (
+        context,
+        snapshot,
+      ) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
@@ -186,7 +235,9 @@ class _AntarPageState extends State<AntarPage> {
         } else {
           return Column(
             children: snapshot.data!
-              .map<Widget>((book) => Container(
+                .where((book) =>
+                    selectedName == "All" || book.fields.title == selectedName)
+                .map<Widget>((book) => Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(20.0),
                 child: ClipRRect(
@@ -249,3 +300,4 @@ class _AntarPageState extends State<AntarPage> {
     );
   }
 }
+

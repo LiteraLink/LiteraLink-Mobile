@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   static List<ShopItem> items = [
-    ShopItem("Antar", 'assets/images/Antar_Icon.png', AntarPage()),
+    ShopItem("Antar", 'assets/images/Antar_Icon.png', AntarPage(user: loggedInUser,)),
     ShopItem("BacaDiTempat", 'assets/images/Bibliofilia_Icon.png', VenuePage()),
     ShopItem("DimanaSajaKapanSaja", 'assets/images/DSKS_Icon.png', DimanaSajaKapanSajaPage()),
     ShopItem("Bibliofilia", 'assets/images/Bibliofilia_Icon.png', ForumPage()),
@@ -262,9 +262,9 @@ class BookCard extends StatelessWidget {
           onTap: () async {
             if (item.name != "Logout") {
               Navigator.push(
-                context, 
-                MaterialPageRoute(builder: (context) => item.page),
-              );
+                  context, 
+                  MaterialPageRoute(builder: (context) => item.page),
+                );
             } else {
               final response = await request.logout("http://localhost:8000/auth/signout-flutter/");
               String message = response["message"];

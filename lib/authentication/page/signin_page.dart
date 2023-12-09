@@ -148,7 +148,6 @@ class _SignInPageState extends State<SignInPage> {
             'username': _usernameController.text,
             'password': password,
           });
-
           if (request.loggedIn) {
             String message = response['message'];
             loggedInUser = User(
@@ -156,11 +155,12 @@ class _SignInPageState extends State<SignInPage> {
                 password: password,
                 fullName: response["full_name"],
                 email: response["email"],
-                role: response["role"]);
+                role: response["role"]
+                );
 
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage()),
             );
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()

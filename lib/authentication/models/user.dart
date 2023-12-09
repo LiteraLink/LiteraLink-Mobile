@@ -13,7 +13,7 @@ class User {
       required this.password, 
       required this.fullName,
       required this.email,
-      required this.role
+      required this.role,
     }
   );
 }

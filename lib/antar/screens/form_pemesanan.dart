@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
 import 'package:literalink/authentication/models/user.dart';
+import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,22 @@ class _ShopFormPageState extends State<ShopFormPage> {
           ),
         ),
         backgroundColor: LiteraLink.offWhite,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/images/back_icon1.png', // Ganti dengan path yang benar ke file gambar
+            width: 24, // Sesuaikan ukuran ikon sesuai kebutuhan
+            height: 24,
+          ),
+          onPressed: () {
+            // Navigasi ke halaman baru di sini
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),// Atur warna latar belakang menjadi transparan
+        elevation: 0, 
       ),
       body: Form(
         key: _formKey,
@@ -232,7 +249,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                         ));
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => CheckoutScreen()),
+                          MaterialPageRoute(builder: (context) => CheckoutScreen(username: loggedInUser.username,)),
                         );
                       } else {
                         print("ini gak berhasil");
