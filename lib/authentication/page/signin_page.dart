@@ -142,14 +142,14 @@ class _SignInPageState extends State<SignInPage> {
 
   Widget signInBtn(request) {
     return InkWell(
-        onTap: () async {
-          String password = _passwordController.text;
-          if (_formKey.currentState!.validate()) {
-            final response = await request
-                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/", {
-              'username': _usernameController.text,
-              'password': password,
-            });
+      onTap: () async {
+        String password = _passwordController.text;
+        if (_formKey.currentState!.validate()) {
+          final response = await request
+              .login("http://127.0.0.1:8000/auth/signin-flutter/", {
+            'username': _usernameController.text,
+            'password': password,
+          });
 
             if (request.loggedIn) {
               String message = response['message'];

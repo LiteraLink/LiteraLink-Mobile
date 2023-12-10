@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:literalink/main.dart';
 import 'package:literalink/antar/antar_page.dart';
-import 'package:literalink/bibliofilia/forum.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:literalink/bacaditempat/venue_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
@@ -246,8 +246,8 @@ class BookCard extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => item.page),
               );
             } else {
-              final response = await request
-                  .logout("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signout-flutter/");
+              final response = await request.logout(
+                  "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signout-flutter/");
               String message = response["message"];
 
               if (response['status']) {
