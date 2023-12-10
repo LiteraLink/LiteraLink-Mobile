@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:literalink/antar/screens/form_pemesanan.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
 import 'package:literalink/authentication/models/user.dart';
-import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:http/http.dart' as http;
 
@@ -78,24 +77,38 @@ class _AntarPageState extends State<AntarPage> {
                   ),
                 ),
                 Positioned(
-                top: MediaQuery.of(context).padding.top + 20 , // Aligns the button below the status bar
-                left: 16, // Adds some left padding to ensure it's not on the edge of the screen
-                child: InkWell( // Use InkWell for the tap effect
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                  child: Image.asset(
-                    'assets/images/back_button_new1.png', // Replace with the actual path to your asset
-                    width: 24, // Adjust the size as needed
-                    height: 24, // Adjust the size as needed
+                  top: 60,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    width: MediaQuery.sizeOf(context).width,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFFFFFFFF),
+                            size: 25,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 100,
+                        ),
+                        const Text(
+                          "Antar",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
                 Positioned(
-                  top: 70,
+                  top: 110,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1), // 10% of screen width
                     width: MediaQuery.sizeOf(context).width,
@@ -107,14 +120,6 @@ class _AntarPageState extends State<AntarPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                "Antar",
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  color: Color(0xFFFFFFFF),
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
                               Padding(
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -217,7 +222,7 @@ class _AntarPageState extends State<AntarPage> {
               ),
             ),
             onPressed: () {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => CheckoutScreen(
@@ -340,7 +345,7 @@ class _AntarPageState extends State<AntarPage> {
                                                       padding: const EdgeInsets.symmetric(horizontal: 16.0), // Use symmetric horizontal padding
                                                       child: ElevatedButton( // Use ElevatedButton for better default padding and styling
                                                         style: ElevatedButton.styleFrom(
-                                                          primary: const Color(0xFF005F3D), // Button color
+                                                          backgroundColor: const Color(0xFF005F3D), // Button color
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(20.0), // Border radius
                                                           ),

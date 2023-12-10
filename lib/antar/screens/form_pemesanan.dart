@@ -3,7 +3,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:literalink/antar/antar_page.dart';
 import 'package:literalink/antar/screens/list_checkout.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -65,46 +64,32 @@ class _ShopFormPageState extends State<ShopFormPage> {
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).padding.top + 20 , // Aligns the button below the status bar
-                  left: 16, // Adds some left padding to ensure it's not on the edge of the screen
-                  child: InkWell( // Use InkWell for the tap effect
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => AntarPage(user: loggedInUser)),
-                      );
-                    },
-                    child: Image.asset(
-                      'assets/images/back_button_new1.png', // Replace with the actual path to your asset
-                      width: 24, // Adjust the size as needed
-                      height: 24, // Adjust the size as needed
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 70,
+                  top: 60,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
                     width: MediaQuery.sizeOf(context).width,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Row(
                       children: [
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Form Pemesanan Buku",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  color: Color(0xFFFFFFFF),
-                                  fontWeight: FontWeight.bold
-                                ),
-                              ),
-                            ],
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Color(0xFFFFFFFF),
+                            size: 25,
                           ),
-                        )
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        const Text(
+                          "Form pemesanan\nBuku",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                        ),
                       ],
                     ),
                   ),

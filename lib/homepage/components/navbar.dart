@@ -26,7 +26,7 @@ class PersistentBottomNavPage extends StatelessWidget {
           navigatorkey: _tab2navigatorKey,
         ),
         PersistentTabItem(
-          tab: const TabPage3(),
+          tab: ProfileScreen(),
           icon: Icons.person,
           title: 'Profile',
           navigatorkey: _tab3navigatorKey,
