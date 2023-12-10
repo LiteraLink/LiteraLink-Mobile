@@ -1,23 +1,23 @@
 import 'dart:convert';
 
-List<Venue> venueFromJson(String str) =>
-    List<Venue>.from(json.decode(str).map((x) => Venue.fromJson(x)));
+List<Station> stationFromJson(String str) =>
+    List<Station>.from(json.decode(str).map((x) => Station.fromJson(x)));
 
-String venueToJson(List<Venue> data) =>
+String stationToJson(List<Station> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Venue {
+class Station {
   String model;
   int pk;
   Fields fields;
 
-  Venue({
+  Station({
     required this.model,
     required this.pk,
     required this.fields,
   });
 
-  factory Venue.fromJson(Map<String, dynamic> json) => Venue(
+  factory Station.fromJson(Map<String, dynamic> json) => Station(
         model: json["model"],
         pk: json["pk"],
         fields: Fields.fromJson(json["fields"]),
@@ -50,11 +50,11 @@ class Fields {
   });
 
   factory Fields.fromJson(Map<String, dynamic> json) => Fields(
-        name: json["place_name"],
+        name: json["name"],
         address: json["address"],
-        openingHours: json["venue_open"],
-        rentable: json["rent_book"],
-        returnable: json["return_book"],
+        openingHours: json["opening_hours"],
+        rentable: json["rentable"],
+        returnable: json["returnable"],
         mapLocation: json["map_location"],
       );
 

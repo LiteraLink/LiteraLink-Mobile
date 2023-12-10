@@ -1,36 +1,37 @@
 import 'dart:convert';
 
-List<Book> bookFromJson(String str) =>
-    List<Book>.from(json.decode(str).map((x) => Book.fromJson(x)));
+List<BookVenue> bookVenueFromJson(String str) => List<BookVenue>.from(
+    json.decode(str).map((x) => BookVenue.fromJson(x)));
 
-String bookToJson(List<Book> data) =>
+String bookVenueToJson(List<BookVenue> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Book {
-  Model model;
+class BookVenue {
+  String model;
   int pk;
   Fields fields;
 
-  Book({
+  BookVenue({
     required this.model,
     required this.pk,
     required this.fields,
   });
 
-  factory Book.fromJson(Map<String, dynamic> json) => Book(
-        model: modelValues.map[json["model"]]!,
+  factory BookVenue.fromJson(Map<String, dynamic> json) => BookVenue(
+        model: json["model"],
         pk: json["pk"],
         fields: Fields.fromJson(json["fields"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "model": modelValues.reverse[model],
+        "model": model,
         "pk": pk,
         "fields": fields.toJson(),
       };
 }
 
 class Fields {
+  int station;
   String bookId;
   String title;
   String authors;
@@ -40,6 +41,7 @@ class Fields {
   String thumbnail;
 
   Fields({
+    required this.station,
     required this.bookId,
     required this.title,
     required this.authors,
@@ -50,6 +52,7 @@ class Fields {
   });
 
   factory Fields.fromJson(Map<String, dynamic> json) => Fields(
+        station: json["station"],
         bookId: json["bookID"],
         title: json["title"],
         authors: json["authors"],
@@ -60,6 +63,7 @@ class Fields {
       );
 
   Map<String, dynamic> toJson() => {
+        "station": station,
         "bookID": bookId,
         "title": title,
         "authors": authors,
@@ -68,20 +72,4 @@ class Fields {
         "categories": categories,
         "thumbnail": thumbnail,
       };
-}
-
-enum Model { MAIN_BOOK }
-
-final modelValues = EnumValues({"main.book": Model.MAIN_BOOK});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

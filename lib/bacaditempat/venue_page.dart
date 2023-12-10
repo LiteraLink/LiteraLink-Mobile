@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:literalink/bacaditempat/models/venue.dart';
 
 class BacaDiTempat extends StatefulWidget {
   @override
@@ -6,6 +8,9 @@ class BacaDiTempat extends StatefulWidget {
 }
 
 class _BacaDiTempatState extends State<BacaDiTempat> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _imageFile;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,4 +23,5 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
     );
   }
 }
+
 
