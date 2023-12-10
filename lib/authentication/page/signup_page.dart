@@ -256,7 +256,7 @@ class _SignUpPageState extends State<SignUpPage> {
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFDADADA))),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: LiteraLink.tealDeep)),
+              borderSide: BorderSide(color: LiteraLink.darkGreen)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
               borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -296,7 +296,7 @@ class _SignUpPageState extends State<SignUpPage> {
         iconStyleData: const IconStyleData(
           icon: Icon(
             Icons.arrow_drop_down,
-            color: LiteraLink.limeGreen,
+            color: LiteraLink.redOrange,
           ),
           iconSize: 24,
         ),

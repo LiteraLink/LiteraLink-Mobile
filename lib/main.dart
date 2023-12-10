@@ -27,7 +27,7 @@ class LiteraLink extends StatelessWidget {
         theme: ThemeData(
           textTheme: const TextTheme(
             bodyMedium: TextStyle(
-              color: LiteraLink.tealDeep,
+              color: LiteraLink.lightGreen,
               fontFamily: "Poppins",
               fontWeight: FontWeight.w700
             )

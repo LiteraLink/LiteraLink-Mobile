@@ -590,7 +590,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: LiteraLink.darkGreen),
           height: 50,
           width: 200,
           child: Row(
@@ -598,14 +598,14 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: LiteraLink.limeGreen),
+                      color: LiteraLink.redOrange),
                   height: 50,
                   width: 150,
                   child: const Align(
                       child: Text(
                     "Tambah",
                     style: TextStyle(
-                        color: LiteraLink.tealDeep,
+                        color: LiteraLink.darkGreen,
                         fontWeight: FontWeight.bold),
                   ))),
               const Row(
@@ -615,7 +615,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                   ),
                   Icon(
                     Icons.add,
-                    color: LiteraLink.limeGreen,
+                    color: LiteraLink.redOrange,
                   ),
                 ],
               )
@@ -655,7 +655,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: LiteraLink.darkGreen),
           height: 50,
           width: 200,
           child: Row(
@@ -663,14 +663,14 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: LiteraLink.limeGreen),
+                      color: LiteraLink.redOrange),
                   height: 50,
                   width: 150,
                   child: const Align(
                       child: Text(
                     "Submit",
                     style: TextStyle(
-                        color: LiteraLink.tealDeep,
+                        color: LiteraLink.darkGreen,
                         fontWeight: FontWeight.bold),
                   ))),
               const Row(
@@ -680,7 +680,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                   ),
                   Icon(
                     Icons.add,
-                    color: LiteraLink.limeGreen,
+                    color: LiteraLink.redOrange,
                   ),
                 ],
               )
