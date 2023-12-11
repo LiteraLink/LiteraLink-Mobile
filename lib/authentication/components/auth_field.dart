@@ -41,7 +41,7 @@ Widget authField(TextEditingController controller, String label,
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: LiteraLink.tealDeep),
+          borderSide: BorderSide(color: LiteraLink.darkGreen),
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
         ),
         errorBorder: const OutlineInputBorder(

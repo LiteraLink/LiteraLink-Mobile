@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:literalink/homepage/home_page.dart';
+import 'package:literalink/homepage/profile.dart';
 
 class PersistentBottomNavPage extends StatelessWidget {
   final _tab1navigatorKey = GlobalKey<NavigatorState>();
@@ -25,7 +26,7 @@ class PersistentBottomNavPage extends StatelessWidget {
           navigatorkey: _tab2navigatorKey,
         ),
         PersistentTabItem(
-          tab: const TabPage3(),
+          tab: ProfileScreen(),
           icon: Icons.person,
           title: 'Profile',
           navigatorkey: _tab3navigatorKey,
@@ -103,7 +104,7 @@ class TabPage3 extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Page2('tab3')));
+                      builder: (context) => const Page3('tab3')));
                 },
                 child: const Text('Go to page2'))
           ],
@@ -184,7 +185,10 @@ class Page3 extends StatelessWidget {
             Text('in $inTab Page 3'),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
                 },
                 child: const Text('Go back'))
           ],
