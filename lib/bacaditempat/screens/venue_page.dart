@@ -1,9 +1,10 @@
 import 'dart:convert';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bacaditempat/models/venue.dart';
 import 'package:literalink/bacaditempat/screens/venue_details.dart';
@@ -24,8 +25,8 @@ class BacaDiTempat extends StatefulWidget {
 class _BacaDiTempatState extends State<BacaDiTempat> {
   static const String baseUrl =
       'http://localhost:8000/bacaditempat';
-  final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
+  // final ImagePicker _picker = ImagePicker();
+  // XFile? _imageFile;
 
   final TextEditingController _placeNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -51,13 +52,13 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
     return listVenue;
   }
 
-  Future<void> _pickImage() async {
-    final XFile? selectedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _imageFile = selectedImage;
-    });
-  }
+  // Future<void> _pickImage() async {
+  //   final XFile? selectedImage =
+  //       await _picker.pickImage(source: ImageSource.gallery);
+  //   setState(() {
+  //     _imageFile = selectedImage;
+  //   });
+  // }
 
   String safeSubstring(String str, int start, int end) {
     if (str.length > end) {
@@ -171,10 +172,10 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                                     "Returnable", _formKey, null),
                                 Row(
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: _pickImage,
-                                      child: const Text('Pick Map Image'),
-                                    ),
+                                  //   ElevatedButton(
+                                  //     onPressed: _pickImage,
+                                  //     child: const Text('Pick Map Image'),
+                                  //   ),
                                     submitFormBtn(context),
                                   ],
                                 ),
@@ -407,10 +408,10 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                                                                               venue.fields.returnBook.toString()),
                                                                           Row(
                                                                             children: [
-                                                                              ElevatedButton(
-                                                                                onPressed: _pickImage,
-                                                                                child: const Text('Pick Map Image'),
-                                                                              ),
+                                                                              // ElevatedButton(
+                                                                              //   onPressed: _pickImage,
+                                                                              //   child: const Text('Pick Map Image'),
+                                                                              // ),
                                                                               editBtn(venue, context),
                                                                             ],
                                                                           ),
@@ -570,12 +571,12 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
           request.fields['rent_book'] = _rentBookController.text;
           request.fields['return_book'] = _returnBookController.text;
 
-          if (_imageFile != null) {
-            request.files.add(await http.MultipartFile.fromPath(
-              'map_location',
-              _imageFile!.path,
-            ));
-          }
+          // if (_imageFile != null) {
+          //   request.files.add(await http.MultipartFile.fromPath(
+          //     'map_location',
+          //     _imageFile!.path,
+          //   ));
+          // }
 
           var response = await request.send();
 
@@ -589,7 +590,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: LiteraLink.redOrange),
           height: 50,
           width: 200,
           child: Row(
@@ -597,14 +598,14 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: LiteraLink.limeGreen),
+                      color: LiteraLink.darkGreen),
                   height: 50,
                   width: 150,
                   child: const Align(
                       child: Text(
                     "Tambah",
                     style: TextStyle(
-                        color: LiteraLink.tealDeep,
+                        color: LiteraLink.redOrange,
                         fontWeight: FontWeight.bold),
                   ))),
               const Row(
@@ -614,7 +615,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                   ),
                   Icon(
                     Icons.add,
-                    color: LiteraLink.limeGreen,
+                    color: LiteraLink.darkGreen,
                   ),
                 ],
               )
@@ -633,15 +634,15 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
           request.fields['place_name'] = _placeNameController.text;
           request.fields['address'] = _addressController.text;
           request.fields['venue_open'] = _venueOpenController.text;
-          request.fields['rentable'] = _rentBookController.text;
-          request.fields['returnable'] = _returnBookController.text;
+          request.fields['rent_book'] = _rentBookController.text;
+          request.fields['return_book'] = _returnBookController.text;
 
-          if (_imageFile != null) {
-            request.files.add(await http.MultipartFile.fromPath(
-              'map_location',
-              _imageFile!.path,
-            ));
-          }
+          // if (_imageFile != null) {
+          //   request.files.add(await http.MultipartFile.fromPath(
+          //     'map_location',
+          //     _imageFile!.path,
+          //   ));
+          // }
 
           var response = await request.send();
 
@@ -655,7 +656,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: LiteraLink.redOrange),
           height: 50,
           width: 200,
           child: Row(
@@ -663,14 +664,14 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: LiteraLink.limeGreen),
+                      color: LiteraLink.darkGreen),
                   height: 50,
                   width: 150,
                   child: const Align(
                       child: Text(
                     "Submit",
                     style: TextStyle(
-                        color: LiteraLink.tealDeep,
+                        color: LiteraLink.redOrange,
                         fontWeight: FontWeight.bold),
                   ))),
               const Row(
@@ -680,7 +681,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                   ),
                   Icon(
                     Icons.add,
-                    color: LiteraLink.limeGreen,
+                    color: LiteraLink.darkGreen,
                   ),
                 ],
               )

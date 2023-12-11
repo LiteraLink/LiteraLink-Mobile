@@ -9,24 +9,24 @@ List<BookVenue> bookVenueFromJson(String str) => List<BookVenue>.from(json.decod
 String bookVenueToJson(List<BookVenue> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class BookVenue {
-    Model model;
+    // Model model;
     int pk;
     Fields fields;
 
     BookVenue({
-        required this.model,
+        // required this.model,
         required this.pk,
         required this.fields,
     });
 
     factory BookVenue.fromJson(Map<String, dynamic> json) => BookVenue(
-        model: modelValues.map[json["model"]]!,
+        // model: modelValues.map[json["model"]]!,
         pk: json["pk"],
         fields: Fields.fromJson(json["fields"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "model": modelValues.reverse[model],
+        // "model": modelValues.reverse[model],
         "pk": pk,
         "fields": fields.toJson(),
     };

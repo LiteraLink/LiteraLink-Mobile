@@ -20,14 +20,14 @@ class VenueDetail extends StatefulWidget {
 
 class _VenueDetailState extends State<VenueDetail> {
   static const String baseUrl =
-      'http://localhost:8000/bacaditempat/';
+      'http://localhost:8000/bacaditempat';
 
   Set<String> categories = {"All"};
   String selectedCategory = "All";
   String? selectedCategoryBtn;
 
   Future<List<BookVenue>> fetchBookVenue() async {
-    var url = Uri.parse('$baseUrl/get-product/${widget.venue.pk}/');
+    var url = Uri.parse('$baseUrl/get-product-available/${widget.venue.pk}/');
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
 
@@ -37,7 +37,10 @@ class _VenueDetailState extends State<VenueDetail> {
 
       for (var d in data) {
         if (d != null) {
+          // print(d);
           BookVenue book = BookVenue.fromJson(d);
+         
+          
           listBook.add(book);
           if (book.fields.categories != "None") {
             categories.add(book.fields.categories);
@@ -45,27 +48,13 @@ class _VenueDetailState extends State<VenueDetail> {
         }
       }
       return listBook;
-    } else {
-      throw Exception('Failed to fetch station book');
+    } 
+
+    else {
+      throw Exception('Failed to fetch venue book');
     }
   }
 
-  Future<List<BookVenue>> fetchRentedBook() async {
-    var url = Uri.parse('$baseUrl/get-product/${loggedInUser.username}/');
-    var response =
-        await http.get(url, headers: {"Content-Type": "application/json"});
-
-    var data = jsonDecode(utf8.decode(response.bodyBytes));
-    List<BookVenue> listRentedBook = [];
-
-    for (var d in data) {
-      if (d != null) {
-        BookVenue book = BookVenue.fromJson(d);
-        listRentedBook.add(book);
-      }
-    }
-    return listRentedBook;
-  }
 
   void setSelectedCategory(String category) {
     setState(() => selectedCategory = category);
@@ -114,7 +103,7 @@ class _VenueDetailState extends State<VenueDetail> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: Image.network(
-                            "http://localhost:8000/bacaditempat/media/${widget.venue.fields.mapLocation}/"),
+                            "http://localhost:8000/media/${widget.venue.fields.mapLocation}/"),
                       ),
                     ),
                     const SizedBox(height: 26),
@@ -267,7 +256,7 @@ class _VenueDetailState extends State<VenueDetail> {
                             Expanded(
                               child: Align(
                                 child: FutureBuilder(
-                                  future: fetchRentedBook(),
+                                  future: fetchBookVenue(),
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
                                         ConnectionState.waiting) {
@@ -386,7 +375,7 @@ class _VenueDetailState extends State<VenueDetail> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Error: ${snapshot.error} alskdjl'); 
         } else if (!snapshot.hasData) {
           return const Text("Tidak ada data item.");
         } else {
@@ -481,7 +470,7 @@ class _VenueDetailState extends State<VenueDetail> {
                                               'thumbnail':
                                                   book.fields.thumbnail,
                                               'username': loggedInUser.username,
-                                              'station_id':
+                                              'venue_id':
                                                   widget.venue.pk.toString(),
                                             }));
                                         if (response["status"] == 'success') {
@@ -515,7 +504,7 @@ class _VenueDetailState extends State<VenueDetail> {
                                     ),
                                     const SizedBox(width: 10),
                                     InkWell(
-                                      onTap: () => print('abc'),
+                                      onTap: () => print('oke masuk'),
                                       child: ClipRRect(
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
