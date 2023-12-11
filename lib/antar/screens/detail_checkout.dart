@@ -63,7 +63,7 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LiteraLink', style: TextStyle(color: LiteraLink.offWhite),),
+        title: const Text('LiteraLink', style: TextStyle(color: LiteraLink.lightGreen),),
         centerTitle: true,
         leading: IconButton(
           icon: Image.asset(
@@ -80,7 +80,7 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
           },
         ),
         backgroundColor:
-            LiteraLink.tealDeep, // Atur warna latar belakang menjadi transparan
+            LiteraLink.darkGreen, // Atur warna latar belakang menjadi transparan
         elevation: 0, // Hilangkan bayangan (shadow)
       ),
       body: SingleChildScrollView(
@@ -184,7 +184,7 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
                 },
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+                      MaterialStateProperty.all<Color>(LiteraLink.redOrange),
                 ),
                 child:
                     const Text('Simpan', style: TextStyle(color: Colors.teal)),

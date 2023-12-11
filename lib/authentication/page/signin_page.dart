@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:literalink/homepage/components/navbar.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
-
-import 'package:literalink/main.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signup_page.dart';
 import 'package:literalink/authentication/components/auth_field.dart';
@@ -41,6 +39,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEEF5ED),
       body: Column(
         children: [
           _buildHeaderImages(),
@@ -53,6 +52,7 @@ class _SignInPageState extends State<SignInPage> {
               ],
             ),
           ),
+          _buildFooterImages()
         ],
       ),
     );
@@ -61,11 +61,14 @@ class _SignInPageState extends State<SignInPage> {
   Widget _buildHeaderImages() {
     return Stack(
       children: [
-        Image.asset("assets/images/Ellipse_48.png"),
-        Positioned(
-          right: 0,
-          child: Image.asset("assets/images/Ellipse_47.png"),
-        ),
+        Image.asset("assets/images/header_signin.png"),
+      ],
+    );
+  }
+  Widget _buildFooterImages() {
+    return Stack(
+      children: [
+        Image.asset("assets/images/signin_aset.png"),
       ],
     );
   }
@@ -77,7 +80,7 @@ class _SignInPageState extends State<SignInPage> {
         key: _formKey,
         child: Column(
           children: [
-            Image.asset("assets/images/App_Logo.png"),
+            Image.asset("assets/images/logo_baru.png"),
             _buildSignInText(),
             const SizedBox(height: 30.0),
             authField(_usernameController, "Username", _formKey),
@@ -96,14 +99,14 @@ class _SignInPageState extends State<SignInPage> {
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
-            color: LiteraLink.tealDeep,
+            color: Colors.black,
           ),
         ),
         Text(
           "Sign In with your username or email",
           style: TextStyle(
             fontSize: 17,
-            color: LiteraLink.tealDeep,
+            color: Colors.black,
           ),
         ),
       ],
@@ -125,7 +128,7 @@ class _SignInPageState extends State<SignInPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account? "),
+        const Text("Don't have an account? ", style: TextStyle(color: Colors.black),),
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
             context,
@@ -194,7 +197,7 @@ class _SignInPageState extends State<SignInPage> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: const Color(0xFFEB6645)),
           height: 50,
           width: 200,
           child: Row(
@@ -202,14 +205,14 @@ class _SignInPageState extends State<SignInPage> {
               Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: LiteraLink.limeGreen),
+                      color: const Color(0xFFEB6645)),
                   height: 50,
                   width: 150,
                   child: const Align(
                       child: Text(
                     "Sign In",
                     style: TextStyle(
-                        color: LiteraLink.tealDeep,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ))),
               const Row(
@@ -219,7 +222,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: LiteraLink.limeGreen,
+                    color: Colors.white,
                   ),
                 ],
               )

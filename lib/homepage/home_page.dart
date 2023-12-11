@@ -1,7 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:literalink/homepage/profile.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/antar/antar_page.dart';
@@ -21,21 +22,21 @@ class HomePage extends StatefulWidget {
       "Antar",
       'assets/images/Antar_Icon.png',
       AntarPage(user: loggedInUser,),
-      Color(0xFF005F3D),
+      const Color(0xFF005F3D),
     ),
-    Feature(
+    const Feature(
       "Baca\nDiTempat",
       'assets/images/bacaditempat_logo.png',
       VenuePage(),
       Color(0xFF018845),
     ),
-    Feature(
+    const Feature(
       "DimanaSaja\nKapanSaja",
       'assets/images/DSKS_Icon.png',
       DimanaSajaKapanSajaPage(),
       Color(0xFFEB6645),
     ),
-    Feature(
+    const Feature(
       "Bibliofilia",
       'assets/images/Bibliofilia_Icon.png',
       ForumPage(),
