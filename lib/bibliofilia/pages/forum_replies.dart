@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forumReplies_models.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
+import 'package:literalink/bibliofilia/pages/createReplies.dart';
 import 'package:literalink/main.dart';
 
 class ForumRepliesPage extends StatefulWidget {
@@ -17,12 +19,14 @@ class ForumRepliesPage extends StatefulWidget {
 class _ForumRepliesPageState extends State<ForumRepliesPage> {
   late Future<List<ForumReplies>> replies;
   late Future<List<Forum>> head;
+  late final User user;
 
   @override
   void initState() {
     super.initState();
     replies = fetchReplies();
     head = fetchRepliesHead();
+    user = loggedInUser;
   }
 
   void deleteReply(int replyId) async {
@@ -135,6 +139,19 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // pergi ke halaman form data pengantaran 
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CreateReplies(forumId: widget.forumId, user: user)),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+                      ),
+                      child: const Text('Add Replies', style: TextStyle(color: LiteraLink.tealDeep)),
+                    ),
                   ],
                 );
               }
@@ -148,7 +165,6 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
       ),
     );
   }
-
 
 
   Widget buildForumRepliesList() {
@@ -202,17 +218,18 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                                 fields.timestamp.toString(),
                                 style: const TextStyle(color: Colors.white),
                               ),
-                              TextButton(
-                                onPressed:() async  {
-                                  setState(() {
-                                    deleteReply(reply.pk);  
-                                  });
-                                }, // Call delete function
-                                child: const Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.red),
+                              if (loggedInUser.role == 'A')
+                                TextButton(
+                                  onPressed:() async  {
+                                    setState(() {
+                                      deleteReply(reply.pk);  
+                                    });
+                                  }, // Call delete function
+                                  child: const Text(
+                                    'Delete',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

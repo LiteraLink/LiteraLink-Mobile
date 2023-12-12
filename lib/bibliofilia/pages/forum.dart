@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
+import 'package:literalink/bibliofilia/pages/createForum.dart';
 import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 import 'package:literalink/main.dart';
 
@@ -14,6 +16,14 @@ class ForumPage extends StatefulWidget {
 }
 
 class _ForumPageState extends State<ForumPage> {
+  late final User user;
+
+  @override
+  void initState() {
+    super.initState();
+    user = loggedInUser;
+  }
+  
   Future<List<Forum>> fetchItem() async {
     var url = Uri.parse('http://localhost:8000/bibliofilia/get_forum/');
     var response = await http.get(url);
@@ -49,6 +59,19 @@ class _ForumPageState extends State<ForumPage> {
             child: Text('Feature',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // pergi ke halaman form data pengantaran 
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateForum(user: user)),
+              );
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+            ),
+            child: const Text('Add Replies', style: TextStyle(color: LiteraLink.tealDeep)),
           ),
           const SizedBox(height: 10),
           Expanded(

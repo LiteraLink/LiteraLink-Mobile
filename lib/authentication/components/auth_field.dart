@@ -7,11 +7,26 @@ Widget authField(TextEditingController controller, String label,
   bool isPasswordField = label.startsWith("Password");
   bool isEmailField = label.startsWith("Email");
 
-  String labelText = label == "Password2"
-      ? "Repeat your Password"
-      : label == "Password1"
-          ? "Enter your Password"
-          : "Enter your $label";
+  String labelText;
+  switch (label) {
+    case "Password2":
+      labelText = "Repeat your Password";
+      break;
+    case "Password1":
+      labelText = "Enter your Password";
+      break;
+    default:
+      labelText = "Enter your $label";
+  }
+
+  IconData prefixIcon;
+  if (isPasswordField) {
+    prefixIcon = Icons.lock;
+  } else if (isEmailField) {
+    prefixIcon = Icons.mail;
+  } else {
+    prefixIcon = Icons.person;
+  }
 
   return SizedBox(
     height: 82,
@@ -20,7 +35,7 @@ Widget authField(TextEditingController controller, String label,
       decoration: InputDecoration(
         fillColor: const Color(0xFFF7F8F9),
         filled: true,
-        prefixIcon: Icon(isPasswordField ? Icons.lock : isEmailField? Icons.mail : Icons.person),
+        prefixIcon: Icon(prefixIcon),
         enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Color(0xFFDADADA)),
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
