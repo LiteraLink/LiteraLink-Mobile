@@ -48,11 +48,11 @@ class _CreateRepliesState extends State<CreateReplies> {
           child: Text(
             'Form Pemesanan Buku',
             style: TextStyle(
-              color: LiteraLink.tealDeep,
+              color: LiteraLink.lightGreen,
             ),
           ),
         ),
-        backgroundColor: LiteraLink.offWhite,
+        backgroundColor: LiteraLink.whiteGreen,
         centerTitle: true,
         leading: IconButton(
           icon: Image.asset(
@@ -82,11 +82,11 @@ class _CreateRepliesState extends State<CreateReplies> {
                   hintText: "Replies",
                   labelText: "Replies",
                   labelStyle: const TextStyle(
-                    color: LiteraLink.tealDeep,
+                    color: LiteraLink.whiteGreen,
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      borderSide: const BorderSide(color: LiteraLink.tealDeep)),
+                      borderSide: const BorderSide(color: LiteraLink.whiteGreen)),
                 ),
                 onChanged: (String? value) {
                   setState(() {
@@ -109,7 +109,7 @@ class _CreateRepliesState extends State<CreateReplies> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(LiteraLink.limeGreen),
+                        MaterialStateProperty.all(LiteraLink.darkGreen),
                   ),
                   onPressed: () async {
                     String username = user.username;
@@ -147,7 +147,7 @@ class _CreateRepliesState extends State<CreateReplies> {
                   },
                   child: const Text(
                     "Add replies to this forum",
-                    style: TextStyle(color: LiteraLink.tealDeep),
+                    style: TextStyle(color: LiteraLink.whiteGreen),
                   ),
                 ),
               ),

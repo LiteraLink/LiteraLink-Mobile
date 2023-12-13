@@ -5,20 +5,22 @@ import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/homepage/home_page.dart';
+import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
-class CreateForum extends StatefulWidget {
+class BookReviewForum extends StatefulWidget {
   final User user;
+  final Book book;
 
-  const CreateForum({Key? key, required this.user}) : super(key: key);
+  const BookReviewForum({Key? key, required this.user, required this.book}) : super(key: key);
 
   @override
-  State<CreateForum> createState() => _CreateForumState();
+  State<BookReviewForum> createState() => _BookReviewForumState();
 }
 
-class _CreateForumState extends State<CreateForum> {
+class _BookReviewForumState extends State<BookReviewForum> {
 
   final _formKey = GlobalKey<FormState>();
     
@@ -27,8 +29,8 @@ class _CreateForumState extends State<CreateForum> {
   String _forumsDescription = "";
 
 
-  // Menggunakan widget.user dan widget.bookId untuk mendapatkan nilai yang dilewatkan ke widget
-  late final int bookId;
+  // Menggunakan widget.user dan widget.book untuk mendapatkan nilai yang dilewatkan ke widget
+  late final Book book;
   late final User user;
 
   @override
@@ -36,6 +38,7 @@ class _CreateForumState extends State<CreateForum> {
     super.initState();
     // Inisialisasi variabel dengan nilai dari widget
     user = loggedInUser;
+    book = widget.book;
   }
   
   
@@ -80,29 +83,13 @@ class _CreateForumState extends State<CreateForum> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Judul Forum",
-                  labelText: "Judul Forum",
-                  labelStyle: const TextStyle(
+                  initialValue: book.fields.title,
+                  readOnly: true,
+                    style: TextStyle(
                     color: LiteraLink.whiteGreen,
                   ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                      borderSide: const BorderSide(color: LiteraLink.whiteGreen)),
                 ),
-                onChanged: (String? value) {
-                  setState(() {
-                    _namaBuku = value!;
-                  });
-                },
-                validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return "Reply tidak boleh kosong!";
-                  }
-                  return null;
-                },
               ),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -172,10 +159,17 @@ class _CreateForumState extends State<CreateForum> {
                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
                           // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://localhost:8000/bibliofilia/add_Forum_flutter/",
+                          "http://localhost:8000/bibliofilia/add_BookForum_flutter/",
                           jsonEncode(<String, String>{
+                            'book_id': book.pk.toString(),
                             'username': username,
                             'bookname': _namaBuku,
+                            'title': book.fields.title,
+                            'authors': book.fields.authors,
+                            'display_authors': book.fields.displayAuthors,
+                            'description': book.fields.description,
+                            'categories': book.fields.categories,
+                            'thumbnail': book.fields.thumbnail,
                             'userReview' : _reviewUser,
                             'forumsDescription' : _forumsDescription,
                           }));
@@ -201,7 +195,7 @@ class _CreateForumState extends State<CreateForum> {
                     }
                   },
                   child: const Text(
-                    "Add replies to this forum",
+                    "Add review to this book",
                     style: TextStyle(color: LiteraLink.whiteGreen),
                   ),
                 ),

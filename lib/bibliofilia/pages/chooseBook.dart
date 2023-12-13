@@ -3,21 +3,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:literalink/antar/screens/form_pemesanan.dart';
-import 'package:literalink/antar/screens/list_checkout.dart';
 import 'package:literalink/authentication/models/user.dart';
+import 'package:literalink/bibliofilia/pages/BookReviewForum.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:http/http.dart' as http;
 
-class AntarPage extends StatefulWidget {
+class ChooseBookPage extends StatefulWidget {
   final User user;
   
-  const AntarPage({Key? key, required this.user}) : super(key: key);
+  const ChooseBookPage({Key? key, required this.user}) : super(key: key);
   @override
-  _AntarPageState createState() => _AntarPageState();
+  _ChooseBookPageState createState() => _ChooseBookPageState();
 }
 
-class _AntarPageState extends State<AntarPage> {
+class _ChooseBookPageState extends State<ChooseBookPage> {
   TextEditingController searchController = TextEditingController();
   Set<String> names = {"All"};
   String selectedName = "All";
@@ -82,6 +81,8 @@ class _AntarPageState extends State<AntarPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 28),
                     width: MediaQuery.sizeOf(context).width,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
@@ -95,7 +96,7 @@ class _AntarPageState extends State<AntarPage> {
                           width: 100,
                         ),
                         const Text(
-                          "Antar",
+                          "Review Buku",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 28,
@@ -124,7 +125,7 @@ class _AntarPageState extends State<AntarPage> {
                                 padding:
                                     EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                                 child: Text(
-                                  'Layanan pengantaran buku ke alamat yang diinginkan',
+                                  'Pilihlah buku yang ingin anda review',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 16, color: Color(0xFFFFFFFF)),
@@ -203,37 +204,37 @@ class _AntarPageState extends State<AntarPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(right: 12, bottom: 16), // Adjust the padding as needed
-        child: SizedBox(
-          width: 180, // You may adjust this width if it's too wide for the screen
-          height: 57,
-          child: FloatingActionButton(
-            backgroundColor: const Color(0xFFEB6645),
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 16), // Reduced horizontal margin
-              child: const FittedBox( // This will scale down the text and icon to fit within the FAB
-                child: Text(
-                  "List Pengantaran Buku",
-                  style: TextStyle(color: Color(0xFFFFFFFF)),
-                  overflow: TextOverflow.ellipsis, // Use ellipsis to handle overflow
-                ),
-              ),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CheckoutScreen(
-                    username: loggedInUser.username,
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      // floatingActionButton: Padding(
+      //   padding: const EdgeInsets.only(right: 12, bottom: 16), // Adjust the padding as needed
+      //   child: SizedBox(
+      //     width: 180, // You may adjust this width if it's too wide for the screen
+      //     height: 57,
+      //     child: FloatingActionButton(
+      //       backgroundColor: const Color(0xFFEB6645),
+      //       child: Container(
+      //         margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 16), // Reduced horizontal margin
+      //         child: const FittedBox( // This will scale down the text and icon to fit within the FAB
+      //           child: Text(
+      //             "List Pengantaran Buku",
+      //             style: TextStyle(color: Color(0xFFFFFFFF)),
+      //             overflow: TextOverflow.ellipsis, // Use ellipsis to handle overflow
+      //           ),
+      //         ),
+      //       ),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => CheckoutScreen(
+      //               username: loggedInUser.username,
+      //             ),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ),
+      // ),
       );
   }
 
@@ -328,45 +329,44 @@ class _AntarPageState extends State<AntarPage> {
                                 Container(
                                   margin: const EdgeInsets.symmetric(vertical: 7),
                                   padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 75.5),
-                                            decoration: const BoxDecoration(
-                                                color: Color(0xFFDAE9D8),
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft: Radius.circular(20.0),
-                                                  bottomRight: Radius.circular(20.0),
+                                  decoration: const BoxDecoration(
+                                      color: Color(0xFFDAE9D8),
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20.0),
+                                        bottomRight: Radius.circular(20.0),
+                                      ),
+                                      ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (loggedInUser.role == 'M') 
+                                        Flexible( // Wrap the button to make it flexible
+                                          child: Padding( // Add padding if needed
+                                            padding: const EdgeInsets.symmetric(horizontal: 16.0), // Use symmetric horizontal padding
+                                            child: ElevatedButton( // Use ElevatedButton for better default padding and styling
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(0xFF005F3D), // Button color
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(20.0), // Border radius
                                                 ),
-                                                ),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                if (loggedInUser.role == 'M') 
-                                                  Flexible( // Wrap the button to make it flexible
-                                                    child: Padding( // Add padding if needed
-                                                      padding: const EdgeInsets.symmetric(horizontal: 16.0), // Use symmetric horizontal padding
-                                                      child: ElevatedButton( // Use ElevatedButton for better default padding and styling
-                                                        style: ElevatedButton.styleFrom(
-                                                          backgroundColor: const Color(0xFF005F3D), // Button color
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20.0), // Border radius
-                                                          ),
-                                                        ),
-                                                        onPressed: () async {
-                                                          Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(builder: (context) => ShopFormPage(bookId: book.pk, user: loggedInUser)),
-                                                          );
-                                                        },
-                                                        child: const Text(
-                                                          "Antar Buku Ini",
-                                                          textAlign: TextAlign.center,
-                                                          style: TextStyle(color: Color(0xFFFFFFFF)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            )
-
-                                          )
+                                              ),
+                                              onPressed: () async {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => BookReviewForum(book: book, user: loggedInUser)),
+                                                );
+                                              },
+                                              child: const Text(
+                                                "Pilih Buku ini",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(color: Color(0xFFFFFFFF)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  )
+                                )
                                 ],
                               )
                             ),

@@ -94,8 +94,8 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("LiteraLink",
-            style: TextStyle(color: LiteraLink.tealDeep)),
-        backgroundColor: LiteraLink.limeGreen,
+            style: TextStyle(color: LiteraLink.whiteGreen)),
+        backgroundColor: LiteraLink.darkGreen,
       ),
       body: Column(
         children: [
@@ -148,9 +148,9 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                         );
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+                        backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
                       ),
-                      child: const Text('Add Replies', style: TextStyle(color: LiteraLink.tealDeep)),
+                      child: const Text('Add Replies', style: TextStyle(color: LiteraLink.whiteGreen)),
                     ),
                   ],
                 );
@@ -191,7 +191,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.0),
                   child: Material(
-                    color: LiteraLink.limeGreen, // Change as needed
+                    color: LiteraLink.darkGreen, // Change as needed
                     child: Row(
                       children: [
                         const SizedBox(width: 10),

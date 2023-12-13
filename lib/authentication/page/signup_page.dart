@@ -1,4 +1,4 @@
-import 'dart:math';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,16 +50,13 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFEEF5ED),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
               children: [
-                Image.asset("assets/images/Ellipse_48.png"),
-                Positioned(
-                  right: 0,
-                  child: Image.asset("assets/images/Ellipse_47.png"),
-                ),
+                Image.asset("assets/images/signup_header.png"),
                 Column(
                   children: [
                     const SizedBox(height: 100),
@@ -101,7 +98,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildHeader() {
     return Row(
       children: [
-        Image.asset("assets/images/App_Logo.png"),
+        Image.asset("assets/images/logo_baru.png"),
         const SizedBox(width: 20),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: LiteraLink.tealDeep,
+                color: Colors.black,
               ),
             ),
             SizedBox(
@@ -119,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Align(
                 child: Text(
                   "Enter your details to create your account and get started",
-                  style: TextStyle(fontSize: 17, color: LiteraLink.tealDeep),
+                  style: TextStyle(fontSize: 17, color: Colors.black),
                 ),
               ),
             ),
@@ -144,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Already have an account? "),
+        const Text("Already have an account? ", style: TextStyle(color: Colors.black),),
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
             context,
@@ -215,7 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: LiteraLink.tealDeep),
+              color: const Color(0xFFEB6645)),
           height: 50,
           width: 200,
           child: Row(
@@ -223,14 +220,14 @@ class _SignUpPageState extends State<SignUpPage> {
               Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: LiteraLink.limeGreen),
+                    color: const Color(0xFFEB6645)),
                 height: 50,
                 width: 150,
                 child: const Align(
                     child: Text(
                   "Sign Up",
                   style: TextStyle(
-                      color: LiteraLink.tealDeep, fontWeight: FontWeight.bold),
+                      color: Colors.white, fontWeight: FontWeight.bold),
                 )),
               ),
               const Row(
@@ -238,7 +235,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   SizedBox(width: 12),
                   Icon(
                     Icons.arrow_forward_ios,
-                    color: LiteraLink.limeGreen,
+                    color: Colors.white,
                   ),
                 ],
               )
@@ -259,7 +256,7 @@ class _SignUpPageState extends State<SignUpPage> {
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFDADADA))),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: LiteraLink.tealDeep)),
+              borderSide: BorderSide(color: LiteraLink.darkGreen)),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
               borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -299,7 +296,7 @@ class _SignUpPageState extends State<SignUpPage> {
         iconStyleData: const IconStyleData(
           icon: Icon(
             Icons.arrow_drop_down,
-            color: LiteraLink.limeGreen,
+            color: LiteraLink.redOrange,
           ),
           iconSize: 24,
         ),

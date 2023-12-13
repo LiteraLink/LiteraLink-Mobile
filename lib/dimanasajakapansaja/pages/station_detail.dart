@@ -85,7 +85,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
                     width: 37,
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                        color: LiteraLink.tealDeep,
+                        color: LiteraLink.whiteGreen,
                         borderRadius: BorderRadius.circular(8)),
                     child: const Row(
                       children: [
@@ -234,7 +234,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
                                                                     child:
                                                                         Material(
                                                                       color:
-                                                                          LiteraLink.limeGreen,
+                                                                          LiteraLink.lightGreen,
                                                                       child:
                                                                           Column(
                                                                         children: [
@@ -328,7 +328,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20.0),
                         child: Material(
-                          color: LiteraLink.limeGreen,
+                          color: LiteraLink.lightGreen,
                           child: Row(
                             children: [
                               Image.network(book.fields.thumbnail),
@@ -489,7 +489,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
                     onPressed: () => setSelectedCategory(category),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: selectedCategory == category
-                          ? LiteraLink.tealDeep
+                          ? LiteraLink.whiteGreen
                           : const Color(
                               0xFFD0E2AB), // Change color when selected
                     ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
+import 'package:literalink/bibliofilia/pages/chooseBook.dart';
 import 'package:literalink/bibliofilia/pages/createForum.dart';
 import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 import 'package:literalink/main.dart';
@@ -49,8 +50,8 @@ class _ForumPageState extends State<ForumPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("LiteraLink",
-            style: TextStyle(color: LiteraLink.tealDeep)),
-        backgroundColor: LiteraLink.limeGreen,
+            style: TextStyle(color: LiteraLink.whiteGreen)),
+        backgroundColor: LiteraLink.darkGreen,
       ),
       body: Column(
         children: [
@@ -69,10 +70,23 @@ class _ForumPageState extends State<ForumPage> {
               );
             },
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.limeGreen),
+              backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
             ),
-            child: const Text('Add Replies', style: TextStyle(color: LiteraLink.tealDeep)),
+            child: const Text('Create General Forum', style: TextStyle(color: LiteraLink.whiteGreen)),
           ),
+          ElevatedButton(
+          onPressed: () {
+            // Navigate to ChooseBook page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChooseBookPage(user: user)),
+            );
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
+          ),
+          child: const Text('Choose Book', style: TextStyle(color: LiteraLink.whiteGreen)),
+        ),
           const SizedBox(height: 10),
           Expanded(
             // Use Expanded here
@@ -118,7 +132,7 @@ class _ForumPageState extends State<ForumPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20.0),
                       child: Material(
-                        color: LiteraLink.limeGreen, // Change as needed
+                        color: LiteraLink.darkGreen, // Change as needed
                         child: Row(
                           children: [
                             const SizedBox(width: 10),
