@@ -204,38 +204,7 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
           ),
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-      // floatingActionButton: Padding(
-      //   padding: const EdgeInsets.only(right: 12, bottom: 16), // Adjust the padding as needed
-      //   child: SizedBox(
-      //     width: 180, // You may adjust this width if it's too wide for the screen
-      //     height: 57,
-      //     child: FloatingActionButton(
-      //       backgroundColor: const Color(0xFFEB6645),
-      //       child: Container(
-      //         margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 16), // Reduced horizontal margin
-      //         child: const FittedBox( // This will scale down the text and icon to fit within the FAB
-      //           child: Text(
-      //             "List Pengantaran Buku",
-      //             style: TextStyle(color: Color(0xFFFFFFFF)),
-      //             overflow: TextOverflow.ellipsis, // Use ellipsis to handle overflow
-      //           ),
-      //         ),
-      //       ),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => CheckoutScreen(
-      //               username: loggedInUser.username,
-      //             ),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ),
-      // ),
-      );
+    );
   }
 
   Widget buildBookList() {

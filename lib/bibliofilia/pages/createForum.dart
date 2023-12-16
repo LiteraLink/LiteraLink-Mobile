@@ -171,8 +171,7 @@ class _CreateForumState extends State<CreateForum> {
                       // Kirim ke Django dan tunggu respons
                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
-                          // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://localhost:8000/bibliofilia/add_Forum_flutter/",
+                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_Forum_flutter/",
                           jsonEncode(<String, String>{
                             'username': username,
                             'bookname': _namaBuku,

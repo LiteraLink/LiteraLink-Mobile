@@ -31,7 +31,7 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   Future<List<Forum>> fetchItem() async {
-    var url = Uri.parse('http://localhost:8000/bibliofilia/get_forum/');
+    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
     var response = await http.get(url);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));

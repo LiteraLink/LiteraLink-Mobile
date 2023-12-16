@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -85,7 +87,7 @@ class _BookReviewForumState extends State<BookReviewForum> {
               child: TextFormField(
                   initialValue: book.fields.title,
                   readOnly: true,
-                    style: TextStyle(
+                    style: const TextStyle(
                     color: LiteraLink.whiteGreen,
                   ),
                 ),
@@ -156,10 +158,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
                     String username = user.username;
                     if (_formKey.currentState!.validate()) {
                       // Kirim ke Django dan tunggu respons
-                      // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
-                          // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://localhost:8000/bibliofilia/add_BookForum_flutter/",
+                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_BookForum_flutter/",
                           jsonEncode(<String, String>{
                             'book_id': book.pk.toString(),
                             'username': username,
@@ -182,7 +182,7 @@ class _BookReviewForumState extends State<BookReviewForum> {
                         ));
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => ForumPage()),
+                          MaterialPageRoute(builder: (context) => const ForumPage()),
                         );
                       } else {
                         print("ini gak berhasil");

@@ -31,7 +31,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
 
   void deleteReply(int replyId) async {
     var url =
-        Uri.parse('http://localhost:8000/bibliofilia/delete_replies_flutter/');
+        Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_replies_flutter/');
 
     // Assuming you have a way to get the current username. Replace with actual username.
     String currentUsername =
@@ -67,7 +67,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
 
   Future<List<ForumReplies>> fetchReplies() async {
     var url = Uri.parse(
-        'http://localhost:8000/bibliofilia/get_ForumReply_flutter/${widget.forumId}/');
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/get_ForumReply_flutter/${widget.forumId}/');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -79,7 +79,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
 
   Future<List<Forum>> fetchRepliesHead() async {
     var url = Uri.parse(
-        'http://localhost:8000/bibliofilia/get_ForumReplyHead_json_flutter/${widget.forumId}/');
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_ForumReplyHead_json_flutter/${widget.forumId}/');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {

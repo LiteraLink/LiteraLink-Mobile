@@ -117,8 +117,7 @@ class _CreateRepliesState extends State<CreateReplies> {
                       // Kirim ke Django dan tunggu respons
                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                       final response = await request.postJson(
-                          // "https://virgillia-yeala-tugas.pbp.cs.ui.ac.id/create-flutter/",
-                          "http://localhost:8000/bibliofilia/add_replies_flutter/",
+                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_replies_flutter/",
                           jsonEncode(<String, String>{
                             'username': username,
                             'forum_id': widget.forumId.toString(),
@@ -131,6 +130,7 @@ class _CreateRepliesState extends State<CreateReplies> {
                             .showSnackBar(const SnackBar(
                           content: Text("Pesanan baru berhasil dibuat!"),
                         ));
+                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => ForumRepliesPage(forumId: widget.forumId)),
