@@ -1,22 +1,25 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:literalink/antar/screens/form_pemesanan.dart';
-import 'package:literalink/antar/screens/list_checkout.dart';
-import 'package:literalink/authentication/models/user.dart';
-import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/authentication/models/user.dart';
+import 'package:literalink/bibliofilia/models/forum_models.dart';
+import 'package:literalink/bibliofilia/pages/createForum.dart';
+import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 
-class AntarPage extends StatefulWidget {
-  const AntarPage({Key? key}) : super(key: key);
+class ForumPage extends StatefulWidget {
+  const ForumPage({super.key});
 
   @override
-  _AntarPageState createState() => _AntarPageState();
+  _ForumPageState createState() => _ForumPageState();
 }
 
-class _AntarPageState extends State<AntarPage> {
+class _ForumPageState extends State<ForumPage> {
+    late Future<List<Forum>> forum;
+
+  
   // for searching books
   TextEditingController searchController = TextEditingController();
 
@@ -26,21 +29,58 @@ class _AntarPageState extends State<AntarPage> {
   double topForWhiteContainer = 1000;
   bool isButtonPressed = false;
 
-  Future<List<Book>> fetchItem() async {
-    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/show_json/');
-    var response =
-        await http.get(url, headers: {"Content-Type": "application/json"});
+
+  @override
+  void initState() {
+    super.initState();
+    forum = fetchItem();
+  }
+  void deleteForum(int forumId) async {
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
+
+    var response = await http.delete(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'forum_id': forumId,
+        // 'username': currentUsername,
+      }),
+    );
+
+    if (response.statusCode == 204) {
+      // Handle successful deletion
+      setState(() {
+        forum = fetchItem(); // Refresh the replies list after deletion
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reply deleted successfully')),
+      );
+    } else {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete reply: ${response.body}')),
+      );
+    }
+  }
+
+  Future<List<Forum>> fetchItem() async {
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
+    var response = await http.get(url);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
-    List<Book> listBook = [];
+    List<Forum> listForum = [];
 
     for (var d in data) {
       if (d != null) {
-        Book book = Book.fromJson(d);
-        listBook.add(book);
-      }
+        Forum forum = Forum.fromJson(d);
+        listForum.add(forum);
+      } 
     }
-    return listBook;
+    return listForum;
   }
 
   void toggleAnimation() {
@@ -71,14 +111,14 @@ class _AntarPageState extends State<AntarPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                'assets/images/antar_figure.png', // Replace with your image asset path
-                width: 345, // Set your desired image width
-                height: 398, // Set your desired image height
+                'assets/images/bibliofilia_figure.png', // Replace with your image asset path
+                width: 310, // Set your desired image width
+                height: 295, // Set your desired image height
               ),
               const SizedBox(
                   height: 20), // Provides space between the image and the text
               const Text(
-                'Antar',
+                'Bibliofilia',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -100,7 +140,7 @@ class _AntarPageState extends State<AntarPage> {
                           borderRadius: BorderRadius.circular(20.0),
                           color: const Color(0xFFFFFFFF)),
                       child: const Text(
-                        "Halaman Antar Buku",
+                        "Liat Forum",
                         style: TextStyle(color: Color(0xFF005F3D)),
                       ))),
             ],
@@ -122,10 +162,10 @@ class _AntarPageState extends State<AntarPage> {
                     ),
                   ),
                   const SizedBox(
-                    width: 100,
+                    width: 90,
                   ),
                   const Text(
-                    "Antar",
+                    "Bibliofilia",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 28,
@@ -157,7 +197,7 @@ class _AntarPageState extends State<AntarPage> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 30, vertical: 5),
                           child: Text(
-                            'Layanan pengantaran buku ke alamat yang diinginkan',
+                            'Tempat untuk berbagi pengalaman membaca buku',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 16, color: Color(0xFFFFFFFF)),
@@ -209,7 +249,7 @@ class _AntarPageState extends State<AntarPage> {
                     ),
                   ),
                   const SizedBox(height: 18),
-                  buildBookList(),
+                  buildForumList(),
                 ],
               ),
             ),
@@ -234,7 +274,7 @@ class _AntarPageState extends State<AntarPage> {
                     child: const FittedBox(
                       // This will scale down the text and icon to fit within the FAB
                       child: Text(
-                        "List Pengantaran Buku",
+                        "Buat Forum",
                         style: TextStyle(color: Color(0xFFFFFFFF)),
                         overflow: TextOverflow
                             .ellipsis, // Use ellipsis to handle overflow
@@ -245,10 +285,8 @@ class _AntarPageState extends State<AntarPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CheckoutScreen(
-                          username: loggedInUser.username,
-                        ),
-                      ),
+                          builder: (context) =>
+                              CreateForum(user: loggedInUser)),
                     );
                   },
                 ),
@@ -260,9 +298,9 @@ class _AntarPageState extends State<AntarPage> {
     );
   }
 
-  Widget buildBookList() {
-    return FutureBuilder<List<Book>>(
-      future: fetchItem(),
+  Widget buildForumList() {
+    return FutureBuilder<List<Forum>>(
+      future: forum,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -271,8 +309,8 @@ class _AntarPageState extends State<AntarPage> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Text("Tidak ada data item.");
         } else {
-          var filteredList = snapshot.data!.where((book) {
-            return book.fields.title
+          var filteredList = snapshot.data!.where((forum) {
+            return forum.fields.bookName
                 .toLowerCase()
                 .contains(searchController.text.toLowerCase());
           }).toList();
@@ -283,7 +321,7 @@ class _AntarPageState extends State<AntarPage> {
             child: ListView.builder(
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
-                return buildBookItem(filteredList[index]);
+                return buildForumItem(filteredList[index]);
               },
             ),
           );
@@ -292,129 +330,95 @@ class _AntarPageState extends State<AntarPage> {
     );
   }
 
-  Widget buildBookItem(Book book) {
+  Widget buildForumItem(Forum forum) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30.0),
-        child: Material(
-          color: const Color(0xFFFFFFFF),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.network(
-                        book.fields.thumbnail,
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 18),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 18),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: const Color(0xFFEB6645),
-                              ),
-                              child: Text(
-                                book.fields.categories,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Color.fromARGB(255, 249, 241, 241),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              book.fields.title,
-                              style: const TextStyle(
-                                color: Color(0xFF252525),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              book.fields.displayAuthors,
-                              style: TextStyle(
-                                color: const Color(0xFF252525).withOpacity(0.6),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-              ),
-              if (loggedInUser.role == 'M')
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 2),
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15, horizontal: 75.5),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFDAE9D8),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ForumRepliesPage(
+                        forumId: forum.pk, forum: forum,
+                      )));
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30.0),
+          child: Material(
+            color: const Color(0xFFFFFFFF),
+            child: Container(
+              margin: const EdgeInsets.all(14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (loggedInUser.role == 'M')
-                        Flexible(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF005F3D),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                              ),
-                              onPressed: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShopFormPage(
-                                      bookId: book.pk,
-                                      user: loggedInUser,
-                                    ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: forum.fields.bookPicture.isNotEmpty
+                            ? Image.network(forum.fields.bookPicture)
+                            : Container(),
+                      ),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 18),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 18),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: const Color(0xFFEB6645)),
+                                child: Text(
+                                  forum.fields
+                                      .forumsDescription, // Replace with your forum categories field
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color.fromARGB(255, 249, 241, 241),
                                   ),
-                                );
-                              },
-                              child: const Text(
-                                "Antar Buku Ini",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color(0xFFFFFFFF),
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
+                              const SizedBox(height: 10),
+                              Text(
+                                forum.fields
+                                    .bookName, // Replace with your forum title field
+                                style: const TextStyle(
+                                    color: Color(0xFF252525),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                forum.fields
+                                    .username, // Replace with your forum authors field
+                                style: TextStyle(
+                                    color: const Color(0xFF252525)
+                                        .withOpacity(0.6)),
+                              ),
+                            ],
                           ),
                         ),
+                      ),
+                      if (loggedInUser.role == 'A')
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed:() async  {
+                          setState(() {
+                            deleteForum(forum.pk);  
+                          });
+                        }, //
+                      ),
                     ],
                   ),
-                ),
-            ],
+                ],
+              ),
+            ),
           ),
         ),
       ),

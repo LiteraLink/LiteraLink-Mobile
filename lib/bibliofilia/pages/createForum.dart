@@ -3,40 +3,33 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:literalink/antar/screens/list_checkout.dart';
+import 'package:literalink/bibliofilia/pages/chooseBook.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
-class ShopFormPage extends StatefulWidget {
-  final int bookId;
+class CreateForum extends StatefulWidget {
   final User user;
 
-  const ShopFormPage({Key? key, required this.bookId, required this.user})
-      : super(key: key);
+  const CreateForum({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<ShopFormPage> createState() => _ShopFormPageState();
+  State<CreateForum> createState() => _CreateForumState();
 }
-
-class _ShopFormPageState extends State<ShopFormPage> {
+class _CreateForumState extends State<CreateForum> {
   final _formKey = GlobalKey<FormState>();
 
-  String _namaLengkap = "";
-  String _nomorTelepon = "";
-  String _alamatPengiriman = "";
-  int _jumlahBukudiPesan = 0;
-  int _durasiPeminjaman = 0;
+  String _namaBuku = "";
+  String _reviewUser = "";
+  String _forumsDescription = "";
 
-  // Menggunakan widget.user dan widget.bookId untuk mendapatkan nilai yang dilewatkan ke widget
-  late final int bookId;
   late final User user;
 
   @override
   void initState() {
     super.initState();
     // Inisialisasi variabel dengan nilai dari widget
-    bookId = widget.bookId;
     user = loggedInUser;
   }
 
@@ -80,7 +73,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                             width: 20,
                           ),
                           const Text(
-                            "Form pemesanan\nBuku",
+                            "Form Pembuatan\nForum",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 28,
@@ -116,7 +109,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Nama Lengkap",
+                                          "Judul Forum",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -126,7 +119,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
                                             decoration: const InputDecoration(
-                                              hintText: "Masukkan Nama Lengkap",
+                                              hintText: "Masukkan Judul Forum",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -138,20 +131,20 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
-                                                _namaLengkap = value!;
+                                                _namaBuku = value!;
                                               });
                                             },
                                             validator: (String? value) {
                                               if (value == null ||
                                                   value.isEmpty) {
-                                                return "Nama Lengkap tidak boleh kosong!";
+                                                return "Judul Forum tidak boleh kosong!";
                                               }
                                               return null;
                                             },
                                           ),
                                         ),
                                         const Text(
-                                          "Nomor Telepon",
+                                          "Description",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -162,7 +155,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                           child: TextFormField(
                                             decoration: const InputDecoration(
                                               hintText:
-                                                  "Masukkan Nomor Telepon",
+                                                  "Masukkan Description",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -174,20 +167,20 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
-                                                _nomorTelepon = value!;
+                                                _forumsDescription = value!;
                                               });
                                             },
                                             validator: (String? value) {
                                               if (value == null ||
                                                   value.isEmpty) {
-                                                return "Nomor Telepon tidak boleh kosong!";
+                                                return "Description tidak boleh kosong!";
                                               }
                                               return null;
                                             },
                                           ),
                                         ),
                                         const Text(
-                                          "Alamat Pengiriman",
+                                          "Message",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -196,9 +189,11 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                                            minLines: 1,
+                                            maxLines: 10,
                                             decoration: const InputDecoration(
                                               hintText:
-                                                  "Masukkan Alamat Pengiriman",
+                                                  "Masukkan Massage",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -210,92 +205,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
-                                                _alamatPengiriman = value!;
+                                                _reviewUser = value!;
                                               });
                                             },
                                             validator: (String? value) {
                                               if (value == null ||
                                                   value.isEmpty) {
-                                                return "Alamat Pengiriman tidak boleh kosong!";
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        const Text(
-                                          "Jumlah Buku Dipesan",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: Color(0xFF018845),
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            decoration: const InputDecoration(
-                                              hintText: "Masukkan Jumlah Buku",
-                                              fillColor: Color(0xFFFFFFFF),
-                                              filled: true,
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color(0xFFF7F8F9)),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(25.0)),
-                                              ),
-                                            ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _jumlahBukudiPesan =
-                                                    int.parse(value!);
-                                              });
-                                            },
-                                            validator: (String? value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Jumlah Buku tidak boleh kosong!";
-                                              }
-                                              if (int.tryParse(value) == null) {
-                                                return "Jumlah Buku harus berupa angka!";
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        ),
-                                        const Text(
-                                          "Durasi Peminjaman",
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: Color(0xFF018845),
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: TextFormField(
-                                            decoration: const InputDecoration(
-                                              hintText:
-                                                  "Masukkan Durasi Peminjaman per hari",
-                                              fillColor: Color(0xFFFFFFFF),
-                                              filled: true,
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Color(0xFFF7F8F9)),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(25.0)),
-                                              ),
-                                            ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _durasiPeminjaman =
-                                                    int.parse(value!);
-                                              });
-                                            },
-                                            validator: (String? value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Durasi Peminjaman tidak boleh kosong!";
-                                              }
-                                              if (int.tryParse(value) == null) {
-                                                return "Durasi Peminjaman harus berupa angka!";
+                                                return "Massage tidak boleh kosong!";
                                               }
                                               return null;
                                             },
@@ -318,56 +234,88 @@ class _ShopFormPageState extends State<ShopFormPage> {
             padding: const EdgeInsets.only(
                 bottom:
                     12), // Atur nilai sesuai kebutuhan untuk menggeser ke atas
-            child: SizedBox(
-              width: 182,
+            child: Column(
+          mainAxisSize: MainAxisSize.min, // Use min size for the column
+          children: [
+            // First button (Buat Forum)
+            SizedBox(
+              width: 120,
               height: 57,
               child: FloatingActionButton(
                 backgroundColor: const Color(0xFFEB6645),
                 child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Antar Buku Sekarang",
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ],
+                  margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                  child: const FittedBox( // Use FittedBox to fit the row in the button
+                    child: Text(
+                      "Buat Forum",
+                      style: TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
                   ),
                 ),
                 onPressed: () async {
-                  int idBuku = bookId;
-                  String username = user.username;
-                  if (_formKey.currentState!.validate()) {
-                    final response = await request.postJson(
-                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/antar-buku-flutter/$idBuku/$username",
-                        jsonEncode(<String, String>{
-                          'nama_lengkap': _namaLengkap,
-                          'nomor_telepon': _nomorTelepon,
-                          'alamat_pengiriman': _alamatPengiriman,
-                          'jumlah_buku_dipesan': _jumlahBukudiPesan.toString(),
-                          'durasi_peminjaman': _durasiPeminjaman.toString(),
-                        }));
+                      String username = user.username;
+                      if (_formKey.currentState!.validate()) {
+                        // Kirim ke Django dan tunggu respons
+                        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                        final response = await request.postJson(
+                            "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_Forum_flutter/",
+                            jsonEncode(<String, String>{
+                              'username': username,
+                              'bookname': _namaBuku,
+                              'userReview': _reviewUser,
+                              'forumsDescription': _forumsDescription,
+                            }));
 
-                    if (response['status'] == 'success') {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Pesanan baru berhasil dibuat!"),
-                      ));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(
-                                  username: loggedInUser.username,
-                                )),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Terdapat kesalahan, silakan coba lagi."),
-                      ));
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Pesanan baru berhasil dibuat!"),
+                          ));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForumPage()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                                Text("Terdapat kesalahan, silakan coba lagi."),
+                          )
+                        );
+                      }
                     }
-                  }
+                  },
+              ),
+            ),
+            const SizedBox(height: 10), // Space between buttons
+
+            // Second button (Review Buku)
+            SizedBox(
+              width: 120,
+              height: 57,
+              child: FloatingActionButton(
+                backgroundColor: const Color(0xFFEB6645),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                  child: const FittedBox( // Use FittedBox to fit the row in the button
+                    child: Text(
+                      "Review Buku",
+                      style: TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChooseBookPage(user: user)),
+                  );
                 },
               ),
-            )));
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
+  }
