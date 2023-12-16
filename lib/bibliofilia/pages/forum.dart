@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -18,13 +20,16 @@ class ForumPage extends StatefulWidget {
 
 class _ForumPageState extends State<ForumPage> {
   late final User user;
+  TextEditingController searchController = TextEditingController();
+  Set<String> names = {"All"};
+  String selectedName = "All";
 
   @override
   void initState() {
     super.initState();
     user = loggedInUser;
   }
-  
+
   Future<List<Forum>> fetchItem() async {
     var url = Uri.parse('http://localhost:8000/bibliofilia/get_forum/');
     var response = await http.get(url);
@@ -44,128 +49,319 @@ class _ForumPageState extends State<ForumPage> {
   // void setSelectedCategory(String category) {
   //   setState(() => selectedCategory = category);
   // }
+  void setSelectedName() {
+    setState(() {
+      // Jika searchController.text tidak kosong, gunakan teks tersebut
+      // jika tidak, set selectedName ke "All"
+      selectedName =
+          searchController.text.isEmpty ? "All" : searchController.text;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("LiteraLink",
-            style: TextStyle(color: LiteraLink.whiteGreen)),
-        backgroundColor: LiteraLink.darkGreen,
+      body: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Image.asset(
+                "assets/images/header.png",
+                fit: BoxFit.fitWidth,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+            Positioned(
+              top: 60,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                width: MediaQuery.sizeOf(context).width,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xFFFFFFFF),
+                        size: 25,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 100,
+                    ),
+                    const Text(
+                      "Bibliofilia",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 110,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.1), // 10% of screen width
+                width: MediaQuery.sizeOf(context).width,
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
+                            child: Text(
+                              'Tempat untuk berbagi pengalaman membaca buku',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16, color: Color(0xFFFFFFFF)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            // const SizedBox(
+            //     width: 11,
+            // ),
+            Positioned(
+              top: 190,
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Color(0xFFEFF5ED),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(38),
+                        topRight: Radius.circular(38))),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 32),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 40),
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              controller: searchController,
+                              decoration: const InputDecoration(
+                                  fillColor: Color(0xFFFFFFFF),
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFF7F8F9)),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25.0)),
+                                  ),
+                                  hintText: 'Search Book'),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 11,
+                          ),
+                          Container(
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color(0xFFEB6645),
+                              ),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.filter_alt_rounded,
+                                  color: Colors.white,
+                                ),
+                                onPressed: setSelectedName,
+                              ))
+                        ],
+                      ),
+                    ),
+                    // const SizedBox(height: 18),
+                    buildForumList(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.0),
-            child: Text('Feature',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          ),
-          ElevatedButton(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+            right: 12, bottom: 16), // Adjust the padding as needed
+        child: SizedBox(
+          width:
+              180, // You may adjust this width if it's too wide for the screen
+          height: 57,
+          child: FloatingActionButton(
+            backgroundColor: const Color(0xFFEB6645),
+            child: Container(
+              margin: const EdgeInsets.symmetric(
+                  vertical: 18, horizontal: 16), // Reduced horizontal margin
+              child: const FittedBox(
+                // This will scale down the text and icon to fit within the FAB
+                child: Text(
+                  "Buat Forum",
+                  style: TextStyle(color: Color(0xFFFFFFFF)),
+                  overflow:
+                      TextOverflow.ellipsis, // Use ellipsis to handle overflow
+                ),
+              ),
+            ),
             onPressed: () {
-              // pergi ke halaman form data pengantaran 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreateForum(user: user)),
+                MaterialPageRoute(
+                    builder: (context) => CreateForum(user: user)),
               );
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
-            ),
-            child: const Text('Create General Forum', style: TextStyle(color: LiteraLink.whiteGreen)),
           ),
-          ElevatedButton(
-          onPressed: () {
-            // Navigate to ChooseBook page
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ChooseBookPage(user: user)),
-            );
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
-          ),
-          child: const Text('Choose Book', style: TextStyle(color: LiteraLink.whiteGreen)),
         ),
-          const SizedBox(height: 10),
-          Expanded(
-            // Use Expanded here
-            child: buildForumList(),
-          ),
-        ],
       ),
     );
   }
 
   Widget buildForumList() {
     return FutureBuilder<List<Forum>>(
-      future: fetchItem(),
+      future: fetchItem(), // Replace with your method that fetches the forums
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData) {
-          return const Text("Tidak ada data forum.");
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text("Tidak ada data item.");
         } else {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Forum forum = snapshot.data![index];
-              Fields fields = forum.fields;
-
-              // You can modify this part as per your UI design
-              return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ForumRepliesPage(
-                            forumId:
-                                forum.pk), // Assuming 'forum.id' is available
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    padding: const EdgeInsets.all(20.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Material(
-                        color: LiteraLink.darkGreen, // Change as needed
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 10),
-                            Expanded(
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: snapshot.data!
+                  .where((forum) =>
+                      selectedName.toLowerCase() == "all" ||
+                      (forum.fields.bookName.toLowerCase().contains(selectedName.toLowerCase())))
+                  .map<Widget>((forum) => Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 10),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ForumRepliesPage(
+                                        forumId: forum.pk,
+                                      )
+                                    )
+                                  );
+                                },
+                          child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: Material(
+                            color: const Color(0xFFFFFFFF),
+                            child: Container(
+                              margin: const EdgeInsets.all(14),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    fields.bookName,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        child:
+                                            forum.fields.bookPicture != null &&
+                                                    forum.fields.bookPicture
+                                                        .isNotEmpty
+                                                ? Image.network(
+                                                    forum.fields.bookPicture)
+                                                : Container(),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10, horizontal: 18),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0,
+                                                        horizontal: 18),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                    color: const Color(
+                                                        0xFFEB6645)),
+                                                child: Text(
+                                                  forum.fields
+                                                      .forumsDescription, // Replace with your forum categories field
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color.fromARGB(
+                                                        255, 249, 241, 241),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                forum.fields
+                                                    .bookName, // Replace with your forum title field
+                                                style: const TextStyle(
+                                                    color: Color(0xFF252525),
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20),
+                                              ),
+                                              const SizedBox(height: 12),
+                                              Text(
+                                                forum.fields
+                                                    .username, // Replace with your forum authors field
+                                                style: TextStyle(
+                                                    color:
+                                                        const Color(0xFF252525)
+                                                            .withOpacity(0.6)),
+                                              ),
+                                            ],
+                                          ),
+                                          
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    fields.forumsDescription,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  Text(
-                                    fields.username, // Displaying the username
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  // Add more fields as required
                                 ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                );
-            },
+                      ))
+                  .toList(),
+            ),
           );
         }
       },

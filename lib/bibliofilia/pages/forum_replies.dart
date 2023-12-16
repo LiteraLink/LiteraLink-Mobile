@@ -48,7 +48,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
       }),
     );
 
-    if (response.statusCode == 204  ) {
+    if (response.statusCode == 204) {
       // Handle successful deletion
       setState(() {
         replies = fetchReplies(); // Refresh the replies list after deletion
@@ -89,18 +89,15 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("LiteraLink",
-            style: TextStyle(color: LiteraLink.whiteGreen)),
-        backgroundColor: LiteraLink.darkGreen,
-      ),
-      body: Column(
-        children: [
-          FutureBuilder<List<Forum>>(
-            future: head,
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+    body: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height,
+        ),
+        child: FutureBuilder<List<Forum>>(
+            future: head, // Replace 'head' with your Future<List<Forum>>
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Padding(
@@ -112,60 +109,223 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text('Error: ${snapshot.error}',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                      style: const TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold)),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text('Forum details not available.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold)),
                 );
               } else {
-                // Assuming the first item is the forum head
                 Forum forumHead = snapshot.data!.first;
-                return Column(
+                return Stack(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        forumHead.fields.bookName,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Image.asset(
+                            "assets/images/header.png",
+                            fit: BoxFit.fitWidth,
+                            width: MediaQuery.of(context).size.width,
+                          ),
+                        ),
+                        Positioned(
+                          top: 90,
+                          child: Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 28),
+                            width: MediaQuery.sizeOf(context).width,
+                            child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [                          
+                                const SizedBox(
+                                  width: 100,
+                                ),
+                                ClipRRect(
+                                  borderRadius:
+                                    BorderRadius.circular(20.0),
+                                  child:
+                                      forumHead.fields.bookPicture
+                                          .isNotEmpty
+                                  ? Image.network(
+                                      forumHead.fields.bookPicture)
+                                  : Container(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 60,
+                          child: Container(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 28),
+                            width: MediaQuery.sizeOf(context).width,
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Color(0xFFFFFFFF),
+                                    size: 25,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 100,
+                                ),
+                                Text(
+                                  forumHead.fields.bookName,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFFFFFFFF),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 140,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width *
+                                        0.1), // 10% of screen width
+                            width: MediaQuery.sizeOf(context).width,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 5),
+                                        child: Text(
+                                          forumHead.fields.userReview,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFFFFFFFF)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                        top: 250,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              color: Color(0xFFEFF5ED),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(38),
+                                  topRight: Radius.circular(38))),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 32),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                width: MediaQuery.of(context).size.width,
+                                // child: Row(
+                                //   // children: [
+                                //   //   // const Flexible(
+                                //   //   //   child: TextField(
+                                //   //   //     // controller: searchController,
+                                //   //   //     decoration: InputDecoration(
+                                //   //   //         fillColor: Color(0xFFFFFFFF),
+                                //   //   //         filled: true,
+                                //   //   //         enabledBorder: OutlineInputBorder(
+                                //   //   //           borderSide:
+                                //   //   //               BorderSide(color: Color(0xFFF7F8F9)),
+                                //   //   //           borderRadius:
+                                //   //   //               BorderRadius.all(Radius.circular(25.0)),
+                                //   //   //         ),
+                                //   //   //         hintText: 'Search Book'),
+                                //   //   //   ),
+                                //   //   // ),
+                                //   //   const SizedBox(
+                                //   //     width: 11,
+                                //   //   ),
+                                //   //   // Container(
+                                //   //   //     padding: const EdgeInsets.all(14),
+                                //   //   //     decoration: BoxDecoration(
+                                //   //   //       borderRadius: BorderRadius.circular(20),
+                                //   //   //       color: const Color(0xFFEB6645),
+                                //   //   //     ),
+                                //   //   //     // child: IconButton(
+                                //   //   //     //   icon: const Icon(
+                                //   //   //     //     Icons.filter_alt_rounded,
+                                //   //   //     //     color: Colors.white,
+                                //   //   //     //   ),
+                                //   //   //     //   onPressed: setSelectedName,
+                                //   //   //     // )
+                                //   //   //   )
+                                //   // ],
+                                // ),
+                              ),
+                              // Expanded( // This will make the list fill the remaining space
+                                buildForumRepliesList(),
+                            // ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    Text(
-                      forumHead.fields.userReview,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // pergi ke halaman form data pengantaran 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CreateReplies(forumId: widget.forumId, user: user)),
-                        );
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(LiteraLink.darkGreen),
-                      ),
-                      child: const Text('Add Replies', style: TextStyle(color: LiteraLink.whiteGreen)),
-                    ),
-                  ],
-                );
-              }
+                      ]
+                    );
+                  }
+                }
+              ),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+            right: 12, bottom: 16), // Adjust the padding as needed
+        child: SizedBox(
+          width:
+              180, // You may adjust this width if it's too wide for the screen
+          height: 57,
+          child: FloatingActionButton(
+            backgroundColor: const Color(0xFFEB6645),
+            child: Container(
+              margin: const EdgeInsets.symmetric(
+                  vertical: 18, horizontal: 16), // Reduced horizontal margin
+              child: const FittedBox(
+                // This will scale down the text and icon to fit within the FAB
+                child: Text(
+                  "Reply Forum ini",
+                  style: TextStyle(color: Color(0xFFFFFFFF)),
+                  overflow:
+                      TextOverflow.ellipsis, // Use ellipsis to handle overflow
+                ),
+              ),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CreateReplies(user: user, forumId: widget.forumId)),
+              );
             },
           ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: buildForumRepliesList(),
-          ),
-        ],
-      ),
+        )
+      )
     );
   }
-
 
   Widget buildForumRepliesList() {
     return FutureBuilder<List<ForumReplies>>(
@@ -178,68 +338,95 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
         } else if (!snapshot.hasData) {
           return const Text("No replies available.");
         } else {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              ForumReplies reply = snapshot.data![index];
-              RepliesFields fields = reply.fields;
-            
-
-              return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                padding: const EdgeInsets.all(20.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Material(
-                    color: LiteraLink.darkGreen, // Change as needed
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                fields.forum.toString(),
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              Text(
-                                fields.username, // Displaying the username
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                fields.text,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              Text(
-                                fields.timestamp.toString(),
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                              if (loggedInUser.role == 'A')
-                                TextButton(
-                                  onPressed:() async  {
-                                    setState(() {
-                                      deleteReply(reply.pk);  
-                                    });
-                                  }, // Call delete function
-                                  child: const Text(
-                                    'Delete',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
+          return SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: ListView(
+                  padding: EdgeInsets.zero,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children:  snapshot.data!.map<Widget>((reply)=> Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20
+                       ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30.0),
+                        child: Material(
+                          color: const Color(0xFFFFFFFF),
+                          child: Container(
+                            margin: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                      child: Container(),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 18),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 18),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  color:
+                                                      const Color(0xFFEB6645)),
+                                              child: Text(
+                                                reply.fields.forum.toString(),
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(
+                                                      255, 249, 241, 241),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              reply.fields
+                                                  .username, // Displaying the username
+                                              style: const TextStyle(
+                                                  color: Color(0xFF252525),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              reply.fields
+                                                  .text, // Replace with your forum authors field
+                                              style: TextStyle(
+                                                  color: const Color(0xFF252525)
+                                                      .withOpacity(0.6)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      ),
+                    )
+                  ).toList(),
+                )
               );
-            },
-          );
         }
       },
     );
