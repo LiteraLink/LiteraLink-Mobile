@@ -175,7 +175,6 @@ class _BookReviewForumState extends State<BookReviewForum> {
                           }));
 
                       if (response['status'] == 'success') {
-                        print("halo ini berhasil");
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text("Pesanan baru berhasil dibuat!"),
@@ -185,7 +184,6 @@ class _BookReviewForumState extends State<BookReviewForum> {
                           MaterialPageRoute(builder: (context) => const ForumPage()),
                         );
                       } else {
-                        print("ini gak berhasil");
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content:

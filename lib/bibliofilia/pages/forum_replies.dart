@@ -67,14 +67,10 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
 
   Future<List<ForumReplies>> fetchReplies() async {
     var url = Uri.parse(
-        'https://literalink-e03-tk.pbp.cs.ui.ac.id/get_ForumReply_flutter/${widget.forumId}/');
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_ForumReply_flutter/${widget.forumId}/');
     var response = await http.get(url);
 
-    if (response.statusCode == 200) {
       return forumRepliesFromJson(response.body);
-    } else {
-      throw Exception('Failed to load replies');
-    }
   }
 
   Future<List<Forum>> fetchRepliesHead() async {
@@ -82,11 +78,8 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
         'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_ForumReplyHead_json_flutter/${widget.forumId}/');
     var response = await http.get(url);
 
-    if (response.statusCode == 200) {
       return forumFromJson(response.body);
-    } else {
-      throw Exception('Failed to load head');
-    }
+
   }
 
 @override

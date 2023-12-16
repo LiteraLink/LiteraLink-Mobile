@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:literalink/bibliofilia/pages/chooseBook.dart';
 import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 import 'package:literalink/authentication/models/user.dart';
@@ -160,7 +161,9 @@ class _CreateForumState extends State<CreateForum> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
+                child: Column(
+                children:[ 
+                  ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(LiteraLink.lightGreen),
@@ -204,9 +207,22 @@ class _CreateForumState extends State<CreateForum> {
                     style: TextStyle(color: LiteraLink.whiteGreen),
                   ),
                 ),
+                const SizedBox(height: 10), // Add some space between the buttons
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ChooseBookPage(user: user)),
+                      );
+                    },
+                    child: const Text('Go to Choose Book'),
+                  ),
+              ]
               ),
             ),
-          ]),
+          )
+        ]
+        ),
         ),
       ),
     );

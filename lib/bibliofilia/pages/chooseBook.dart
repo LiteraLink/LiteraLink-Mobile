@@ -308,7 +308,6 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      if (loggedInUser.role == 'M') 
                                         Flexible( // Wrap the button to make it flexible
                                           child: Padding( // Add padding if needed
                                             padding: const EdgeInsets.symmetric(horizontal: 16.0), // Use symmetric horizontal padding

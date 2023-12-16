@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -130,7 +132,6 @@ class _CreateRepliesState extends State<CreateReplies> {
                             .showSnackBar(const SnackBar(
                           content: Text("Pesanan baru berhasil dibuat!"),
                         ));
-                        // ignore: use_build_context_synchronously
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => ForumRepliesPage(forumId: widget.forumId)),
