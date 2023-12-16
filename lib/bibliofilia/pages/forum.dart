@@ -17,6 +17,9 @@ class ForumPage extends StatefulWidget {
 }
 
 class _ForumPageState extends State<ForumPage> {
+    late Future<List<Forum>> forum;
+
+  
   // for searching books
   TextEditingController searchController = TextEditingController();
 
@@ -25,6 +28,47 @@ class _ForumPageState extends State<ForumPage> {
   double topPosition1 = -200;
   double topForWhiteContainer = 1000;
   bool isButtonPressed = false;
+
+
+  @override
+  void initState() {
+    super.initState();
+    forum = fetchItem();
+  }
+  void deleteForum(int forumId) async {
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
+
+    // Assuming you have a way to get the current username. Replace with actual username.
+    String currentUsername =
+        "currentUser"; // Replace with actual username logic
+
+    var response = await http.delete(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'forum_id': forumId,
+        // 'username': currentUsername,
+      }),
+    );
+
+    if (response.statusCode == 204) {
+      // Handle successful deletion
+      setState(() {
+        forum = fetchItem(); // Refresh the replies list after deletion
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Reply deleted successfully')),
+      );
+    } else {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete reply: ${response.body}')),
+      );
+    }
+  }
 
   Future<List<Forum>> fetchItem() async {
     var url = Uri.parse(
@@ -38,7 +82,7 @@ class _ForumPageState extends State<ForumPage> {
       if (d != null) {
         Forum forum = Forum.fromJson(d);
         listForum.add(forum);
-      }
+      } 
     }
     return listForum;
   }
@@ -260,7 +304,7 @@ class _ForumPageState extends State<ForumPage> {
 
   Widget buildForumList() {
     return FutureBuilder<List<Forum>>(
-      future: fetchItem(),
+      future: forum,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -364,6 +408,15 @@ class _ForumPageState extends State<ForumPage> {
                             ],
                           ),
                         ),
+                      ),
+                      if (loggedInUser.role == 'A')
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed:() async  {
+                          setState(() {
+                            deleteForum(forum.pk);  
+                          });
+                        }, //
                       ),
                     ],
                   ),

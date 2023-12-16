@@ -331,6 +331,15 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                                             ),
                                           ),
                                         ),
+                                        if (loggedInUser.role == 'A')
+                                        IconButton(
+                                          icon: const Icon(Icons.delete, color: Colors.red),
+                                          onPressed:() async  {
+                                            setState(() {
+                                              deleteReply(reply.pk);  
+                                            });
+                                          }, //
+                                        ),
                                       ],
                                     ),
                                   ],
