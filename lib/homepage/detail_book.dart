@@ -1,48 +1,28 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:literalink/bibliofilia/pages/forum.dart';
-import 'package:literalink/authentication/models/user.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:provider/provider.dart';
+import 'package:literalink/homepage/models/fetch_book.dart';
 
-class CreateForum extends StatefulWidget {
-  final User user;
+class DetailBookPage extends StatefulWidget {
+  final Book book;
 
-  const CreateForum({Key? key, required this.user}) : super(key: key);
+  const DetailBookPage({Key? key, required this.book})
+      : super(key: key);
 
   @override
-  State<CreateForum> createState() => _CreateForumState();
+  State<DetailBookPage> createState() => _DetailBookPageState();
 }
-class _CreateForumState extends State<CreateForum> {
+
+class _DetailBookPageState extends State<DetailBookPage> {
   final _formKey = GlobalKey<FormState>();
 
-  String _namaBuku = "";
-  String _reviewUser = "";
-  String _forumsDescription = "";
-
-  late final User user;
-
-  @override
-  void initState() {
-    super.initState();
-    // Inisialisasi variabel dengan nilai dari widget
-    user = loggedInUser;
-  }
+  // Menggunakan widget.user dan widget.bookId untuk mendapatkan nilai yang dilewatkan ke widget
+  late final int bookId;
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
-
     return Scaffold(
-        body: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints:
-                BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-            child: IntrinsicHeight(
-              child: Stack(
+        body: Stack(
                 children: [
                   Positioned(
                     right: 0,
@@ -69,10 +49,10 @@ class _CreateForumState extends State<CreateForum> {
                             ),
                           ),
                           const SizedBox(
-                            width: 20,
+                            width: 100,
                           ),
                           const Text(
-                            "Form Pembuatan\nForum",
+                            "Detail\nBuku",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 28,
@@ -85,7 +65,7 @@ class _CreateForumState extends State<CreateForum> {
                     ),
                   ),
                   Positioned(
-                    top: 170,
+                    top: 250,
                     child: Container(
                         height: MediaQuery.of(context).size.height - 160,
                         decoration: const BoxDecoration(
@@ -95,7 +75,7 @@ class _CreateForumState extends State<CreateForum> {
                                 topRight: Radius.circular(38))),
                         child: Column(
                           children: [
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 150),
                             Container(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 40),
@@ -108,7 +88,7 @@ class _CreateForumState extends State<CreateForum> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         const Text(
-                                          "Judul Forum",
+                                          "ID Buku",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -117,8 +97,12 @@ class _CreateForumState extends State<CreateForum> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                                            style:
+                                            const TextStyle(color: Colors.grey),
+                                            initialValue:
+                                                widget.book.fields.bookId,
+                                            readOnly: true,
                                             decoration: const InputDecoration(
-                                              hintText: "Masukkan Judul Forum",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -128,22 +112,10 @@ class _CreateForumState extends State<CreateForum> {
                                                     Radius.circular(25.0)),
                                               ),
                                             ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _namaBuku = value!;
-                                              });
-                                            },
-                                            validator: (String? value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Judul Forum tidak boleh kosong!";
-                                              }
-                                              return null;
-                                            },
                                           ),
                                         ),
                                         const Text(
-                                          "Description",
+                                          "Judul Buku",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -152,9 +124,12 @@ class _CreateForumState extends State<CreateForum> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                                            style:
+                                            const TextStyle(color: Colors.grey),
+                                            initialValue:
+                                                widget.book.fields.title,
+                                            readOnly: true,
                                             decoration: const InputDecoration(
-                                              hintText:
-                                                  "Masukkan Description",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -164,22 +139,10 @@ class _CreateForumState extends State<CreateForum> {
                                                     Radius.circular(25.0)),
                                               ),
                                             ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _forumsDescription = value!;
-                                              });
-                                            },
-                                            validator: (String? value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Description tidak boleh kosong!";
-                                              }
-                                              return null;
-                                            },
                                           ),
                                         ),
                                         const Text(
-                                          "Message",
+                                          "Penulis",
                                           style: TextStyle(
                                               fontSize: 17,
                                               color: Color(0xFF018845),
@@ -188,11 +151,12 @@ class _CreateForumState extends State<CreateForum> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
-                                            minLines: 1,
-                                            maxLines: 10,
+                                            style:
+                                            const TextStyle(color: Colors.grey),
+                                            initialValue:
+                                                widget.book.fields.authors,
+                                            readOnly: true,
                                             decoration: const InputDecoration(
-                                              hintText:
-                                                  "Masukkan Massage",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -202,88 +166,109 @@ class _CreateForumState extends State<CreateForum> {
                                                     Radius.circular(25.0)),
                                               ),
                                             ),
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                _reviewUser = value!;
-                                              });
-                                            },
-                                            validator: (String? value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return "Massage tidak boleh kosong!";
-                                              }
-                                              return null;
-                                            },
+                                          ),
+                                        ),
+                                        const Text(
+                                          "Deskripsi",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: Color(0xFF018845),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            style:
+                                            const TextStyle(color: Colors.grey),
+                                            initialValue:
+                                                widget.book.fields.description,
+                                            readOnly: true,
+                                            decoration: const InputDecoration(
+                                              fillColor: Color(0xFFFFFFFF),
+                                              filled: true,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Text(
+                                          "Kategori",
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: Color(0xFF018845),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            style:
+                                            const TextStyle(color: Colors.grey),
+                                            initialValue:
+                                                widget.book.fields.categories,
+                                            readOnly: true,
+                                            decoration: const InputDecoration(
+                                              fillColor: Color(0xFFFFFFFF),
+                                              filled: true,
+                                              enabledBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0)),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ]),
                                 ),
                               ),
-                            )
+                            ),
+                            const SizedBox(height: 100),
                           ],
                         )),
                   ),
+                 Positioned(
+                    top: 160,
+                    left: 100,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0), // Ini akan membulatkan sudut gambar dan container
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Background color for the book container
+                            borderRadius: BorderRadius.circular(20.0), // This matches the ClipRRect border radius
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(
+                                width: 55,
+                              ),
+                              Image.network(
+                                widget.book.fields.thumbnail,
+                                fit: BoxFit.cover, // This will scale the image based on the size of its container
+                              ),
+                              // Add other widgets for the book title, author, etc.
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.only(
-                bottom:
-                    12), // Atur nilai sesuai kebutuhan untuk menggeser ke atas
-            child: SizedBox(
-              width: 120,
-              height: 57,
-              child: FloatingActionButton(
-                backgroundColor: const Color(0xFFEB6645),
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Add replies",
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () async {
-                      String username = user.username;
-                      if (_formKey.currentState!.validate()) {
-                        // Kirim ke Django dan tunggu respons
-                        // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
-                        final response = await request.postJson(
-                            "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_Forum_flutter/",
-                            jsonEncode(<String, String>{
-                              'username': username,
-                              'bookname': _namaBuku,
-                              'userReview': _reviewUser,
-                              'forumsDescription': _forumsDescription,
-                            }));
-
-                        if (response['status'] == 'success') {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text("Pesanan baru berhasil dibuat!"),
-                          ));
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForumPage()),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content:
-                                Text("Terdapat kesalahan, silakan coba lagi."),
-                          ));
-                        }
-                      }
-                    },
-              ),
-            )));
+      );
   }
 }

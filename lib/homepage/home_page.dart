@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/homepage/detail_book.dart';
 import 'package:provider/provider.dart';
 
 import 'package:literalink/antar/antar_page.dart';
@@ -18,13 +19,11 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   static List<Feature> items = [
-    Feature(
+    const Feature(
       "Antar",
       'assets/images/Antar_Icon.png',
-      AntarPage(
-        user: loggedInUser,
-      ),
-      const Color(0xFF005F3D),
+      AntarPage(),
+      Color(0xFF005F3D),
     ),
     const Feature(
       "Baca\nDiTempat",
@@ -81,12 +80,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints:
-              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-          child: IntrinsicHeight(
-            child: Stack(
+      body: Stack(
               children: [
                 Positioned(
                   right: 0,
@@ -189,9 +183,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -278,74 +269,143 @@ class _HomePageState extends State<HomePage> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: snapshot.data!
-                  .where((book) =>
-                      selectedCategory == "All" ||
-                      book.fields.categories == selectedCategory)
                   .map<Widget>((book) => Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 10),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30.0),
                           child: Material(
-                            color: const Color(0xFFFFFFFF),
-                            child: Container(
-                              margin: const EdgeInsets.all(14),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.network(
-                                      book.fields.thumbnail,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 18),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0, horizontal: 18),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                color: const Color(0xFFEB6645)),
-                                            child: Text(
-                                              book.fields.categories,
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                color: Color.fromARGB(255, 249, 241, 241),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          Text(
-                                            book.fields.title,
-                                            style: const TextStyle(
-                                                color: Color(0xFF252525),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
-                                          ),
-                                          const SizedBox(height: 12),
-                                          Text(
-                                            book.fields.displayAuthors,
-                                            style: TextStyle(
-                                                color: const Color(0xFF252525)
-                                                    .withOpacity(0.6)),
-                                          ),
-                                        ],
+                            color: const Color(0xFFFFFFFF), 
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                                child: Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(20.0),
+                                      child: Image.network(
+                                        book.fields.thumbnail,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 18),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                  vertical: 8.0,
+                                                  horizontal: 18),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          100),
+                                                  color: const Color(
+                                                      0xFFEB6645)),
+                                              child: Text(
+                                                book.fields.categories,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color.fromARGB(
+                                                      255, 249, 241, 241),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              book.fields.title,
+                                              style: const TextStyle(
+                                                  color: Color(0xFF252525),
+                                                  fontWeight:
+                                                      FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              book.fields.displayAuthors,
+                                              style: TextStyle(
+                                                  color: const Color(
+                                                          0xFF252525)
+                                                      .withOpacity(0.6)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                )),
+                                Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 75.5),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFDAE9D8),
+                                      borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20.0),
+                                        bottomRight: Radius.circular(20.0),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Flexible(
+                                            // Wrap the button to make it flexible
+                                            child: Padding(
+                                              // Add padding if needed
+                                              padding: const EdgeInsets
+                                                  .symmetric(
+                                                  horizontal:
+                                                      3.0), // Use symmetric horizontal padding
+                                              child: ElevatedButton(
+                                                // Use ElevatedButton for better default padding and styling
+                                                style: ElevatedButton
+                                                    .styleFrom(
+                                                  backgroundColor: const Color(
+                                                      0xFF005F3D), // Button color
+                                                  shape:
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0), // Border radius
+                                                  ),
+                                                ),
+                                                onPressed: () async {
+                                                  Navigator.of(context, rootNavigator: true).push(
+                                                    MaterialPageRoute(builder: (context) => DetailBookPage(book: book)),
+                                                  );
+                                                },
+                                                child: const Text(
+                                                  "Detail Buku",
+                                                  textAlign:
+                                                      TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Color(
+                                                          0xFFFFFFFF),
+                                                          fontWeight:
+                                                      FontWeight.bold,
+                                                          ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),  
+                                      ],
+                                    ))
+                              ],
                             ),
                           ),
                         ),

@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 class ChooseBookPage extends StatefulWidget {
   final User user;
-  
+
   const ChooseBookPage({Key? key, required this.user}) : super(key: key);
   @override
   _ChooseBookPageState createState() => _ChooseBookPageState();
@@ -111,7 +111,9 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                 Positioned(
                   top: 110,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1), // 10% of screen width
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width *
+                            0.1), // 10% of screen width
                     width: MediaQuery.sizeOf(context).width,
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -122,8 +124,8 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 5),
                                 child: Text(
                                   'Pilihlah buku yang ingin anda review',
                                   textAlign: TextAlign.center,
@@ -176,20 +178,18 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                                 width: 11,
                               ),
                               Container(
-                                padding: const EdgeInsets.all(14),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: const Color(0xFFEB6645),
-                                ),
-                                child: IconButton(
-                                  icon : const Icon(
-                                    Icons.filter_alt_rounded,
-                                    color: Colors.white,
+                                  padding: const EdgeInsets.all(14),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: const Color(0xFFEB6645),
                                   ),
-                                  onPressed:
-                                    setSelectedName, 
-                                )
-                              )
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.filter_alt_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: setSelectedName,
+                                  ))
                             ],
                           ),
                         ),
@@ -225,7 +225,8 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
               padding: EdgeInsets.zero,
               children: snapshot.data!
                   .where((book) =>
-                    selectedName == "All" || book.fields.title == selectedName)
+                      selectedName == "All" ||
+                      book.fields.title == selectedName)
                   .map<Widget>((book) => Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 10),
@@ -234,110 +235,138 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                           child: Material(
                             color: const Color(0xFFFFFFFF),
                             child: Container(
-                              margin: const EdgeInsets.all(14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                                margin: const EdgeInsets.all(14),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image.network(
-                                        book.fields.thumbnail,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 10, horizontal: 18),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8.0, horizontal: 18),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(100),
-                                                  color: const Color(0xFFEB6645)),
-                                              child: Text(
-                                                book.fields.categories,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color.fromARGB(255, 249, 241, 241),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Text(
-                                              book.fields.title,
-                                              style: const TextStyle(
-                                                  color: Color(0xFF252525),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
-                                            ),
-                                            const SizedBox(height: 12),
-                                            Text(
-                                              book.fields.displayAuthors,
-                                              style: TextStyle(
-                                                  color: const Color(0xFF252525)
-                                                      .withOpacity(0.6)),
-                                            ),
-                                          ],
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: Image.network(
+                                            book.fields.thumbnail,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                  ],
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.symmetric(vertical: 7),
-                                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 75.5),
-                                  decoration: const BoxDecoration(
-                                      color: Color(0xFFDAE9D8),
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20.0),
-                                        bottomRight: Radius.circular(20.0),
-                                      ),
-                                      ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                        Flexible( // Wrap the button to make it flexible
-                                          child: Padding( // Add padding if needed
-                                            padding: const EdgeInsets.symmetric(horizontal: 16.0), // Use symmetric horizontal padding
-                                            child: ElevatedButton( // Use ElevatedButton for better default padding and styling
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color(0xFF005F3D), // Button color
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(20.0), // Border radius
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 18),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 18),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      color: const Color(
+                                                          0xFFEB6645)),
+                                                  child: Text(
+                                                    book.fields.categories,
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Color.fromARGB(
+                                                          255, 249, 241, 241),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              onPressed: () async {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) => BookReviewForum(book: book, user: loggedInUser)),
-                                                );
-                                              },
-                                              child: const Text(
-                                                "Pilih Buku ini",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(color: Color(0xFFFFFFFF)),
-                                              ),
+                                                const SizedBox(height: 10),
+                                                Text(
+                                                  book.fields.title,
+                                                  style: const TextStyle(
+                                                      color: Color(0xFF252525),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Text(
+                                                  book.fields.displayAuthors,
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                              0xFF252525)
+                                                          .withOpacity(0.6)),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),
-                                    ],
-                                  )
-                                )
-                                ],
-                              )
-                            ),
+                                        const SizedBox(height: 12),
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 7),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15, horizontal: 75.5),
+                                        decoration: const BoxDecoration(
+                                          color: Color(0xFFDAE9D8),
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20.0),
+                                            bottomRight: Radius.circular(20.0),
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Flexible(
+                                              // Wrap the button to make it flexible
+                                              child: Padding(
+                                                // Add padding if needed
+                                                padding: const EdgeInsets
+                                                    .symmetric(
+                                                    horizontal:
+                                                        16.0), // Use symmetric horizontal padding
+                                                child: ElevatedButton(
+                                                  // Use ElevatedButton for better default padding and styling
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    backgroundColor: const Color(
+                                                        0xFF005F3D), // Button color
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.0), // Border radius
+                                                    ),
+                                                  ),
+                                                  onPressed: () async {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BookReviewForum(
+                                                                  book: book,
+                                                                  user:
+                                                                      loggedInUser)),
+                                                    );
+                                                  },
+                                                  child: const Text(
+                                                    "Pilih Buku ini",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFFFFFFFF)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ))
+                                  ],
+                                )),
                           ),
                         ),
                       ))
@@ -349,4 +378,3 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
     );
   }
 }
-

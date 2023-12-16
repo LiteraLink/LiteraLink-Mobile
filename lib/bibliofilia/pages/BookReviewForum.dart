@@ -15,20 +15,19 @@ class BookReviewForum extends StatefulWidget {
   final User user;
   final Book book;
 
-  const BookReviewForum({Key? key, required this.user, required this.book}) : super(key: key);
+  const BookReviewForum({Key? key, required this.user, required this.book})
+      : super(key: key);
 
   @override
   State<BookReviewForum> createState() => _BookReviewForumState();
 }
 
 class _BookReviewForumState extends State<BookReviewForum> {
-
   final _formKey = GlobalKey<FormState>();
-    
+
   String _namaBuku = "";
   String _reviewUser = "";
   String _forumsDescription = "";
-
 
   // Menggunakan widget.user dan widget.book untuk mendapatkan nilai yang dilewatkan ke widget
   late final Book book;
@@ -41,9 +40,7 @@ class _BookReviewForumState extends State<BookReviewForum> {
     user = loggedInUser;
     book = widget.book;
   }
-  
-  
-  
+
   @override
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
@@ -73,8 +70,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
               MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
-        ),// Atur warna latar belakang menjadi transparan
-        elevation: 0, 
+        ), // Atur warna latar belakang menjadi transparan
+        elevation: 0,
       ),
       body: Form(
         key: _formKey,
@@ -84,13 +81,13 @@ class _BookReviewForumState extends State<BookReviewForum> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
-                  initialValue: book.fields.title,
-                  readOnly: true,
-                    style: const TextStyle(
-                    color: LiteraLink.whiteGreen,
-                  ),
+                initialValue: book.fields.title,
+                readOnly: true,
+                style: const TextStyle(
+                  color: LiteraLink.whiteGreen,
                 ),
               ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
@@ -102,7 +99,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      borderSide: const BorderSide(color: LiteraLink.whiteGreen)),
+                      borderSide:
+                          const BorderSide(color: LiteraLink.whiteGreen)),
                 ),
                 onChanged: (String? value) {
                   setState(() {
@@ -128,7 +126,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
-                      borderSide: const BorderSide(color: LiteraLink.whiteGreen)),
+                      borderSide:
+                          const BorderSide(color: LiteraLink.whiteGreen)),
                 ),
                 onChanged: (String? value) {
                   setState(() {
@@ -143,7 +142,6 @@ class _BookReviewForumState extends State<BookReviewForum> {
                 },
               ),
             ),
-          
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -169,8 +167,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
                             'description': book.fields.description,
                             'categories': book.fields.categories,
                             'thumbnail': book.fields.thumbnail,
-                            'userReview' : _reviewUser,
-                            'forumsDescription' : _forumsDescription,
+                            'userReview': _reviewUser,
+                            'forumsDescription': _forumsDescription,
                           }));
 
                       if (response['status'] == 'success') {
@@ -180,7 +178,8 @@ class _BookReviewForumState extends State<BookReviewForum> {
                         ));
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => const ForumPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const ForumPage()),
                         );
                       } else {
                         ScaffoldMessenger.of(context)

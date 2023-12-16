@@ -40,20 +40,15 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEF5ED),
-      body: Column(
-        children: [
-          _buildHeaderImages(),
-          const SizedBox(height: 10),
-          Expanded(
-            child: Column(
-              children: [
-                _buildSignInForm(),
-                _buildFooter(context),
-              ],
-            ),
-          ),
-          _buildFooterImages()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildHeaderImages(),
+            _buildSignInForm(),
+            _buildFooter(context),
+            _buildFooterImages()
+          ],
+        ),
       ),
     );
   }
@@ -65,6 +60,7 @@ class _SignInPageState extends State<SignInPage> {
       ],
     );
   }
+
   Widget _buildFooterImages() {
     return Stack(
       children: [
@@ -128,7 +124,10 @@ class _SignInPageState extends State<SignInPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account? ", style: TextStyle(color: Colors.black),),
+        const Text(
+          "Don't have an account? ",
+          style: TextStyle(color: Colors.black),
+        ),
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
             context,
@@ -149,11 +148,11 @@ class _SignInPageState extends State<SignInPage> {
           String password = _passwordController.text;
           if (_formKey.currentState!.validate()) {
             final response = await request.login(
-              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
-              {
-                'username': _usernameController.text,
-                'password': password,
-              });
+                "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
+                {
+                  'username': _usernameController.text,
+                  'password': password,
+                });
 
             if (request.loggedIn) {
               String message = response['message'];
@@ -212,8 +211,7 @@ class _SignInPageState extends State<SignInPage> {
                       child: Text(
                     "Sign In",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ))),
               const Row(
                 children: [

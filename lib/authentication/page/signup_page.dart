@@ -59,7 +59,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Image.asset("assets/images/signup_header.png"),
                 Column(
                   children: [
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 70),
                     _buildSignUpForm(),
                     _buildSignUpFooter(context),
                   ],
@@ -98,8 +98,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildHeader() {
     return Row(
       children: [
+        const SizedBox(width: 5),
         Image.asset("assets/images/logo_baru.png"),
-        const SizedBox(width: 20),
+        const SizedBox(width: 18),
         const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -116,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Align(
                 child: Text(
                   "Enter your details to create your account and get started",
-                  style: TextStyle(fontSize: 17, color: Colors.black),
+                  style: TextStyle(fontSize: 13, color: Colors.black),
                 ),
               ),
             ),
