@@ -6,7 +6,6 @@ import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forumReplies_models.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
 import 'package:literalink/bibliofilia/pages/createReplies.dart';
-import 'package:literalink/main.dart';
 
 class ForumRepliesPage extends StatefulWidget {
   final int forumId;
@@ -234,46 +233,9 @@ return Scaffold(
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 40),
                                 width: MediaQuery.of(context).size.width,
-                                // child: Row(
-                                //   // children: [
-                                //   //   // const Flexible(
-                                //   //   //   child: TextField(
-                                //   //   //     // controller: searchController,
-                                //   //   //     decoration: InputDecoration(
-                                //   //   //         fillColor: Color(0xFFFFFFFF),
-                                //   //   //         filled: true,
-                                //   //   //         enabledBorder: OutlineInputBorder(
-                                //   //   //           borderSide:
-                                //   //   //               BorderSide(color: Color(0xFFF7F8F9)),
-                                //   //   //           borderRadius:
-                                //   //   //               BorderRadius.all(Radius.circular(25.0)),
-                                //   //   //         ),
-                                //   //   //         hintText: 'Search Book'),
-                                //   //   //   ),
-                                //   //   // ),
-                                //   //   const SizedBox(
-                                //   //     width: 11,
-                                //   //   ),
-                                //   //   // Container(
-                                //   //   //     padding: const EdgeInsets.all(14),
-                                //   //   //     decoration: BoxDecoration(
-                                //   //   //       borderRadius: BorderRadius.circular(20),
-                                //   //   //       color: const Color(0xFFEB6645),
-                                //   //   //     ),
-                                //   //   //     // child: IconButton(
-                                //   //   //     //   icon: const Icon(
-                                //   //   //     //     Icons.filter_alt_rounded,
-                                //   //   //     //     color: Colors.white,
-                                //   //   //     //   ),
-                                //   //   //     //   onPressed: setSelectedName,
-                                //   //   //     // )
-                                //   //   //   )
-                                //   // ],
-                                // ),
+
                               ),
-                              // Expanded( // This will make the list fill the remaining space
                                 buildForumRepliesList(),
-                            // ),
                             ],
                           ),
                         ),

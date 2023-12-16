@@ -1,9 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:literalink/bibliofilia/pages/chooseBook.dart';
 import 'package:literalink/bibliofilia/pages/forum.dart';
-import 'package:literalink/bibliofilia/pages/forum_replies.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/main.dart';
@@ -183,17 +184,16 @@ class _CreateForumState extends State<CreateForum> {
                           }));
 
                       if (response['status'] == 'success') {
-                        print("halo ini berhasil");
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content: Text("Pesanan baru berhasil dibuat!"),
                         ));
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => ForumPage()),
+                          MaterialPageRoute(builder: (context) => const ForumPage()),
                         );
                       } else {
-                        print("ini gak berhasil");
+
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
                           content:

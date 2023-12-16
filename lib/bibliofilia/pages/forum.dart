@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
-import 'package:literalink/bibliofilia/pages/chooseBook.dart';
 import 'package:literalink/bibliofilia/pages/createForum.dart';
 import 'package:literalink/bibliofilia/pages/forum_replies.dart';
-import 'package:literalink/main.dart';
 
 class ForumPage extends StatefulWidget {
   const ForumPage({super.key});
@@ -31,7 +29,8 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   Future<List<Forum>> fetchItem() async {
-    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
     var response = await http.get(url);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -257,108 +256,106 @@ class _ForumPageState extends State<ForumPage> {
               children: snapshot.data!
                   .where((forum) =>
                       selectedName.toLowerCase() == "all" ||
-                      (forum.fields.bookName.toLowerCase().contains(selectedName.toLowerCase())))
+                      (forum.fields.bookName
+                          .toLowerCase()
+                          .contains(selectedName.toLowerCase())))
                   .map<Widget>((forum) => Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 10),
                         child: InkWell(
                           onTap: () {
                             Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ForumRepliesPage(
-                                        forumId: forum.pk,
-                                      )
-                                    )
-                                  );
-                                },
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForumRepliesPage(
+                                          forumId: forum.pk,
+                                        )));
+                          },
                           child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: Material(
-                            color: const Color(0xFFFFFFFF),
-                            child: Container(
-                              margin: const EdgeInsets.all(14),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        child:
-                                            forum.fields.bookPicture != null &&
-                                                    forum.fields.bookPicture
-                                                        .isNotEmpty
-                                                ? Image.network(
-                                                    forum.fields.bookPicture)
-                                                : Container(),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 18),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 8.0,
-                                                        horizontal: 18),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            100),
-                                                    color: const Color(
-                                                        0xFFEB6645)),
-                                                child: Text(
-                                                  forum.fields
-                                                      .forumsDescription, // Replace with your forum categories field
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color.fromARGB(
-                                                        255, 249, 241, 241),
+                            borderRadius: BorderRadius.circular(30.0),
+                            child: Material(
+                              color: const Color(0xFFFFFFFF),
+                              child: Container(
+                                margin: const EdgeInsets.all(14),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: forum
+                                                  .fields.bookPicture.isNotEmpty
+                                              ? Image.network(
+                                                  forum.fields.bookPicture)
+                                              : Container(),
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 18),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 18),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      color: const Color(
+                                                          0xFFEB6645)),
+                                                  child: Text(
+                                                    forum.fields
+                                                        .forumsDescription, // Replace with your forum categories field
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      color: Color.fromARGB(
+                                                          255, 249, 241, 241),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              Text(
-                                                forum.fields
-                                                    .bookName, // Replace with your forum title field
-                                                style: const TextStyle(
-                                                    color: Color(0xFF252525),
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 20),
-                                              ),
-                                              const SizedBox(height: 12),
-                                              Text(
-                                                forum.fields
-                                                    .username, // Replace with your forum authors field
-                                                style: TextStyle(
-                                                    color:
-                                                        const Color(0xFF252525)
-                                                            .withOpacity(0.6)),
-                                              ),
-                                            ],
+                                                const SizedBox(height: 10),
+                                                Text(
+                                                  forum.fields
+                                                      .bookName, // Replace with your forum title field
+                                                  style: const TextStyle(
+                                                      color: Color(0xFF252525),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
+                                                ),
+                                                const SizedBox(height: 12),
+                                                Text(
+                                                  forum.fields
+                                                      .username, // Replace with your forum authors field
+                                                  style: TextStyle(
+                                                      color: const Color(
+                                                              0xFF252525)
+                                                          .withOpacity(0.6)),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                       ))
                   .toList(),
             ),
