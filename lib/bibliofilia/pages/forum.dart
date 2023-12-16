@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:convert';
 
@@ -38,10 +38,6 @@ class _ForumPageState extends State<ForumPage> {
   void deleteForum(int forumId) async {
     var url = Uri.parse(
         'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
-
-    // Assuming you have a way to get the current username. Replace with actual username.
-    String currentUsername =
-        "currentUser"; // Replace with actual username logic
 
     var response = await http.delete(
       url,
