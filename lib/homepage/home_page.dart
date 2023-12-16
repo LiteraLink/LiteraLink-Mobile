@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 import 'package:literalink/antar/antar_page.dart';
-import 'package:literalink/bibliofilia/forum.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:literalink/bacaditempat/venue_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
@@ -15,26 +17,28 @@ import 'package:literalink/dimanasajakapansaja/pages/station.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  static const List<Feature> items = [
+  static List<Feature> items = [
     Feature(
       "Antar",
       'assets/images/Antar_Icon.png',
-      AntarPage(),
-      Color(0xFF005F3D),
+      AntarPage(
+        user: loggedInUser,
+      ),
+      const Color(0xFF005F3D),
     ),
-    Feature(
+    const Feature(
       "Baca\nDiTempat",
       'assets/images/bacaditempat_logo.png',
       VenuePage(),
       Color(0xFF018845),
     ),
-    Feature(
+    const Feature(
       "DimanaSaja\nKapanSaja",
       'assets/images/DSKS_Icon.png',
       DimanaSajaKapanSajaPage(),
       Color(0xFFEB6645),
     ),
-    Feature(
+    const Feature(
       "Bibliofilia",
       'assets/images/Bibliofilia_Icon.png',
       ForumPage(),
@@ -105,18 +109,16 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("Welcome to",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: const Color(0xFFFFFFFF).withOpacity(0.8)
-                              )
-                            ),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: const Color(0xFFFFFFFF)
+                                        .withOpacity(0.8))),
                             const Text(
                               "LiteraLink",
                               style: TextStyle(
-                                fontSize: 32,
-                                color: Color(0xFFFFFFFF),
-                                fontWeight: FontWeight.bold
-                              ),
+                                  fontSize: 32,
+                                  color: Color(0xFFFFFFFF),
+                                  fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -238,18 +240,16 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () => setSelectedCategory(category),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: selectedCategory == category
-                        ? const Color(0xFF018845)
-                        : const Color(0xFFD6EADC),
+                          ? const Color(0xFF018845)
+                          : const Color(0xFFD6EADC),
                     ),
                     child: Container(
                       alignment: Alignment.center,
                       child: Text(category,
-                        style: TextStyle(
-                          color: selectedCategory == category
-                            ? const Color(0xFFFFFFFF)
-                            : const Color(0xFF018845)
-                        )
-                      ),
+                          style: TextStyle(
+                              color: selectedCategory == category
+                                  ? const Color(0xFFFFFFFF)
+                                  : const Color(0xFF018845))),
                     ),
                   ),
                 );
@@ -294,11 +294,11 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ClipRRect(
-                                                                      borderRadius: BorderRadius.circular(20.0),
-                                                                      child: Image.network(
-                                  book.fields.thumbnail,
-                                                                      ),
-                                                                    ),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image.network(
+                                      book.fields.thumbnail,
+                                    ),
+                                  ),
                                   Expanded(
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
@@ -321,8 +321,7 @@ class _HomePageState extends State<HomePage> {
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
                                                 fontSize: 15,
-                                                color: Color.fromARGB(
-                                                    255, 249, 241, 241),
+                                                color: Color.fromARGB(255, 249, 241, 241),
                                               ),
                                             ),
                                           ),
@@ -393,16 +392,15 @@ class FeatureCard extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => item.page),
               );
             } else {
-              final response = await request.logout("$baseUrl/auth/signout-flutter/");
+              final response =
+                  await request.logout("$baseUrl/auth/signout-flutter/");
               String message = response["message"];
 
               if (response['status']) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      "$message Sampai jumpa, ${loggedInUser.username}."
-                    )
-                  ),
+                      content: Text(
+                          "$message Sampai jumpa, ${loggedInUser.username}.")),
                 );
                 Navigator.pushReplacement(
                   context,
@@ -430,10 +428,9 @@ class FeatureCard extends StatelessWidget {
                   item.name,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0XFFFFFFFF)
-                  ),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0XFFFFFFFF)),
                 ),
               ],
             ),
