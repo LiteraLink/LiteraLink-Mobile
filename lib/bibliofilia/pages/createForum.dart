@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:literalink/bibliofilia/pages/chooseBook.dart';
 import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -233,21 +234,22 @@ class _CreateForumState extends State<CreateForum> {
             padding: const EdgeInsets.only(
                 bottom:
                     12), // Atur nilai sesuai kebutuhan untuk menggeser ke atas
-            child: SizedBox(
+            child: Column(
+          mainAxisSize: MainAxisSize.min, // Use min size for the column
+          children: [
+            // First button (Buat Forum)
+            SizedBox(
               width: 120,
               height: 57,
               child: FloatingActionButton(
                 backgroundColor: const Color(0xFFEB6645),
                 child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Add replies",
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ],
+                  margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                  child: const FittedBox( // Use FittedBox to fit the row in the button
+                    child: Text(
+                      "Buat Forum",
+                      style: TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
                   ),
                 ),
                 onPressed: () async {
@@ -279,11 +281,41 @@ class _CreateForumState extends State<CreateForum> {
                               .showSnackBar(const SnackBar(
                             content:
                                 Text("Terdapat kesalahan, silakan coba lagi."),
-                          ));
-                        }
+                          )
+                        );
                       }
-                    },
+                    }
+                  },
               ),
-            )));
+            ),
+            const SizedBox(height: 10), // Space between buttons
+
+            // Second button (Review Buku)
+            SizedBox(
+              width: 120,
+              height: 57,
+              child: FloatingActionButton(
+                backgroundColor: const Color(0xFFEB6645),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                  child: const FittedBox( // Use FittedBox to fit the row in the button
+                    child: Text(
+                      "Review Buku",
+                      style: TextStyle(color: Color(0xFFFFFFFF)),
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChooseBookPage(user: user)),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
-}
+  }
