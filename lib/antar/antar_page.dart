@@ -67,44 +67,61 @@ class _AntarPageState extends State<AntarPage> {
             ),
           ),
           Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/antar_figure.png', // Replace with your image asset path
-                width: 345, // Set your desired image width
-                height: 398, // Set your desired image height
-              ),
-              const SizedBox(
-                  height: 20), // Provides space between the image and the text
-              const Text(
-                'Antar',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            child: Stack(
+              children: <Widget>[
+                AnimatedPositioned(
+                  duration: const Duration(seconds: 2), // Durasi animasi
+                  bottom: isButtonPressed
+                      ? -1000
+                      : 180, // Ubah nilai ini sesuai kondisi animasi
+                  left: 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/images/antar_figure.png', // Replace with your image asset path
+                        width: 310, // Set your desired image width
+                        height: 295, // Set your desired image height
+                      ),
+                      const SizedBox(
+                          height:
+                              20), // Provides space between the image and the text
+                      const Text(
+                        'Antar',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                          height:
+                              16), // Provides space between the text and the button
+                      InkWell(
+                        onTap: () async {
+                          toggleAnimation();
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 48),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                          child: const Text(
+                            "Lihat Buku",
+                            style: TextStyle(color: Color(0xFF005F3D)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                  height: 16), // Provides space between the text and the button
-              InkWell(
-                  onTap: () async {
-                    toggleAnimation();
-                  },
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 7),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 48),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: const Color(0xFFFFFFFF)),
-                      child: const Text(
-                        "Halaman Antar Buku",
-                        style: TextStyle(color: Color(0xFF005F3D)),
-                      ))),
-            ],
-          )),
+              ],
+            ),
+          ),
           AnimatedPositioned(
             duration: const Duration(seconds: 1),
             top: topPosition,

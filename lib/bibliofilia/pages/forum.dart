@@ -17,9 +17,8 @@ class ForumPage extends StatefulWidget {
 }
 
 class _ForumPageState extends State<ForumPage> {
-    late Future<List<Forum>> forum;
+  late Future<List<Forum>> forum;
 
-  
   // for searching books
   TextEditingController searchController = TextEditingController();
 
@@ -29,12 +28,12 @@ class _ForumPageState extends State<ForumPage> {
   double topForWhiteContainer = 1000;
   bool isButtonPressed = false;
 
-
   @override
   void initState() {
     super.initState();
     forum = fetchItem();
   }
+
   void deleteForum(int forumId) async {
     var url = Uri.parse(
         'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
@@ -78,7 +77,7 @@ class _ForumPageState extends State<ForumPage> {
       if (d != null) {
         Forum forum = Forum.fromJson(d);
         listForum.add(forum);
-      } 
+      }
     }
     return listForum;
   }
@@ -107,44 +106,61 @@ class _ForumPageState extends State<ForumPage> {
             ),
           ),
           Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset(
-                'assets/images/bibliofilia_figure.png', // Replace with your image asset path
-                width: 310, // Set your desired image width
-                height: 295, // Set your desired image height
-              ),
-              const SizedBox(
-                  height: 20), // Provides space between the image and the text
-              const Text(
-                'Bibliofilia',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            child: Stack(
+              children: <Widget>[
+                AnimatedPositioned(
+                  duration: const Duration(seconds: 2), // Durasi animasi
+                  bottom: isButtonPressed
+                      ? -1000
+                      : 180, // Ubah nilai ini sesuai kondisi animasi
+                  left: 50,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/images/bibliofilia_figure.png', // Replace with your image asset path
+                        width: 310, // Set your desired image width
+                        height: 295, // Set your desired image height
+                      ),
+                      const SizedBox(
+                          height:
+                              20), // Provides space between the image and the text
+                      const Text(
+                        'Bibliofilia',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                          height:
+                              16), // Provides space between the text and the button
+                      InkWell(
+                        onTap: () async {
+                          toggleAnimation();
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 48),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: const Color(0xFFFFFFFF),
+                          ),
+                          child: const Text(
+                            "Liat Forum",
+                            style: TextStyle(color: Color(0xFF005F3D)),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                  height: 16), // Provides space between the text and the button
-              InkWell(
-                  onTap: () async {
-                    toggleAnimation();
-                  },
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 7),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 48),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: const Color(0xFFFFFFFF)),
-                      child: const Text(
-                        "Liat Forum",
-                        style: TextStyle(color: Color(0xFF005F3D)),
-                      ))),
-            ],
-          )),
+              ],
+            ),
+          ),
           AnimatedPositioned(
             duration: const Duration(seconds: 1),
             top: topPosition,
@@ -339,7 +355,8 @@ class _ForumPageState extends State<ForumPage> {
               context,
               MaterialPageRoute(
                   builder: (context) => ForumRepliesPage(
-                        forumId: forum.pk, forum: forum,
+                        forumId: forum.pk,
+                        forum: forum,
                       )));
         },
         child: ClipRRect(
@@ -406,14 +423,14 @@ class _ForumPageState extends State<ForumPage> {
                         ),
                       ),
                       if (loggedInUser.role == 'A')
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed:() async  {
-                          setState(() {
-                            deleteForum(forum.pk);  
-                          });
-                        }, //
-                      ),
+                        IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
+                          onPressed: () async {
+                            setState(() {
+                              deleteForum(forum.pk);
+                            });
+                          }, //
+                        ),
                     ],
                   ),
                 ],

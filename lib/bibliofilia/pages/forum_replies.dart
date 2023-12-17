@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,7 +12,8 @@ import 'package:literalink/bibliofilia/pages/createReplies.dart';
 class ForumRepliesPage extends StatefulWidget {
   final int forumId;
   final Forum forum;
-  const ForumRepliesPage({Key? key, required this.forumId, required this.forum}) : super(key: key);
+  const ForumRepliesPage({Key? key, required this.forumId, required this.forum})
+      : super(key: key);
 
   @override
   _ForumRepliesPageState createState() => _ForumRepliesPageState();
@@ -93,113 +96,107 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-                children: [
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Image.asset(
-                      "assets/images/header.png",
-                      fit: BoxFit.fitWidth,
-                      width: MediaQuery.of(context).size.width,
+          children: [
+            Positioned(
+              right: 0,
+              top: 0,
+              child: Image.asset(
+                "assets/images/header.png",
+                fit: BoxFit.fitWidth,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+            Positioned(
+              top: 60,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 28),
+                width: MediaQuery.sizeOf(context).width,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Color(0xFFFFFFFF),
+                        size: 25,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: 60,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                      width: MediaQuery.sizeOf(context).width,
-                      child: Row(
+                    const SizedBox(
+                      width: 25,
+                    ),
+                    Flexible(
+                      child: Text(
+                        widget.forum.fields.bookName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFFFFFFFF),
+                        ),
+                        // maxLines and overflow are not needed if the text should wrap indefinitely
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 150,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width *
+                        0.1), // 10% of screen width
+                width: MediaQuery.sizeOf(context).width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              color: Color(0xFFFFFFFF),
-                              size: 25,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 25,
-                          ),
-                          Flexible(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 5),
                             child: Text(
-                              widget.forum.fields.bookName,
+                              widget.forum.fields.userReview,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFFFFFFFF),
-                              ),
-                              // maxLines and overflow are not needed if the text should wrap indefinitely
+                                  fontSize: 16, color: Color(0xFFFFFFFF)),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 30,
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 250,
-                    child: Container(
-                        height: MediaQuery.of(context).size.height - 160,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFFEFF5ED),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(38),
-                                topRight: Radius.circular(38))),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 130),
-                            Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
-                              width: MediaQuery.of(context).size.width,
-                            ),
-                            buildForumRepliesList(),
-                          ],
-                        )),
-                  ),
-                 Positioned(
-                    top: 160,
-                    left: 100,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0), // Ini akan membulatkan sudut gambar dan container
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white, // Background color for the book container
-                            borderRadius: BorderRadius.circular(20.0), // This matches the ClipRRect border radius
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              const SizedBox(
-                                width: 55,
-                              ),
-                              Image.network(
-                                widget.forum.fields.bookPicture,
-                                fit: BoxFit.cover, // This will scale the image based on the size of its container
-                              ),
-                              // Add other widgets for the book title, author, etc.
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                ],
+                    )
+                  ],
+                ),
               ),
+            ),
+            Positioned(
+              top: 220,
+              child: Container(
+                  height: MediaQuery.of(context).size.height - 160,
+                  decoration: const BoxDecoration(
+                      color: Color(0xFFEFF5ED),
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(38),
+                          topRight: Radius.circular(38))),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                      buildForumRepliesList(),
+                    ],
+                  )),
+            ),
+          ],
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
         floatingActionButton: Padding(
             padding: const EdgeInsets.only(
@@ -228,13 +225,96 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            CreateReplies(user: user, forumId: widget.forumId, forum: widget.forum,)),
+                        builder: (context) => CreateReplies(
+                              user: user,
+                              forumId: widget.forumId,
+                              forum: widget.forum,
+                            )),
                   );
                 },
               ),
-            ))
-      );
+            )));
+  }
+
+  Widget buildForumRepliesItem(ForumReplies reply) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30.0),
+        child: Material(
+          color: const Color(0xFFFFFFFF),
+          child: Container(
+            margin: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Container(),
+                    ),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 18),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: const Color(0xFFEB6645)),
+                              child: Text(
+                                reply.fields.forum.toString(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  color: Color.fromARGB(255, 249, 241, 241),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              reply.fields.username, // Displaying the username
+                              style: const TextStyle(
+                                  color: Color(0xFF252525),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              reply.fields
+                                  .text, // Replace with your forum authors field
+                              style: TextStyle(
+                                  color:
+                                      const Color(0xFF252525).withOpacity(0.6)),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (loggedInUser.role == 'A')
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () async {
+                          setState(() {
+                            deleteReply(reply.pk);
+                          });
+                        }, //
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget buildForumRepliesList() {
@@ -245,113 +325,25 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        } else if (!snapshot.hasData) {
-          return const Text("No replies available.");
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text("Tidak ada data item.");
         } else {
+          // Data tanpa filter
+          var allReplies = snapshot.data!;
+
           return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: ListView(
-                padding: EdgeInsets.zero,
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: snapshot.data!
-                    .map<Widget>((reply) => Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30.0),
-                            child: Material(
-                              color: const Color(0xFFFFFFFF),
-                              child: Container(
-                                margin: const EdgeInsets.all(14),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          child: Container(),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10, horizontal: 18),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 18),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      color: const Color(
-                                                          0xFFEB6645)),
-                                                  child: Text(
-                                                    reply.fields.forum
-                                                        .toString(),
-                                                    textAlign: TextAlign.center,
-                                                    style: const TextStyle(
-                                                      fontSize: 15,
-                                                      color: Color.fromARGB(
-                                                          255, 249, 241, 241),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                  reply.fields
-                                                      .username, // Displaying the username
-                                                  style: const TextStyle(
-                                                      color: Color(0xFF252525),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 20),
-                                                ),
-                                                const SizedBox(height: 12),
-                                                Text(
-                                                  reply.fields
-                                                      .text, // Replace with your forum authors field
-                                                  style: TextStyle(
-                                                      color: const Color(
-                                                              0xFF252525)
-                                                          .withOpacity(0.6)),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        if (loggedInUser.role == 'A')
-                                        IconButton(
-                                          icon: const Icon(Icons.delete, color: Colors.red),
-                                          onPressed:() async  {
-                                            setState(() {
-                                              deleteReply(reply.pk);  
-                                            });
-                                          }, //
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ))
-                    .toList(),
-              ));
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: ListView.builder(
+              itemCount: allReplies.length,
+              itemBuilder: (context, index) {
+                return buildForumRepliesItem(allReplies[
+                    index]); // Asumsi bahwa buildBookItem adalah fungsi untuk membangun tampilan item
+              },
+            ),
+          ); // SizedBox
         }
       },
-    );
+    ); // FutureBuilder
   }
 }
