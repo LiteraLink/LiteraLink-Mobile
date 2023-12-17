@@ -14,12 +14,17 @@ class CreateReplies extends StatefulWidget {
   final int forumId;
   final User user;
 
-  const CreateReplies({Key? key, required this.forumId, required this.user, required this.forum})
+  const CreateReplies(
+      {Key? key,
+      required this.forumId,
+      required this.user,
+      required this.forum})
       : super(key: key);
 
   @override
   State<CreateReplies> createState() => _CreateRepliesState();
 }
+
 class _CreateRepliesState extends State<CreateReplies> {
   final _formKey = GlobalKey<FormState>();
 
@@ -123,8 +128,7 @@ class _CreateRepliesState extends State<CreateReplies> {
                                             minLines: 1,
                                             maxLines: 30,
                                             decoration: const InputDecoration(
-                                              hintText:
-                                                  "Masukkan Replies",
+                                              hintText: "Masukkan Replies",
                                               fillColor: Color(0xFFFFFFFF),
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
@@ -183,39 +187,38 @@ class _CreateRepliesState extends State<CreateReplies> {
                   ),
                 ),
                 onPressed: () async {
-                    String username = user.username;
-                    if (_formKey.currentState!.validate()) {
-                      // Kirim ke Django dan tunggu respons
-                      final response = await request.postJson(
-                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_replies_flutter/",
-                          jsonEncode(<String, String>{
-                            'username': username,
-                            'forum_id': widget.forumId.toString(),
-                            'text': _replies,
-                          }));
+                  String username = user.username;
+                  if (_formKey.currentState!.validate()) {
+                    // Kirim ke Django dan tunggu respons
+                    final response = await request.postJson(
+                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_replies_flutter/",
+                        jsonEncode(<String, String>{
+                          'username': username,
+                          'forum_id': widget.forumId.toString(),
+                          'text': _replies,
+                        }));
 
-                      if (response['status'] == 'success') {
-                        print("halo ini berhasil");
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text("Pesanan baru berhasil dibuat!"),
-                        ));
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ForumRepliesPage(forumId: widget.forumId, forum: widget.forum,)),
-                        );
-                      } else {
-                        print("ini gak berhasil");
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content:
-                              Text("Terdapat kesalahan, silakan coba lagi."),
-                        ));
-                      }
+                    if (response['status'] == 'success') {
+                      // print("halo ini berhasil");
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Pesanan baru berhasil dibuat!"),
+                      ));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ForumRepliesPage(
+                                  forumId: widget.forumId,
+                                  forum: widget.forum,
+                                )),
+                      );
+                    } else {
+                      // print("ini gak berhasil");
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Terdapat kesalahan, silakan coba lagi."),
+                      ));
                     }
-                  },
+                  }
+                },
               ),
             )));
   }
