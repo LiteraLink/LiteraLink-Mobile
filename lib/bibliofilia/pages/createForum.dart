@@ -301,7 +301,7 @@ class _CreateForumState extends State<CreateForum> {
                   ),
                 ),
                 onPressed: () async {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChooseBookPage(user: user)),

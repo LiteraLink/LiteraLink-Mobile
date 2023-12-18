@@ -326,7 +326,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text("Tidak ada data item.");
+          return const Text("Belum ada balasan pada forum ini.");
         } else {
           // Data tanpa filter
           var allReplies = snapshot.data!;

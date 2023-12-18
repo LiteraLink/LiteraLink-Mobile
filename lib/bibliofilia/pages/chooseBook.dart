@@ -289,7 +289,7 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                             ),
                           ),
                           onPressed: () async {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookReviewForum(
