@@ -8,6 +8,7 @@ import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bacaditempat/models/book_venue.dart';
 import 'package:literalink/bacaditempat/models/venue.dart';
 import 'package:literalink/bacaditempat/screens/venue_page.dart';
+import 'package:literalink/homepage/home_page.dart';
 // import 'package:literalink/homepage/home_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -290,17 +291,17 @@ class _VenueDetailState extends State<VenueDetail> {
                    builder: (BuildContext context) {
                      return SafeArea(
                          child: SizedBox(
-                       width: MediaQuery.of(context).size.width,
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           Container(
-                             padding: const EdgeInsets.all(8.0),
-                             child: const Text(
-                               "Buku yang kamu pinjam",
-                               style: TextStyle(fontSize: 20),
-                             ),
-                           ),
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: const Text(
+                                    "Data Booking Buku",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
                            Expanded(
                              child: Align(
                                child: FutureBuilder(
@@ -323,7 +324,7 @@ class _VenueDetailState extends State<VenueDetail> {
                                                    margin: const EdgeInsets
                                                        .symmetric(
                                                        horizontal: 10,
-                                                       vertical: 10),
+                                                       vertical: 20),
                                                    child: ClipRRect(
                                                      borderRadius:
                                                          BorderRadius.circular(
@@ -339,6 +340,17 @@ class _VenueDetailState extends State<VenueDetail> {
                                                                .fields.title),
                                                            Text(book.fields
                                                                .displayAuthors),
+                                                           DefaultTextStyle(
+                                                            style: const TextStyle(
+                                                              fontSize: 10, // Sesuaikan dengan ukuran font yang Anda inginkan
+                                                            ),
+                                                            child: Text(
+                                                              "Peminjam: ${loggedInUser.fullName}",
+                                                              style: const TextStyle(
+                                                                fontWeight: FontWeight.bold, // Ini membuat teks menjadi tebal (bold)
+                                                              ),
+                                                            ),
+                                                          ),
                                                            ElevatedButton(
                                                                onPressed:
                                                                    () async {
@@ -365,21 +377,23 @@ class _VenueDetailState extends State<VenueDetail> {
                                                                  if (response[
                                                                          "status"] ==
                                                                      'success') {
+                                                                      String user = loggedInUser.username;
+                                                                      String message = "Terimakasih $user telah mengembalikan buku!";
                                                                    // ignore: use_build_context_synchronously
                                                                    ScaffoldMessenger.of(
                                                                            context)
                                                                        .showSnackBar(
-                                                                           const SnackBar(
-                                                                     content: Text(
-                                                                         "Silakan ambil buku pada tray!"),
-                                                                   ));
+                                                                            SnackBar(
+                                                                     content: Text(message)),
+                                                                   );
+
                                                                    // ignore: use_build_context_synchronously
                                                                    Navigator
                                                                        .pushReplacement(
                                                                      context,
                                                                      MaterialPageRoute(
                                                                          builder: (context) =>
-                                                                             const BacaDiTempat()),
+                                                                             const HomePage()),
                                                                    );
                                                                  }
                                                                },
@@ -403,8 +417,8 @@ class _VenueDetailState extends State<VenueDetail> {
                      ));
                    }),
                child: Container(
-                 decoration: const BoxDecoration(color: Colors.yellow),
-                 child: const Text("Pinjam Buku"),
+                 decoration: const BoxDecoration(color: Color(0xFFFFDBDB)),
+                 child: const Text("List Booking"),
                ),
              ),
              const SizedBox(height: 24),
@@ -527,17 +541,19 @@ class _VenueDetailState extends State<VenueDetail> {
                                            }));
                                        if (response["status"] == 'success') {
                                          // ignore: use_build_context_synchronously
+                                         String user = loggedInUser.username;
+                                         String message = "$user telah berhasil melakukan Booking!";
+                                         // ignore: use_build_context_synchronously
                                          ScaffoldMessenger.of(context)
-                                             .showSnackBar(const SnackBar(
-                                           content: Text(
-                                               "Silakan ambil buku pada tray!"),
-                                         ));
+                                             .showSnackBar(SnackBar(
+                                           content: Text(message)),  
+                                         );
                                          // ignore: use_build_context_synchronously
                                          Navigator.pushReplacement(
                                            context,
                                            MaterialPageRoute(
                                                builder: (context) =>
-                                                   const BacaDiTempat()),
+                                                   const HomePage()),
                                          );
                                        }
                                      },

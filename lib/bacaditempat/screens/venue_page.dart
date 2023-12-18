@@ -17,9 +17,6 @@ import 'package:provider/provider.dart';
 
 
 
-
-
-
 class BacaDiTempat extends StatefulWidget {
  const BacaDiTempat({super.key});
  @override
@@ -28,11 +25,18 @@ class BacaDiTempat extends StatefulWidget {
 
 
 class _BacaDiTempatState extends State<BacaDiTempat> {
+ bool isLoading = true; // Loading untuk memastikan data sudah ready dulu
+
  static const String baseUrl =
      'http://localhost:8000/bacaditempat';
  // final ImagePicker _picker = ImagePicker();
  // XFile? _imageFile;
 
+ //for animation
+  double topPosition = -200;
+  double topPosition1 = -200;
+  double topForWhiteContainer = 1000;
+  bool isButtonPressed = false;
 
  final TextEditingController _placeNameController = TextEditingController();
  final TextEditingController _addressController = TextEditingController();
@@ -41,12 +45,10 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
  final TextEditingController _returnBookController = TextEditingController();
  final _formKey = GlobalKey<FormState>();
 
-
  Future<List<Venue>> fetchVenue() async {
    var url = Uri.parse('$baseUrl/get-venue/');
    var response =
        await http.get(url, headers: {"Content-Type": "application/json"});
-
 
    var data = jsonDecode(utf8.decode(response.bodyBytes));
    List<Venue> listVenue = [];
@@ -60,7 +62,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
    }
    return listVenue;
  }
-
+ 
 
  // Future<void> _pickImage() async {
  //   final XFile? selectedImage =
@@ -79,7 +81,6 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
    }
  }
 
-
  void resetTextFields() {
    _placeNameController.clear();
    _addressController.clear();
@@ -88,16 +89,20 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
    _returnBookController.clear();
  }
 
+ void toggleAnimation() {
+    setState(() {
+      isButtonPressed = true;
+      topPosition = 60; // Posisi akhir elemen atas
+      topPosition1 = 110;
+      topForWhiteContainer = 190; // Posisi akhir container putih
+    });
+  }
 
  @override
    Widget build(BuildContext context) {
    final request = context.watch<CookieRequest>();
    return Scaffold(
-     body: ConstrainedBox(
-       constraints:
-           BoxConstraints(minHeight: MediaQuery.of(context).size.height),
-       child: IntrinsicHeight(
-         child: Stack(
+     body: Stack(
            children: [
              Positioned(
                right: 0,
@@ -108,102 +113,210 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                  width: MediaQuery.of(context).size.width,
                ),
              ),
-             Positioned(
-               top: 60,
-               child: Container(
-                 padding: const EdgeInsets.symmetric(horizontal: 28),
-                 width: MediaQuery.sizeOf(context).width,
-                 child: Row(
-                   children: [
-                     GestureDetector(
-                       onTap: () => Navigator.pop(context),
-                       child: const Icon(
-                         Icons.arrow_back_ios,
-                         color: Color(0xFFFFFFFF),
-                         size: 25,
-                       ),
-                     ),
-                     const SizedBox(
-                       width: 60,
-                     ),
-                     const Text(
-                       "BacaDiTempat",
-                       textAlign: TextAlign.center,
-                       style: TextStyle(
-                         fontSize: 28,
-                         fontWeight: FontWeight.w700,
-                         color: Color(0xFFFFFFFF),
-                       ),
-                     ),
-                   ],
-                 ),
-               ),
-             ),
-             Positioned(top: 160, child: buildVenueList(request)),
-           ],
-         ),
-       ),
-     ),
-     floatingActionButton: loggedInUser.role == 'A'
-     ? SizedBox(
-       width: 153,
-       height: 57,
-       child: FloatingActionButton(
-           backgroundColor: const Color(0xFFEB6645),
-           child: Container(
-             margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-             child: const Row(
-               children: [
-                 Text(
-                   "Add Venue",
-                   style: TextStyle(color: Color(0XFFFFFFFF)),
-                 ),
-                 Icon(Icons.add, color: Color(0XFFFFFFFF))
-               ],
-             ),
-           ),
-           onPressed: () {
-             showModalBottomSheet(
-               context: context,
-               builder: (BuildContext context) {
-                 return SafeArea(
-                   child: Wrap(
-                     children: <Widget>[
-                       Container(
-                           padding: const EdgeInsets.symmetric(
-                               horizontal: 16, vertical: 16),
-                           child: Column(
-                             children: [
-                               addVenueField(
-                                   _placeNameController, "Venue", _formKey, null),
-                               addVenueField(_addressController, "Address",
-                                   _formKey, null),
-                               addVenueField(_venueOpenController,
-                                   "Jam Buka", _formKey, null),
-                               addVenueField(_rentBookController, "Rentable",
-                                   _formKey, null),
-                               addVenueField(_returnBookController,
-                                   "Returnable", _formKey, null),
-                               Row(
-                                 children: [
-                                 //   ElevatedButton(
-                                 //     onPressed: _pickImage,
-                                 //     child: const Text('Pick Map Image'),
-                                 //   ),
-                                   submitFormBtn(context),
-                                 ],
-                               ),
-                             ],
-                           ))
-                     ],
-                   ),
-                 );
-               },
-             );
-           }),
-        )
-     : null,
-   );
+             Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/images/bacaditempat_figure.png', // Replace with your image asset path
+                    width: 345, // Set your desired image width
+                    height: 398, // Set your desired image height
+                  ),
+                  const SizedBox(
+                      height: 20), // Provides space between the image and the text
+                  const Text(
+                    'BacaDitempat',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                      height: 16), // Provides space between the text and the button
+                  InkWell(
+                      onTap: () async {
+                        toggleAnimation();
+                      },
+                      child: Container(
+                          margin: const EdgeInsets.symmetric(vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 48),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: const Color(0xFFFFFFFF)),
+                          child: const Text(
+                            "Halaman Booking Buku",
+                            style: TextStyle(color: Color(0xFF005F3D)),
+                          ))),
+                        ],
+                      )),
+                  AnimatedPositioned(
+                    duration: const Duration(seconds: 1),
+                    top: topPosition,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      width: MediaQuery.sizeOf(context).width,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              color: Color(0xFFFFFFFF),
+                              size: 25,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 55,
+                          ),
+                          const Text(
+                            "BacaDiTempat",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFFFFFFFF),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),    
+                  AnimatedPositioned(
+                    duration: const Duration(seconds: 1),
+                    top: topPosition1,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width *
+                              0.1), // 10% of screen width
+                      width: MediaQuery.sizeOf(context).width,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                                  child: Text(
+                                    'Layanan booking buku di Coffee Shop yang diinginkan',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Color(0xFFFFFFFF)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ), 
+
+                  AnimatedPositioned(
+                    duration: const Duration(seconds: 1),
+                    top: topForWhiteContainer,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Color(0xFFEFF5ED),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(38),
+                              topRight: Radius.circular(38))),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 10),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            width: MediaQuery.of(context).size.width,
+                            child: buildVenueList(request),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  Visibility(
+                    visible: loggedInUser.role == 'A', // Menentukan visibilitas berdasarkan peran pengguna
+                    child: AnimatedPositioned(
+                      duration: const Duration(seconds: 1),
+                      right: 16,
+                      bottom: isButtonPressed ? 16 : -1000,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 12,
+                          bottom: 16,
+                        ),
+                        child: SizedBox(
+                          width: 180,
+                          height: 57,
+                        child: FloatingActionButton(
+                          backgroundColor: const Color(0xFFEB6645),
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 18,
+                                horizontal: 16), // Reduced horizontal margin
+                            child: const FittedBox(
+                              // This will scale down the text and icon to fit within the FAB
+                              child: Text(
+                                "Add Venue",
+                                style: TextStyle(color: Color(0xFFFFFFFF)),
+                                overflow: TextOverflow
+                                    .ellipsis, // Use ellipsis to handle overflow
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SafeArea(
+                                  child: Wrap(
+                                    children: <Widget>[
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 16),
+                                          child: Column(
+                                            children: [
+                                              addVenueField(
+                                                  _placeNameController, "Venue", _formKey, null),
+                                              addVenueField(_addressController, "Address",
+                                                  _formKey, null),
+                                              addVenueField(_venueOpenController,
+                                                  "Jam Buka", _formKey, null),
+                                              addVenueField(_rentBookController, "Rentable",
+                                                  _formKey, null),
+                                              addVenueField(_returnBookController,
+                                                  "Returnable", _formKey, null),
+                                              Row(
+                                                children: [
+                                                //   ElevatedButton(
+                                                //     onPressed: _pickImage,
+                                                //     child: const Text('Pick Map Image'),
+                                                //   ),
+                                                  submitFormBtn(context),
+                                                ],
+                                              ),
+                                            ],
+                                          ))
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ]  
+            )
+        );
  }
 
 
@@ -233,8 +346,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                    .map<Widget>((venue) => Column(
                          children: [
                            Container(
-                             margin:
-                                 const EdgeInsets.symmetric(horizontal: 16),
+                             margin: const EdgeInsets.symmetric(horizontal: 16),
                              padding: const EdgeInsets.symmetric(
                                  horizontal: 10.0, vertical: 28),
                              child: InkWell(
@@ -253,7 +365,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                                          crossAxisAlignment:
                                              CrossAxisAlignment.start,
                                          children: [
-                                           const SizedBox(width: 12),
+                                           const SizedBox(width: 10),
                                            Column(
                                              children: [
                                                const SizedBox(height: 25),
