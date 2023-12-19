@@ -271,11 +271,12 @@ class _BookReviewForumState extends State<BookReviewForum> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Pesanan baru berhasil dibuat!"),
                       ));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForumPage()),
-                      );
+                      Navigator.pop(context);
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => const ForumPage()),
+                      // );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Terdapat kesalahan, silakan coba lagi."),
