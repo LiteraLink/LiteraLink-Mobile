@@ -418,6 +418,13 @@ class _ForumPageState extends State<ForumPage> {
                                     color: const Color(0xFF252525)
                                         .withOpacity(0.6)),
                               ),
+                              const SizedBox(height: 12),
+                              Text(
+                                "Jumlah Replies:${forum.fields.repliesTotal}", // Replace with your forum authors field
+                                style: TextStyle(
+                                    color: const Color(0xFF252525)
+                                        .withOpacity(0.6)),
+                              ),
                             ],
                           ),
                         ),
