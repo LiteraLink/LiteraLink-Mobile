@@ -67,26 +67,26 @@ class _DetailBookPageState extends State<DetailBookPage> {
                   Positioned(
                     top: 250,
                     child: Container(
-                        height: MediaQuery.of(context).size.height - 160,
-                        decoration: const BoxDecoration(
-                            color: Color(0xFFEFF5ED),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(38),
-                                topRight: Radius.circular(38))),
+                      height: MediaQuery.of(context).size.height - 160,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFEFF5ED),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(38),
+                          topRight: Radius.circular(38),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
                         child: Column(
                           children: [
                             const SizedBox(height: 150),
                             Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 40),
+                              padding: const EdgeInsets.symmetric(horizontal: 40),
                               width: MediaQuery.of(context).size.width,
                               child: Form(
                                 key: _formKey,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                         const Text(
                                           "ID Buku",
                                           style: TextStyle(
@@ -178,6 +178,8 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: TextFormField(
+                                            minLines: 1,
+                                            maxLines: 10,
                                             style:
                                             const TextStyle(color: Colors.grey),
                                             initialValue:
@@ -222,13 +224,15 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                             ),
                                           ),
                                         ),
-                                      ]),
+                                      ]
                                 ),
                               ),
                             ),
                             const SizedBox(height: 100),
                           ],
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                  Positioned(
                     top: 160,
@@ -246,7 +250,7 @@ class _DetailBookPageState extends State<DetailBookPage> {
                                 color: Colors.black.withOpacity(0.1),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3), // changes position of shadow
+                                offset: const Offset(0, 3), // changes position of shadow
                               ),
                             ],
                           ),
