@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:literalink/antar/antar_page.dart';
 import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:literalink/bacaditempat/venue_page.dart';
+import 'package:literalink/bacaditempat/screens/venue_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signin_page.dart';
@@ -28,7 +28,7 @@ class HomePage extends StatefulWidget {
     const Feature(
       "Baca\nDiTempat",
       'assets/images/bacaditempat_logo.png',
-      VenuePage(),
+      BacaDiTempat(),
       Color(0xFF018845),
     ),
     const Feature(
