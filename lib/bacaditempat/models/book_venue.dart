@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:literalink/authentication/models/user.dart';
+// import 'package:literalink/authentication/models/user.dart';
 
 List<BookVenue> bookVenueFromJson(String str) => List<BookVenue>.from(json.decode(str).map((x) => BookVenue.fromJson(x)));
 
@@ -22,13 +22,13 @@ class BookVenue {
     });
 
     factory BookVenue.fromJson(Map<String, dynamic> json) => BookVenue(
-        // model: modelValues.map[json["model"]]!,
+        // model: json["model"],
         pk: json["pk"],
         fields: Fields.fromJson(json["fields"]),
     );
 
     Map<String, dynamic> toJson() => {
-        // "model": modelValues.reverse[model],
+        // "model": model,
         "pk": pk,
         "fields": fields.toJson(),
     };
@@ -42,10 +42,9 @@ class Fields {
     String description;
     String categories;
     String thumbnail;
-    String username;
+    String? username;
     bool returnBook;
-    
-    // String username;
+
 
     Fields({
         required this.bookId,
@@ -56,7 +55,7 @@ class Fields {
         required this.categories,
         required this.thumbnail,
         required this.username,
-        this.returnBook = true,
+        this.returnBook = false,
     });
 
     factory Fields.fromJson(Map<String, dynamic> json) => Fields(
@@ -67,7 +66,7 @@ class Fields {
         description: json["description"],
         categories: json["categories"],
         thumbnail: json["thumbnail"],
-        username: loggedInUser.username, // Inisialisasi username dengan loggedInUser.fullName
+        username: json["user"], // Inisialisasi username dengan loggedInUser.fullName
     );
 
 
@@ -79,6 +78,7 @@ class Fields {
         "description": description,
         "categories": categories,
         "thumbnail": thumbnail,
+        "user" : username,
     };
 }
 
