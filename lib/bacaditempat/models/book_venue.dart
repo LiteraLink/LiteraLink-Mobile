@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:literalink/authentication/models/user.dart';
+
 List<BookVenue> bookVenueFromJson(String str) => List<BookVenue>.from(json.decode(str).map((x) => BookVenue.fromJson(x)));
 
 String bookVenueToJson(List<BookVenue> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -40,6 +42,10 @@ class Fields {
     String description;
     String categories;
     String thumbnail;
+    String username;
+    bool returnBook;
+    
+    // String username;
 
     Fields({
         required this.bookId,
@@ -49,6 +55,8 @@ class Fields {
         required this.description,
         required this.categories,
         required this.thumbnail,
+        required this.username,
+        this.returnBook = true,
     });
 
     factory Fields.fromJson(Map<String, dynamic> json) => Fields(
@@ -59,7 +67,9 @@ class Fields {
         description: json["description"],
         categories: json["categories"],
         thumbnail: json["thumbnail"],
+        username: loggedInUser.username, // Inisialisasi username dengan loggedInUser.fullName
     );
+
 
     Map<String, dynamic> toJson() => {
         "bookID": bookId,
