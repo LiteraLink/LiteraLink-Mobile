@@ -3,7 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:literalink/bibliofilia/pages/forum.dart';
+// import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
