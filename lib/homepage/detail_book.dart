@@ -94,8 +94,8 @@ class _DetailBookPageState extends State<DetailBookPage> {
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 30),
+                        padding: const EdgeInsets.only(
+                            left: 40, right: 40, bottom: 140, top: 20),
                         width: MediaQuery.of(context).size.width,
                         child: Form(
                           key: _formKey,

@@ -7,14 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:literalink/homepage/profile.dart';
 import 'package:literalink/main.dart';
-import 'package:provider/provider.dart';
 
 import 'package:literalink/antar/antar_page.dart';
-import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:literalink/bacaditempat/screens/venue_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
-import 'package:literalink/authentication/models/user.dart';
-import 'package:literalink/authentication/page/signin_page.dart';
 import 'package:literalink/dimanasajakapansaja/pages/station.dart';
 import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/homepage/detail_book.dart';
@@ -437,7 +433,6 @@ class FeatureCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<CookieRequest>();
     return Container(
       width: 85,
       decoration: BoxDecoration(
@@ -450,26 +445,6 @@ class FeatureCard extends StatelessWidget {
             Navigator.of(context, rootNavigator: true).push(
               MaterialPageRoute(builder: (context) => item.page),
             );
-          } else {
-            final response =
-                await request.logout("$baseUrl/auth/signout-flutter/");
-            String message = response["message"];
-
-            if (response['status']) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text(
-                        "$message Sampai jumpa, ${loggedInUser.username}.")),
-              );
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const SignInPage()),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message)),
-              );
-            }
           }
         },
         child: Padding(

@@ -35,8 +35,8 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void deleteForum(int forumId) async {
-    var url =
-        Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.idbibliofilia/delete_forum_flutter/');
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
 
     var response = await http.delete(
       url,
@@ -66,7 +66,8 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   Future<List<Forum>> fetchItem() async {
-    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
     var response = await http.get(url);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -78,7 +79,7 @@ class _ForumPageState extends State<ForumPage> {
         listForum.add(forum);
       }
     }
-    return listForum;
+    return listForum.reversed.toList();
   }
 
   void toggleAnimation() {
@@ -267,7 +268,7 @@ class _ForumPageState extends State<ForumPage> {
                     ),
                   ),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
@@ -333,7 +334,7 @@ class _ForumPageState extends State<ForumPage> {
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: InkWell(
         onTap: () {
-          Navigator.push(
+          Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => ForumRepliesPage(
@@ -412,6 +413,15 @@ class _ForumPageState extends State<ForumPage> {
                                         fontSize: 20),
                                   ),
                                   const SizedBox(height: 12),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Jumlah Replies:${forum.fields.repliesTotal}", // Replace with your forum authors field
+                                    style: TextStyle(
+                                        color: const Color(0xFF252525)
+                                            .withOpacity(0.6)),
+                                  ),
                                 ],
                               ),
                             ),
@@ -432,11 +442,7 @@ class _ForumPageState extends State<ForumPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 5),
-            Text(
-              "Jumlah Replies:${forum.fields.repliesTotal}", // Replace with your forum authors field
-              style: TextStyle(color: const Color(0xFF252525).withOpacity(0.6)),
-            ),
+            // const SizedBox(height: 5),
           ],
         ),
       ),

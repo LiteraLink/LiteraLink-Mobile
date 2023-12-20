@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signin_page.dart';
+import 'package:literalink/main.dart';
 
 class ProfileScreen extends StatelessWidget {
   final bool isNavigatedByRoot;
@@ -33,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 180,
+                    top: MediaQuery.sizeOf(context).height / 4.5,
                     child: Container(
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
@@ -51,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
                     top: 290,
                     child: Column(
                       children: [
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 8),
                         Container(
                             padding: const EdgeInsets.symmetric(horizontal: 40),
                             width: MediaQuery.of(context).size.width,
@@ -184,13 +185,13 @@ class ProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            ))
+                            )),
                       ],
                     ),
                   ),
                   Positioned(
                       top: 60,
-                      left: 30,
+                      left: 20,
                       child: isNavigatedByRoot
                           ? GestureDetector(
                               onTap: () => Navigator.of(context).pop(),
@@ -231,6 +232,18 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                            backgroundColor: LiteraLink.redOrange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            content:
+                                Text("Sampai jumpa ${loggedInUser.username}")),
+                      );
                     Navigator.of(context, rootNavigator: true).push(
                       MaterialPageRoute(
                           builder: (context) => const SignInPage()),

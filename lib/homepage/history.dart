@@ -30,13 +30,23 @@ class _DimanaSajaKapanSajaPageState extends State<HistoryPage> {
 
   Future<List<UserBook>> fetchHistory() async {
     var url = Uri.parse('$baseUrl/auth/get-history/${loggedInUser.username}');
+    var url1 = Uri.parse('$baseUrl/auth/fetch_history/');
     var response =
         await http.get(url, headers: {"Content-Type": "application/json"});
+    var response1 =
+        await http.get(url1, headers: {"Content-Type": "application/json"});
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
+    var data1 = jsonDecode(utf8.decode(response1.bodyBytes));
     List<UserBook> userBookList = [];
 
     for (var d in data) {
+      if (d != null) {
+        UserBook book = UserBook.fromJson(d);
+        userBookList.add(book);
+      }
+    }
+    for (var d in data1) {
       if (d != null) {
         UserBook book = UserBook.fromJson(d);
         userBookList.add(book);

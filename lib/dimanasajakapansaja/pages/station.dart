@@ -23,7 +23,8 @@ class DimanaSajaKapanSajaPage extends StatefulWidget {
 class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
   bool isLoading = true; // Loading untuk memastikan data sudah ready dulu
 
-  static const String baseUrl = 'https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja';
+  static const String baseUrl =
+      'https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja';
   final ImagePicker _picker = ImagePicker();
   XFile? _imageFile;
 
@@ -112,9 +113,9 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                     duration: const Duration(
                         milliseconds: 1500), // Durasi lebih panjang
                     curve: Curves.easeOutQuint,
-                    top: isExpanded ? 60 : -100,
+                    top: isExpanded ? 50 : -100,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
                       width: MediaQuery.sizeOf(context).width,
                       child: Row(
                         children: [
@@ -201,42 +202,49 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                       showModalBottomSheet(
                         context: context,
                         builder: (BuildContext context) {
-                          return SingleChildScrollView(
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom),
-                              child: Wrap(
-                                children: <Widget>[
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 16),
-                                    child: Column(
-                                      children: [
-                                        addStationField(_nameController, "Nama",
-                                            _formKey, null),
-                                        addStationField(_addressController,
-                                            "Address", _formKey, null),
-                                        addStationField(_openingHoursController,
-                                            "Jam Buka", _formKey, null),
-                                        addStationField(_rentableController,
-                                            "Rentable", _formKey, null),
-                                        addStationField(_returnableController,
-                                            "Returnable", _formKey, null),
-                                        Row(
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: _pickImage,
-                                              child:
-                                                  const Text('Pick Map Image'),
-                                            ),
-                                            submitFormBtn(context),
-                                          ],
-                                        ),
-                                      ],
+                          return Container(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: Wrap(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 16),
+                                      child: Column(
+                                        children: [
+                                          addStationField(_nameController,
+                                              "Nama", _formKey, null),
+                                          addStationField(_addressController,
+                                              "Address", _formKey, null),
+                                          addStationField(
+                                              _openingHoursController,
+                                              "Jam Buka",
+                                              _formKey,
+                                              null),
+                                          addStationField(_rentableController,
+                                              "Rentable", _formKey, null),
+                                          addStationField(_returnableController,
+                                              "Returnable", _formKey, null),
+                                          Row(
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: _pickImage,
+                                                child: const Text(
+                                                    'Pick Map Image'),
+                                              ),
+                                              submitFormBtn(context),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -293,7 +301,7 @@ class _DimanaSajaKapanSajaPageState extends State<DimanaSajaKapanSajaPage> {
                                       const SizedBox(width: 12),
                                       Column(
                                         children: [
-                                          // const Spacer(),
+                                          const SizedBox(height: 20),
                                           Container(
                                               width: 68,
                                               decoration: const BoxDecoration(
