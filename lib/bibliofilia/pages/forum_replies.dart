@@ -8,6 +8,7 @@ import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/models/forumReplies_models.dart';
 import 'package:literalink/bibliofilia/models/forum_models.dart';
 import 'package:literalink/bibliofilia/pages/createReplies.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 
 class ForumRepliesPage extends StatefulWidget {
   final int forumId;
@@ -41,8 +42,8 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
   }
 
   void deleteReply(int replyId) async {
-    var url =
-        Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_replies_flutter/');
+    var url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_replies_flutter/');
 
     // Assuming you have a way to get the current username. Replace with actual username.
     String currentUsername =
@@ -81,7 +82,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
         'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_ForumReply_flutter/${widget.forumId}/');
     var response = await http.get(url);
 
-    return forumRepliesFromJson(response.body);
+    return forumRepliesFromJson(response.body).reversed.toList();
   }
 
   Future<List<Forum>> fetchRepliesHead() async {
@@ -114,7 +115,12 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForumPage()));
+                      },
                       child: const Icon(
                         Icons.arrow_back_ios,
                         color: Color(0xFFFFFFFF),
@@ -178,6 +184,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
             Positioned(
               top: 220,
               child: Container(
+                  height: MediaQuery.sizeOf(context).height + 10,
                   decoration: const BoxDecoration(
                       color: Color(0xFFEFF5ED),
                       borderRadius: BorderRadius.only(
@@ -217,7 +224,7 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
               ),
             ),
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => CreateReplies(
@@ -330,7 +337,12 @@ class _ForumRepliesPageState extends State<ForumRepliesPage> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
-              padding: EdgeInsets.zero,
+              padding: EdgeInsets.only(
+                top: 0,
+                bottom: MediaQuery.of(context).padding.bottom + 250,
+                left: 0,
+                right: 0,
+              ),
               itemCount: allReplies.length,
               itemBuilder: (context, index) {
                 return buildForumRepliesItem(allReplies[

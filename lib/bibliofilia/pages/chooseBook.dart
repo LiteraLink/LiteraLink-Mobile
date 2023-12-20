@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bibliofilia/pages/BookReviewForum.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,7 +60,10 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForumPage()),),
                     child: const Icon(
                       Icons.arrow_back_ios,
                       color: Color(0xFFFFFFFF),
@@ -294,7 +298,7 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                             ),
                           ),
                           onPressed: () async {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookReviewForum(

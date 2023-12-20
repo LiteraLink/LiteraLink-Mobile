@@ -63,7 +63,12 @@ class _CreateForumState extends State<CreateForum> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () => Navigator.pop(context),
+                          onTap: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const ForumPage()),
+                    ),
                           child: const Icon(
                             Icons.arrow_back_ios,
                             color: Color(0xFFFFFFFF),
