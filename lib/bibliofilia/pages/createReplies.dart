@@ -69,7 +69,13 @@ class _CreateRepliesState extends State<CreateReplies> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () => Navigator.pop(context),
+                            onTap: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForumRepliesPage(
+                                          forumId: widget.forumId,
+                                          forum: widget.forum,
+                                        ))),
                             child: const Icon(
                               Icons.arrow_back_ios,
                               color: Color(0xFFFFFFFF),

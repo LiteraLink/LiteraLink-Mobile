@@ -23,24 +23,6 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   TextEditingController searchController = TextEditingController();
 
-  Future<void> openDetailPage(Person person) async {
-    final updatedStatus = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => CheckoutDetailScreen(
-                person: person,
-              )),
-    );
-
-    // Memproses hasil yang kembali, jika ada
-    if (updatedStatus != null) {
-      setState(() {
-        // Update status pesanan dengan data yang diterima
-        person.fields.statusPesanan = updatedStatus;
-      });
-    }
-  }
-
   Future<List<Person>> fetchProduct() async {
     var url = Uri.parse(
         'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/show-list-checkout-flutter/${widget.username}');
@@ -65,7 +47,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> addStock(int id) async {
     final response = await http.post(
-      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/add_stock_flutter/$id/'),
+      Uri.parse(
+          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/add_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
@@ -80,7 +63,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> subtractStock(int id) async {
     final response = await http.post(
-      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/sub_stock_flutter/$id/'),
+      Uri.parse(
+          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/sub_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
@@ -94,7 +78,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> deleteProduct(int id) async {
     final response = await http.delete(
-      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/delete_product_flutter/$id'),
+      Uri.parse(
+          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/delete_product_flutter/$id'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
@@ -404,8 +389,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 2),
-                padding: const EdgeInsets.symmetric(
-                    vertical: 15), // horizontal padding dihilangkan
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 decoration: const BoxDecoration(
                   color: Color(0xFFDAE9D8),
                   borderRadius: BorderRadius.only(
@@ -420,7 +404,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       Flexible(
                         child: InkWell(
                           onTap: () {
-                            openDetailPage(person);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CheckoutDetailScreen(person: person)),
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(

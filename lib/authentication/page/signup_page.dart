@@ -6,7 +6,6 @@ import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'package:literalink/main.dart';
-import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/authentication/page/signin_page.dart';
 import 'package:literalink/authentication/components/auth_field.dart';
 
@@ -172,24 +171,22 @@ class _SignUpPageState extends State<SignUpPage> {
           bool roleFormIsValid = _roleFormKey.currentState?.validate() ?? false;
 
           if (mainFormIsValid && roleFormIsValid) {
-            final response = await request
-                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/", {
-              'full_name': _fullNameController.text,
-              'username': _usernameController.text,
-              'email': _emailController.text,
-              'role': selectedRole,
-              'password1': _password1Controller.text,
-              'password2': _password2Controller.text,
-              'submit': 'Daftar'
-            });
+            final response = await request.login(
+                "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/",
+                {
+                  'full_name': _fullNameController.text,
+                  'username': _usernameController.text,
+                  'email': _emailController.text,
+                  'role': selectedRole,
+                  'password1': _password1Controller.text,
+                  'password2': _password2Controller.text,
+                  'submit': 'Daftar'
+                });
 
             if (request.loggedIn) {
               setState(() {
                 _isLoading = false;
               });
-
-              String message = response['message'];
-
               Future.delayed(
                   const Duration(seconds: 1),
                   () => Navigator.pushReplacement(
@@ -205,8 +202,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     behavior: SnackBarBehavior.floating,
-                    content: Text(
-                        "$message Selamat datang, ${loggedInUser.username}.")));
+                    // ignore: prefer_const_constructors
+                    content: Text("Berhasil membuat akun.")));
             } else {
               showDialog(
                 context: context,

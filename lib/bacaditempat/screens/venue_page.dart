@@ -9,7 +9,8 @@ import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bacaditempat/models/venue.dart';
 import 'package:literalink/bacaditempat/screens/venue_details.dart';
 import 'package:literalink/bacaditempat/widgets/data_input.dart';
-import 'package:literalink/homepage/home_page.dart';
+import 'package:literalink/homepage/components/navbar.dart';
+// import 'package:literalink/homepage/home_page.dart';
 // import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
@@ -18,17 +19,18 @@ import 'package:provider/provider.dart';
 class BacaDiTempat extends StatefulWidget {
   const BacaDiTempat({super.key});
   @override
-  State<BacaDiTempat> createState() => _BacaDiTempatState();
+  _BacaDiTempatState createState() => _BacaDiTempatState();
 }
 
 class _BacaDiTempatState extends State<BacaDiTempat> {
   bool isLoading = true; // Loading untuk memastikan data sudah ready dulu
 
-  static const String baseUrl = 'https://literalink-e03-tk.pbp.cs.ui.ac.id/bacaditempat';
-  // final ImagePicker _picker = ImagePicker();
-  // XFile? _imageFile;
+  static const String baseUrl =
+      'https://literalink-e03-tk.pbp.cs.ui.ac.id/bacaditempat';
+// final ImagePicker _picker = ImagePicker();
+// XFile? _imageFile;
 
-  //for animation
+//for animation
   double topPosition = -200;
   double topPosition1 = -200;
   double topForWhiteContainer = 1000;
@@ -80,14 +82,6 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
     }
     return listVenue;
   }
-
-  // Future<void> _pickImage() async {
-  //   final XFile? selectedImage =
-  //       await _picker.pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     _imageFile = selectedImage;
-  //   });
-  // }
 
   String safeSubstring(String str, int start, int end) {
     if (str.length > end) {
@@ -184,7 +178,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                 ),
               ),
               const SizedBox(
-                width: 55,
+                width: 38,
               ),
               const Text(
                 "BacaDiTempat",
@@ -350,7 +344,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                       topLeft: Radius.circular(38),
                       topRight: Radius.circular(38))),
               child: ListView(
-                padding: const EdgeInsets.only(top: 0, bottom: 300),
+                padding: const EdgeInsets.only(top: 0, bottom: 270),
                 children: snapshot.data!
                     .map<Widget>((venue) => Column(
                           children: [
@@ -499,7 +493,88 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 if (loggedInUser.role == 'A')
-                                                  const SizedBox(width: 12),
+                                                  InkWell(
+                                                      onTap: () {
+                                                        showModalBottomSheet(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return SafeArea(
+                                                              child: Wrap(
+                                                                children: <Widget>[
+                                                                  Container(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              16,
+                                                                          vertical:
+                                                                              16),
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          addVenueField(
+                                                                              _placeNameController,
+                                                                              "Venue",
+                                                                              _formKey,
+                                                                              venue.fields.placeName),
+                                                                          addVenueField(
+                                                                              _addressController,
+                                                                              "Address",
+                                                                              _formKey,
+                                                                              venue.fields.address),
+                                                                          addVenueField(
+                                                                              _venueOpenController,
+                                                                              "Jam Buka",
+                                                                              _formKey,
+                                                                              venue.fields.venueOpen),
+                                                                          addVenueField(
+                                                                              _rentBookController,
+                                                                              "Rentable",
+                                                                              _formKey,
+                                                                              venue.fields.rentBook.toString()),
+                                                                          addVenueField(
+                                                                              _returnBookController,
+                                                                              "Returnable",
+                                                                              _formKey,
+                                                                              venue.fields.returnBook.toString()),
+                                                                          Row(
+                                                                            children: [
+                                                                              // ElevatedButton(
+                                                                              //   onPressed: _pickImage,
+                                                                              //   child: const Text('Pick Map Image'),
+                                                                              // ),
+                                                                              editBtn(venue, context),
+                                                                            ],
+                                                                          ),
+                                                                        ],
+                                                                      ))
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        ).then((_) =>
+                                                            resetTextFields());
+                                                      },
+                                                      child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 8,
+                                                                  horizontal:
+                                                                      48),
+                                                          decoration: BoxDecoration(
+                                                              color: const Color(
+                                                                  0xFF005F3D),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20.0)),
+                                                          child: const Text(
+                                                            "Edit",
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xFFFFFFFF)),
+                                                          ))),
                                                 const SizedBox(width: 12),
                                                 if (loggedInUser.role == 'A')
                                                   InkWell(
@@ -522,7 +597,7 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        const HomePage()),
+                                                                        PersistentBottomNavPage()),
                                                           );
                                                         }
                                                       },
@@ -611,7 +686,8 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
           if (response.statusCode == 200) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(
+                  builder: (context) => PersistentBottomNavPage()),
             );
           }
         },
@@ -676,7 +752,8 @@ class _BacaDiTempatState extends State<BacaDiTempat> {
           if (response.statusCode == 200) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(
+                  builder: (context) => PersistentBottomNavPage()),
             );
           }
         },

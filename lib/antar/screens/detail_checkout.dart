@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:literalink/antar/models/person_models.dart';
 import 'package:literalink/authentication/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:literalink/homepage/components/navbar.dart';
 
 class CheckoutDetailScreen extends StatefulWidget {
   final Person person;
@@ -28,7 +29,8 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
   }
 
   Future<void> updateDeliveryStatus(int deliveryId, String newStatus) async {
-    final url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/update_order_status/');
+    final url = Uri.parse(
+        'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/update_order_status/');
     final headers = {"Content-Type": "application/json"};
     final body = json.encode({
       'delivery_id': deliveryId,
@@ -501,7 +503,11 @@ class _CheckoutDetailScreenState extends State<CheckoutDetailScreen> {
                   ),
                   onPressed: () async {
                     setNewStatus(widget.person.pk);
-                    Navigator.pop(context, widget.person.fields.statusPesanan);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PersistentBottomNavPage()),
+                    );
                   },
                 ),
               ))

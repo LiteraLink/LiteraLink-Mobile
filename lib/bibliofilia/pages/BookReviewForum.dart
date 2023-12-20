@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 // import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/authentication/models/user.dart';
+import 'package:literalink/bibliofilia/pages/forum.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -286,12 +287,11 @@ class _BookReviewForumState extends State<BookReviewForum> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Pesanan baru berhasil dibuat!"),
                       ));
-                      Navigator.pop(context);
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const ForumPage()),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForumPage()),
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Terdapat kesalahan, silakan coba lagi."),

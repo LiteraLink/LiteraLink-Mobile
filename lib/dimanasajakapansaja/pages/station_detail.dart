@@ -11,6 +11,7 @@ import 'package:literalink/dimanasajakapansaja/models/user_book.dart';
 import 'package:literalink/homepage/components/navbar.dart';
 import 'package:literalink/homepage/detail_book.dart';
 import 'package:literalink/homepage/models/fetch_book.dart';
+import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,8 @@ class StationDetailPage extends StatefulWidget {
 }
 
 class _StationDetailPageState extends State<StationDetailPage> {
-  static const String baseUrl = 'https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja';
+  static const String baseUrl =
+      'https://literalink-e03-tk.pbp.cs.ui.ac.id/dimanasajakapansaja';
 
   Set<String> categories = {"All"};
   String selectedCategory = "All";
@@ -87,7 +89,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
           child: Column(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 28),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -115,12 +117,20 @@ class _StationDetailPageState extends State<StationDetailPage> {
                     Container(
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          color: const Color(0xFFFFFFFF)),
+                        borderRadius: BorderRadius.circular(40),
+                        color: const Color(0xFFFFFFFF),
+                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
                         child: Image.network(
-                            "https://literalink-e03-tk.pbp.cs.ui.ac.id/media/${widget.station.fields.mapLocation}/"),
+                          "https://literalink-e03-tk.pbp.cs.ui.ac.id/media/${widget.station.fields.mapLocation}/",
+                          fit: BoxFit.cover,
+                          errorBuilder: (BuildContext context, Object exception,
+                              StackTrace? stackTrace) {
+                            return Image.asset('assets/images/placeholder.png',
+                                fit: BoxFit.cover);
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 26),
@@ -322,7 +332,6 @@ class _StationDetailPageState extends State<StationDetailPage> {
                                                           return const Text(
                                                               "Tidak ada data item.");
                                                         } else {
-                                                          // Mengubah ini menjadi ListView.builder
                                                           return ListView
                                                               .builder(
                                                             itemCount: snapshot
@@ -548,10 +557,18 @@ class _StationDetailPageState extends State<StationDetailPage> {
                                             }));
                                         if (response["status"] == 'success') {
                                           ScaffoldMessenger.of(context)
-                                              .showSnackBar(const SnackBar(
-                                            content: Text(
-                                                "Silakan ambil buku pada tray!"),
-                                          ));
+                                            ..hideCurrentSnackBar()
+                                            ..showSnackBar(SnackBar(
+                                                backgroundColor:
+                                                    LiteraLink.redOrange,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                behavior:
+                                                    SnackBarBehavior.floating,
+                                                content: const Text(
+                                                    "Silakan ambil buku pada tray!")));
                                           Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
@@ -619,7 +636,6 @@ class _StationDetailPageState extends State<StationDetailPage> {
 
   Widget buildCategoryList() {
     return SizedBox(
-      // key: categoryListKey,
       child: FutureBuilder<List<Book>>(
         future: fetchStationBook(),
         builder: (context, snapshot) {
@@ -646,8 +662,7 @@ class _StationDetailPageState extends State<StationDetailPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedCategory == category
                             ? const Color(0xFF018845)
-                            : const Color(
-                                0xFFD6EADC), // Change color when selected
+                            : const Color(0xFFD6EADC),
                       ),
                       child: Container(
                         alignment: Alignment.center,

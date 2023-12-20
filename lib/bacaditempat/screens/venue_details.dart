@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:literalink/authentication/models/user.dart';
 import 'package:literalink/bacaditempat/models/book_venue.dart';
 import 'package:literalink/bacaditempat/models/venue.dart';
+import 'package:literalink/homepage/components/navbar.dart';
 import 'package:literalink/homepage/detail_book.dart';
 // import 'package:literalink/bacaditempat/screens/venue_page.dart';
 // import 'package:literalink/homepage/detail_book.dart';
-import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/homepage/models/fetch_book.dart' as fb;
+import 'package:literalink/main.dart';
 // import 'package:literalink/homepage/home_page.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,8 @@ class VenueDetail extends StatefulWidget {
 }
 
 class _VenueDetailState extends State<VenueDetail> {
-  static const String baseUrl = 'https://literalink-e03-tk.pbp.cs.ui.ac.id/bacaditempat';
+  static const String baseUrl =
+      'https://literalink-e03-tk.pbp.cs.ui.ac.id/bacaditempat';
 
   Set<String> categories = {"All"};
   String selectedCategory = "All";
@@ -249,20 +251,18 @@ class _VenueDetailState extends State<VenueDetail> {
                                                                 .fields.title),
                                                             Text(book.fields
                                                                 .displayAuthors),
-                                                            DefaultTextStyle(
+                                                            Text(
+                                                              "booked by: ${book.fields.username}",
                                                               style:
                                                                   const TextStyle(
+                                                                // Gaya teks untuk "booked by"
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal, // Ubah ke font biasa
                                                                 fontSize:
-                                                                    10, // Sesuaikan dengan ukuran font yang Anda inginkan
-                                                              ),
-                                                              child: Text(
-                                                                "Peminjam: ${book.fields.username}",
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold, // Ini membuat teks menjadi tebal (bold)
-                                                                ),
+                                                                    12, // Sesuaikan dengan ukuran font yang Anda inginkan
+                                                                color: Colors
+                                                                    .black, // Sesuaikan warna teks
                                                               ),
                                                             ),
                                                             ElevatedButton(
@@ -290,16 +290,23 @@ class _VenueDetailState extends State<VenueDetail> {
                                                                               message =
                                                                               "Terimakasih $user telah mengembalikan buku!";
                                                                           // ignore: use_build_context_synchronously
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(content: Text(message)),
-                                                                          );
+
+                                                                          ScaffoldMessenger.of(
+                                                                              context)
+                                                                            ..hideCurrentSnackBar()
+                                                                            ..showSnackBar(SnackBar(
+                                                                                backgroundColor: LiteraLink.redOrange,
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(20),
+                                                                                ),
+                                                                                behavior: SnackBarBehavior.floating,
+                                                                                content: Text(message)));
 
                                                                           // ignore: use_build_context_synchronously
                                                                           Navigator
                                                                               .pushReplacement(
                                                                             context,
-                                                                            MaterialPageRoute(builder: (context) => const HomePage()),
+                                                                            MaterialPageRoute(builder: (context) => PersistentBottomNavPage()),
                                                                           );
                                                                         }
                                                                       }
@@ -453,16 +460,26 @@ class _VenueDetailState extends State<VenueDetail> {
                                             String message =
                                                 "$user telah berhasil melakukan Booking!";
                                             // ignore: use_build_context_synchronously
+
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(content: Text(message)),
-                                            );
+                                              ..hideCurrentSnackBar()
+                                              ..showSnackBar(SnackBar(
+                                                  backgroundColor:
+                                                      LiteraLink.redOrange,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  content: Text(message)));
                                             // ignore: use_build_context_synchronously
                                             Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const HomePage()),
+                                                      PersistentBottomNavPage()),
                                             );
                                           }
                                         },
