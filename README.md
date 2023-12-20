@@ -2,7 +2,10 @@
 *Read Wider, Explore Further with Literalink.*
 
 # Pipeline status
-[![Build status](https://build.appcenter.ms/v0.1/apps/b8c65355-3b37-4c92-a84e-fc358f667e08/branches/main/badge)](https://appcenter.ms)
+[![Develop](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/staging.yml/badge.svg)](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/staging.yml)
+[![Pre-Release](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/pre-release.yml/badge.svg)](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/pre-release.yml)
+[![Release](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/release.yml/badge.svg)](https://github.com/LiteraLink/LiteraLink-Mobile/actions/workflows/release.yml)
+[![Build status](https://build.appcenter.ms/v0.1/apps/c458ebb8-218a-4fa7-93b2-5d27c6dd9dea/branches/main/badge)](https://appcenter.ms)
 
 ## Kelompok 03 👨‍💻
 > [Martin Marcelino Tarigan](https://github.com/MartinTarigan) `(2206029645)`<br>
@@ -54,12 +57,12 @@ Dengan semua manfaat ini, LiteraLink dapat menjadi alat yang efektif dalam memer
 2.  <b>Antar ([Yeala](https://github.com/VirgilliaYeala))</b><br/>
     Pada halaman ini, pengguna dapat membuat pesanan untuk mengantarkan buku ke alamat yang ingin di tuju. Pengguna dpat melihat status pesanan, termasuk buku yang telah dipesan dan perkiraan waktu pengiriman.Tidak hanya itu, pengguna dapat mengubah atau memperbarui pesanan dan membatalkan pesanan jika mereka tidak ingin menerima buku tersebut lagi.
 
-    - CREATE Membuat pesanan untuk mengantarkan buku
-    - DELETE Membatalkan pesanan jika pengguna tidak ingin menerima buku tersebut lagi
-    - UPDATE Mengubah atau memperbaharui jumlah pesanan buku
-    - READ Menampilkan buku dalam katalog sesuai dengan search
-    - READ Melihat detail pesanan termasuk status pesanan, buku yang telah dipesan, dan perkiraan waktu pengiriman
-    - UPDATE Mengubah atau memperbaharui status pesanan jika pesanan sudah selesai di antar **\[ADMIN-ONLY\]**
+    - `CREATE` Membuat pesanan untuk mengantarkan buku
+    - `DELETE` Membatalkan pesanan jika pengguna tidak ingin menerima buku tersebut lagi
+    - `UPDATE` Mengubah atau memperbaharui jumlah pesanan buku
+    - `READ` Menampilkan buku dalam katalog sesuai dengan search
+    - `READ` Melihat detail pesanan termasuk status pesanan, buku yang telah dipesan, dan perkiraan waktu pengiriman
+    - `UPDATE` Mengubah atau memperbaharui status pesanan jika pesanan sudah selesai di antar **\[ADMIN-ONLY\]**
 3.  <b>BacaDiTempat ([Elena](https://github.com/georginaelena))</b><br/>
     Pada halaman ini, pengguna dapat melihat rekomendasi venue yang bekerja sama dengan LiteraLink, seperti Coffee Shop. Pengguna dapat melihat ketersediaan buku pada venue tersebut. Jika pengguna tertarik, pengguna dapat melakukan booking buku pada venue tersebut.
 

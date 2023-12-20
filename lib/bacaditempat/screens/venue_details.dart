@@ -291,6 +291,7 @@ class _VenueDetailState extends State<VenueDetail> {
                                                                               "Terimakasih $user telah mengembalikan buku!";
                                                                           // ignore: use_build_context_synchronously
 
+                                                                          // ignore: use_build_context_synchronously
                                                                           ScaffoldMessenger.of(
                                                                               context)
                                                                             ..hideCurrentSnackBar()
@@ -461,6 +462,7 @@ class _VenueDetailState extends State<VenueDetail> {
                                                 "$user telah berhasil melakukan Booking!";
                                             // ignore: use_build_context_synchronously
 
+                                            // ignore: use_build_context_synchronously
                                             ScaffoldMessenger.of(context)
                                               ..hideCurrentSnackBar()
                                               ..showSnackBar(SnackBar(
