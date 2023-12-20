@@ -135,6 +135,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -171,6 +178,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -207,6 +221,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -242,6 +263,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -282,6 +310,13 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -314,60 +349,52 @@ class _ShopFormPageState extends State<ShopFormPage> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.only(
-                bottom:
-                    12), // Atur nilai sesuai kebutuhan untuk menggeser ke atas
-            child: SizedBox(
-              width: 182,
-              height: 57,
-              child: FloatingActionButton(
-                backgroundColor: const Color(0xFFEB6645),
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Antar Buku Sekarang",
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ],
-                  ),
+        floatingActionButton: SizedBox(
+          width: 182,
+          child: FloatingActionButton(
+            backgroundColor: const Color(0xFFEB6645),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Antar Buku Sekarang",
+                  style: TextStyle(color: Color(0xFFFFFFFF)),
                 ),
-                onPressed: () async {
-                  int idBuku = bookId;
-                  String username = user.username;
-                  if (_formKey.currentState!.validate()) {
-                    final response = await request.postJson(
-                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/antar-buku-flutter/$idBuku/$username",
-                        jsonEncode(<String, String>{
-                          'nama_lengkap': _namaLengkap,
-                          'nomor_telepon': _nomorTelepon,
-                          'alamat_pengiriman': _alamatPengiriman,
-                          'jumlah_buku_dipesan': _jumlahBukudiPesan.toString(),
-                          'durasi_peminjaman': _durasiPeminjaman.toString(),
-                        }));
+              ],
+            ),
+            onPressed: () async {
+              int idBuku = bookId;
+              String username = user.username;
+              if (_formKey.currentState!.validate()) {
+                final response = await request.postJson(
+                    "https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/antar-buku-flutter/$idBuku/$username",
+                    jsonEncode(<String, String>{
+                      'nama_lengkap': _namaLengkap,
+                      'nomor_telepon': _nomorTelepon,
+                      'alamat_pengiriman': _alamatPengiriman,
+                      'jumlah_buku_dipesan': _jumlahBukudiPesan.toString(),
+                      'durasi_peminjaman': _durasiPeminjaman.toString(),
+                    }));
 
-                    if (response['status'] == 'success') {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Pesanan baru berhasil dibuat!"),
-                      ));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(
-                                  username: loggedInUser.username,
-                                )),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Terdapat kesalahan, silakan coba lagi."),
-                      ));
-                    }
-                  }
-                },
-              ),
-            )));
+                if (response['status'] == 'success') {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Pesanan baru berhasil dibuat!"),
+                  ));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CheckoutScreen(
+                              username: loggedInUser.username,
+                            )),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Terdapat kesalahan, silakan coba lagi."),
+                  ));
+                }
+              }
+            },
+          ),
+        ));
   }
 }

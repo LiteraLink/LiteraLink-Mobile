@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, file_names
 
 import 'dart:convert';
 
@@ -23,7 +23,7 @@ class BookReviewForum extends StatefulWidget {
 class _BookReviewForumState extends State<BookReviewForum> {
   final _formKey = GlobalKey<FormState>();
 
-  String _namaBuku = "";
+  final String _namaBuku = "";
   String _reviewUser = "";
   String _forumsDescription = "";
 
@@ -132,6 +132,11 @@ class _BookReviewForumState extends State<BookReviewForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           readOnly: true,
                                           initialValue: book.fields.title,
@@ -159,6 +164,11 @@ class _BookReviewForumState extends State<BookReviewForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           onChanged: (String? value) {
                                             setState(() {
@@ -196,6 +206,11 @@ class _BookReviewForumState extends State<BookReviewForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           onChanged: (String? value) {
                                             setState(() {

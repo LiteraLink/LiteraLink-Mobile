@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, file_names
 
 import 'dart:convert';
 
@@ -128,6 +128,11 @@ class _CreateForumState extends State<CreateForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           onChanged: (String? value) {
                                             setState(() {
@@ -163,6 +168,11 @@ class _CreateForumState extends State<CreateForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           onChanged: (String? value) {
                                             setState(() {
@@ -200,6 +210,11 @@ class _CreateForumState extends State<CreateForum> {
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(25.0)),
                                             ),
+                                            focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xFFF7F8F9)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25.0))),
                                           ),
                                           onChanged: (String? value) {
                                             setState(() {
@@ -239,6 +254,7 @@ class _CreateForumState extends State<CreateForum> {
               width: 120,
               height: 57,
               child: FloatingActionButton(
+                heroTag: 'buatforum',
                 backgroundColor: const Color(0xFFEB6645),
                 child: Container(
                   margin:
@@ -288,6 +304,7 @@ class _CreateForumState extends State<CreateForum> {
               width: 120,
               height: 57,
               child: FloatingActionButton(
+                heroTag: 'reviewbuku',
                 backgroundColor: const Color(0xFFEB6645),
                 child: Container(
                   margin:

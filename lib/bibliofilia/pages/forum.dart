@@ -35,8 +35,8 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   void deleteForum(int forumId) async {
-    var url = Uri.parse(
-        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/delete_forum_flutter/');
+    var url =
+        Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.idbibliofilia/delete_forum_flutter/');
 
     var response = await http.delete(
       url,
@@ -66,8 +66,7 @@ class _ForumPageState extends State<ForumPage> {
   }
 
   Future<List<Forum>> fetchItem() async {
-    var url = Uri.parse(
-        'https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
+    var url = Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/get_forum/');
     var response = await http.get(url);
 
     var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -238,32 +237,6 @@ class _ForumPageState extends State<ForumPage> {
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: TextField(
-                            controller: searchController,
-                            decoration: const InputDecoration(
-                                fillColor: Color(0xFFFFFFFF),
-                                filled: true,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Color(0xFFF7F8F9)),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0)),
-                                ),
-                                hintText: 'Search Book'),
-                            onChanged: (value) {
-                              setState(() {}); // Rebuild to filter results
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   const SizedBox(height: 18),
                   buildForumList(),
                 ],
@@ -273,27 +246,23 @@ class _ForumPageState extends State<ForumPage> {
           AnimatedPositioned(
             duration: const Duration(seconds: 1),
             right: 16,
-            bottom: isButtonPressed ? 16 : -1000, // Animasi posisi FAB
+            bottom: isButtonPressed ? 16 : -1000,
             child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 12, bottom: 16), // Adjust the padding as needed
+              padding: const EdgeInsets.only(right: 12, bottom: 16),
               child: SizedBox(
-                width:
-                    180, // You may adjust this width if it's too wide for the screen
+                width: 180,
                 height: 57,
                 child: FloatingActionButton(
+                  heroTag: 'a',
                   backgroundColor: const Color(0xFFEB6645),
                   child: Container(
                     margin: const EdgeInsets.symmetric(
-                        vertical: 18,
-                        horizontal: 16), // Reduced horizontal margin
+                        vertical: 18, horizontal: 16),
                     child: const FittedBox(
-                      // This will scale down the text and icon to fit within the FAB
                       child: Text(
                         "Buat Forum",
                         style: TextStyle(color: Color(0xFFFFFFFF)),
-                        overflow: TextOverflow
-                            .ellipsis, // Use ellipsis to handle overflow
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
@@ -334,11 +303,24 @@ class _ForumPageState extends State<ForumPage> {
           return SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
+            child: ListView.separated(
+              padding: EdgeInsets.only(
+                top: 0,
+                bottom: MediaQuery.of(context).padding.bottom + 300,
+                left: 0,
+                right: 0,
+              ),
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 return buildForumItem(filteredList[index]);
               },
+              separatorBuilder: (context, index) => const Divider(
+                // Pembatas ditambahkan di sini
+                color: Colors.grey,
+                thickness: 1,
+                indent: 20,
+                endIndent: 20,
+              ),
             ),
           );
         }
@@ -359,91 +341,103 @@ class _ForumPageState extends State<ForumPage> {
                         forum: forum,
                       )));
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30.0),
-          child: Material(
-            color: const Color(0xFFFFFFFF),
-            child: Container(
-              margin: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.red),
+                  child: Text(
+                    forum.fields.username[0],
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(forum.fields.username)
+              ],
+            ),
+            const SizedBox(height: 5),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Material(
+                color: const Color(0xFFFFFFFF),
+                child: Container(
+                  margin: const EdgeInsets.all(14),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: forum.fields.bookPicture.isNotEmpty
-                            ? Image.network(forum.fields.bookPicture)
-                            : Container(),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 18),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 18),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: const Color(0xFFEB6645)),
-                                child: Text(
-                                  forum.fields
-                                      .forumsDescription, // Replace with your forum categories field
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromARGB(255, 249, 241, 241),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                forum.fields
-                                    .bookName, // Replace with your forum title field
-                                style: const TextStyle(
-                                    color: Color(0xFF252525),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                forum.fields
-                                    .username, // Replace with your forum authors field
-                                style: TextStyle(
-                                    color: const Color(0xFF252525)
-                                        .withOpacity(0.6)),
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                "Jumlah Replies:${forum.fields.repliesTotal}", // Replace with your forum authors field
-                                style: TextStyle(
-                                    color: const Color(0xFF252525)
-                                        .withOpacity(0.6)),
-                              ),
-                            ],
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: forum.fields.bookPicture.isNotEmpty
+                                ? Image.network(forum.fields.bookPicture)
+                                : Container(),
                           ),
-                        ),
+                          Expanded(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 18),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 18),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: const Color(0xFFEB6645)),
+                                    child: Text(
+                                      forum.fields.forumsDescription,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color:
+                                            Color.fromARGB(255, 249, 241, 241),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    forum.fields
+                                        .bookName, // Replace with your forum title field
+                                    style: const TextStyle(
+                                        color: Color(0xFF252525),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  const SizedBox(height: 12),
+                                ],
+                              ),
+                            ),
+                          ),
+                          if (loggedInUser.role == 'A')
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () async {
+                                setState(() {
+                                  deleteForum(forum.pk);
+                                });
+                              }, //
+                            ),
+                        ],
                       ),
-                      if (loggedInUser.role == 'A')
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () async {
-                            setState(() {
-                              deleteForum(forum.pk);
-                            });
-                          }, //
-                        ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+            const SizedBox(height: 5),
+            Text(
+              "Jumlah Replies:${forum.fields.repliesTotal}", // Replace with your forum authors field
+              style: TextStyle(color: const Color(0xFF252525).withOpacity(0.6)),
+            ),
+          ],
         ),
       ),
     );

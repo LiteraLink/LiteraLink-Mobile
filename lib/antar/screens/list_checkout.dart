@@ -29,7 +29,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       MaterialPageRoute(
           builder: (context) => CheckoutDetailScreen(
                 person: person,
-              )), // Ganti dengan halaman yang benar
+              )),
     );
 
     // Memproses hasil yang kembali, jika ada
@@ -65,51 +65,39 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> addStock(int id) async {
     final response = await http.post(
-      Uri.parse(
-          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/add_stock_flutter/$id/'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/add_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
       // Misalnya, update state di sini atau tampilkan pesan sukses
-      print('Stock added successfully');
       setState(() async {
         // Panggil fungsi fetch data buku terbaru
         // Misal, fungsi ini adalah fetchBooks()
         await fetchProduct();
       });
-    } else {
-      // Handle error
-      print('Failed to add stock. Status code: ${response.statusCode}');
-    }
+    } else {}
   }
 
   Future<void> subtractStock(int id) async {
     final response = await http.post(
-      Uri.parse(
-          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/sub_stock_flutter/$id/'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/sub_stock_flutter/$id/'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
-      print('Stock subtracted successfully');
       setState(() async {
         // Panggil fungsi fetch data buku terbaru
         // Misal, fungsi ini adalah fetchBooks()
         await fetchProduct();
       });
-    } else {
-      // Handle error
-      print('Failed to subtract stock. Status code: ${response.statusCode}');
-    }
+    } else {}
   }
 
   Future<void> deleteProduct(int id) async {
     final response = await http.delete(
-      Uri.parse(
-          'https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/delete_product_flutter/$id'),
+      Uri.parse('https://literalink-e03-tk.pbp.cs.ui.ac.id/antar/delete_product_flutter/$id'),
     );
     if (response.statusCode == 200) {
       // Handle response dari server
-      print('Product deleted successfully');
       // You may want to update the UI or navigate to a different screen after deletion
       setState(() async {
         // Panggil fungsi fetch data buku terbaru
@@ -118,7 +106,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
     } else {
       // Handle error
-      print('Failed to delete product. Status code: ${response.statusCode}');
       // You may want to show an error message to the user
     }
   }
@@ -198,6 +185,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           borderSide: BorderSide(color: Color(0xFFF7F8F9)),
                           borderRadius: BorderRadius.all(Radius.circular(25.0)),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xFFF7F8F9)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25.0))),
                         hintText: 'Search Book',
                       ),
                       onChanged: (value) => setState(() {}),
@@ -238,6 +229,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 30, top: 0),
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 return buildPersonItem(filteredList[index]);
