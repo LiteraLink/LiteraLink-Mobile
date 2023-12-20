@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, file_names
 
 import 'dart:convert';
 
@@ -13,7 +13,7 @@ class ChooseBookPage extends StatefulWidget {
 
   const ChooseBookPage({Key? key, required this.user}) : super(key: key);
   @override
-  _ChooseBookPageState createState() => _ChooseBookPageState();
+  State<ChooseBookPage> createState() => _ChooseBookPageState();
 }
 
 class _ChooseBookPageState extends State<ChooseBookPage> {
@@ -142,6 +142,11 @@ class _ChooseBookPageState extends State<ChooseBookPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(25.0)),
                                 ),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFF7F8F9)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(25.0))),
                                 hintText: 'Search Book'),
                             onChanged: (value) {
                               setState(() {}); // Rebuild to filter results

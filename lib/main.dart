@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:literalink/authentication/page/signin_page.dart';
+// import 'package:literalink/authentication/page/signin_page.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:literalink/authentication/page/signin_page.dart';
 import 'package:provider/provider.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
-import 'package:literalink/authentication/page/signin_page.dart';
 
-void main() => runApp(const LiteraLink());
+void main() {
+  runApp(const LiteraLink());
+}
 
 class LiteraLink extends StatelessWidget {
   static const Color lightGreen = Color(0xFF008B3D);
@@ -19,27 +24,23 @@ class LiteraLink extends StatelessWidget {
   Widget build(BuildContext context) {
     CookieRequest request = CookieRequest();
     return Provider(
-      create: (_) {
-        return request;
-      },
-      child: MaterialApp(
-        title: 'Literalink',
-        theme: ThemeData(
-          textTheme: const TextTheme(
-            bodyMedium: TextStyle(
-              color: LiteraLink.lightGreen,
-              fontFamily: "Poppins",
-              fontWeight: FontWeight.w700
-            )
-          ),
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-          scaffoldBackgroundColor: const Color(0xFF008845),
-          primarySwatch: Colors.blue,
-        ),
-        debugShowCheckedModeBanner: false,
-        home: const SignInPage()
-      )
-    );
+        create: (_) {
+          return request;
+        },
+        child: MaterialApp(
+            title: 'Literalink',
+            theme: ThemeData(
+              textTheme: const TextTheme(
+                  bodyMedium: TextStyle(
+                      color: LiteraLink.lightGreen,
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w700)),
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+              scaffoldBackgroundColor: const Color(0xFF008845),
+              primarySwatch: Colors.blue,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: const SignInPage()));
   }
 }

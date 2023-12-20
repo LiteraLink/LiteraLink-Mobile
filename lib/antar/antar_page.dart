@@ -23,7 +23,7 @@ class _AntarPageState extends State<AntarPage> {
   //for animation
   double topPosition = -200;
   double topPosition1 = -200;
-  double topForWhiteContainer = 1000;
+  double topForWhiteContainer = 400;
   bool isButtonPressed = false;
 
   Future<List<Book>> fetchItem() async {
@@ -48,7 +48,7 @@ class _AntarPageState extends State<AntarPage> {
       isButtonPressed = true;
       topPosition = 60; // Posisi akhir elemen atas
       topPosition1 = 110;
-      topForWhiteContainer = 190; // Posisi akhir container putih
+      topForWhiteContainer = 0; // Posisi akhir container putih
     });
   }
 
@@ -70,10 +70,9 @@ class _AntarPageState extends State<AntarPage> {
             child: Stack(
               children: <Widget>[
                 AnimatedPositioned(
-                  duration: const Duration(seconds: 2), // Durasi animasi
-                  bottom: isButtonPressed
-                      ? -1000
-                      : 180, // Ubah nilai ini sesuai kondisi animasi
+                  duration: const Duration(milliseconds: 1500),
+                  curve: Curves.easeOutQuint,
+                  bottom: isButtonPressed ? -400 : 180,
                   left: 50,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +122,8 @@ class _AntarPageState extends State<AntarPage> {
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(seconds: 1),
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeOutQuint,
             top: topPosition,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -155,7 +155,8 @@ class _AntarPageState extends State<AntarPage> {
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(seconds: 1),
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeOutQuint,
             top: topPosition1,
             child: Container(
               padding: EdgeInsets.symmetric(
@@ -188,8 +189,10 @@ class _AntarPageState extends State<AntarPage> {
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(seconds: 1),
-            top: topForWhiteContainer,
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeOutQuint,
+            right: topForWhiteContainer,
+            top: 190,
             child: Container(
               decoration: const BoxDecoration(
                   color: Color(0xFFEFF5ED),
@@ -232,7 +235,8 @@ class _AntarPageState extends State<AntarPage> {
             ),
           ),
           AnimatedPositioned(
-            duration: const Duration(seconds: 1),
+            duration: const Duration(milliseconds: 1500),
+            curve: Curves.easeOutQuint,
             right: 16,
             bottom: isButtonPressed ? 16 : -1000, // Animasi posisi FAB
             child: Padding(
@@ -298,6 +302,7 @@ class _AntarPageState extends State<AntarPage> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
+              padding: const EdgeInsets.only(top: 0, bottom: 400),
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
                 return buildBookItem(filteredList[index]);

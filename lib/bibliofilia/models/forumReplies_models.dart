@@ -2,6 +2,8 @@
 //
 //     final forumReplies = forumRepliesFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 List<ForumReplies> forumRepliesFromJson(String str) => List<ForumReplies>.from(

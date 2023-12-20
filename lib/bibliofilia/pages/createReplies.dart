@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, file_names
 
 import 'dart:convert';
 
@@ -137,6 +137,13 @@ class _CreateRepliesState extends State<CreateReplies> {
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(25.0)),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xFFF7F8F9)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              25.0))),
                                             ),
                                             onChanged: (String? value) {
                                               setState(() {
@@ -165,61 +172,50 @@ class _CreateRepliesState extends State<CreateReplies> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-            padding: const EdgeInsets.only(
-                bottom:
-                    12), // Atur nilai sesuai kebutuhan untuk menggeser ke atas
-            child: SizedBox(
-              width: 125,
-              height: 57,
-              child: FloatingActionButton(
-                backgroundColor: const Color(0xFFEB6645),
-                child: Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-                  child: const Row(
-                    children: [
-                      Text(
-                        "Add Replies",
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () async {
-                  String username = user.username;
-                  if (_formKey.currentState!.validate()) {
-                    // Kirim ke Django dan tunggu respons
-                    final response = await request.postJson(
-                        "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_replies_flutter/",
-                        jsonEncode(<String, String>{
-                          'username': username,
-                          'forum_id': widget.forumId.toString(),
-                          'text': _replies,
-                        }));
-
-                    if (response['status'] == 'success') {
-                      // print("halo ini berhasil");
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Pesanan baru berhasil dibuat!"),
-                      ));
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ForumRepliesPage(
-                                  forumId: widget.forumId,
-                                  forum: widget.forum,
-                                )),
-                      );
-                    } else {
-                      // print("ini gak berhasil");
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Terdapat kesalahan, silakan coba lagi."),
-                      ));
-                    }
-                  }
-                },
+        floatingActionButton: SizedBox(
+          width: 135,
+          child: FloatingActionButton(
+            backgroundColor: const Color(0xFFEB6645),
+            child: const Align(
+              child: Text(
+                "Add Replies",
+                style: TextStyle(color: Color(0xFFFFFFFF)),
               ),
-            )));
+            ),
+            onPressed: () async {
+              String username = user.username;
+              if (_formKey.currentState!.validate()) {
+                // Kirim ke Django dan tunggu respons
+                final response = await request.postJson(
+                    "https://literalink-e03-tk.pbp.cs.ui.ac.id/bibliofilia/add_replies_flutter/",
+                    jsonEncode(<String, String>{
+                      'username': username,
+                      'forum_id': widget.forumId.toString(),
+                      'text': _replies,
+                    }));
+
+                if (response['status'] == 'success') {
+                  // print("halo ini berhasil");
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Pesanan baru berhasil dibuat!"),
+                  ));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ForumRepliesPage(
+                              forumId: widget.forumId,
+                              forum: widget.forum,
+                            )),
+                  );
+                } else {
+                  // print("ini gak berhasil");
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text("Terdapat kesalahan, silakan coba lagi."),
+                  ));
+                }
+              }
+            },
+          ),
+        ));
   }
 }

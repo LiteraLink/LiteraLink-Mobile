@@ -40,6 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _password1Controller = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
+  bool _isLoading = false;
 
   final List<String> roleItems = ['Member', 'Admin'];
   String? selectedRole;
@@ -51,23 +52,21 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEF5ED),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Image.asset("assets/images/signup_header.png"),
-                Column(
-                  children: [
-                    const SizedBox(height: 70),
-                    _buildSignUpForm(),
-                    _buildSignUpFooter(context),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Image.asset("assets/images/signup_header.png"),
+              Column(
+                children: [
+                  const SizedBox(height: 70),
+                  _buildSignUpForm(),
+                  _buildSignUpFooter(context),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -142,7 +141,10 @@ class _SignUpPageState extends State<SignUpPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Already have an account? ", style: TextStyle(color: Colors.black),),
+        const Text(
+          "Already have an account? ",
+          style: TextStyle(color: Colors.black),
+        ),
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
             context,
@@ -160,33 +162,49 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget signUpBtn(request) {
     return InkWell(
         onTap: () async {
+          if (_isLoading) return;
+
+          setState(() {
+            _isLoading = true;
+          });
+
           bool mainFormIsValid = _formKey.currentState?.validate() ?? false;
           bool roleFormIsValid = _roleFormKey.currentState?.validate() ?? false;
 
           if (mainFormIsValid && roleFormIsValid) {
-            final response = await request.login(
-              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/",
-              {
-                'full_name': _fullNameController.text,
-                'username': _usernameController.text,
-                'email': _emailController.text,
-                'role': selectedRole,
-                'password1': _password1Controller.text,
-                'password2': _password2Controller.text,
-                'submit': 'Daftar'
-              }
-            );
+            final response = await request
+                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signup-flutter/", {
+              'full_name': _fullNameController.text,
+              'username': _usernameController.text,
+              'email': _emailController.text,
+              'role': selectedRole,
+              'password1': _password1Controller.text,
+              'password2': _password2Controller.text,
+              'submit': 'Daftar'
+            });
 
             if (request.loggedIn) {
+              setState(() {
+                _isLoading = false;
+              });
+
               String message = response['message'];
 
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const SignInPage()),
-              );
+              Future.delayed(
+                  const Duration(seconds: 1),
+                  () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SignInPage()),
+                      ));
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(SnackBar(
+                    backgroundColor: LiteraLink.redOrange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    behavior: SnackBarBehavior.floating,
                     content: Text(
                         "$message Selamat datang, ${loggedInUser.username}.")));
             } else {
@@ -208,6 +226,10 @@ class _SignUpPageState extends State<SignUpPage> {
             }
             _formKey.currentState!.reset();
             _roleFormKey.currentState!.reset();
+          } else {
+            setState(() {
+              _isLoading = false; // Stop loading jika form tidak valid
+            });
           }
         },
         child: Container(
@@ -216,32 +238,38 @@ class _SignUpPageState extends State<SignUpPage> {
               color: const Color(0xFFEB6645)),
           height: 50,
           width: 200,
-          child: Row(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: const Color(0xFFEB6645)),
-                height: 50,
-                width: 150,
-                child: const Align(
-                    child: Text(
-                  "Sign Up",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                )),
-              ),
-              const Row(
-                children: [
-                  SizedBox(width: 12),
-                  Icon(
-                    Icons.arrow_forward_ios,
+          child: _isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
                     color: Colors.white,
                   ),
-                ],
-              )
-            ],
-          ),
+                )
+              : Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: const Color(0xFFEB6645)),
+                      height: 50,
+                      width: 150,
+                      child: const Align(
+                          child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      )),
+                    ),
+                    const Row(
+                      children: [
+                        SizedBox(width: 12),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
         ));
   }
 
