@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 class BacaDiTempat extends StatefulWidget {
   const BacaDiTempat({super.key});
   @override
-  _BacaDiTempatState createState() => _BacaDiTempatState();
+  State<BacaDiTempat> createState() => _BacaDiTempatState();
 }
 
 class _BacaDiTempatState extends State<BacaDiTempat> {
