@@ -1,6 +1,9 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
-Widget addReplyField(  TextEditingController controller,
+Widget addReplyField(
+  TextEditingController controller,
   String label,
   GlobalKey<FormState> formKey,
   String? initialValue, // membuat parameter ini nullable

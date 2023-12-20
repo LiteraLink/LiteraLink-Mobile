@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:literalink/homepage/history.dart';
 import 'package:literalink/homepage/home_page.dart';
 import 'package:literalink/homepage/profile.dart';
 
@@ -20,13 +21,15 @@ class PersistentBottomNavPage extends StatelessWidget {
           navigatorkey: _tab1navigatorKey,
         ),
         PersistentTabItem(
-          tab: const TabPage2(),
+          tab: const HistoryPage(),
           icon: Icons.shopping_cart_rounded,
           title: 'Order',
           navigatorkey: _tab2navigatorKey,
         ),
         PersistentTabItem(
-          tab: ProfileScreen(),
+          tab: ProfileScreen(
+            isNavigatedByRoot: false,
+          ),
           icon: Icons.person,
           title: 'Profile',
           navigatorkey: _tab3navigatorKey,
@@ -186,9 +189,12 @@ class Page3 extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()),
-                    );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                              isNavigatedByRoot: false,
+                            )),
+                  );
                 },
                 child: const Text('Go back'))
           ],
@@ -219,49 +225,49 @@ class PersistentBottomBarScaffold extends StatefulWidget {
 class _PersistentBottomBarScaffoldState
     extends State<PersistentBottomBarScaffold> {
   int _selectedTab = 0;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        /// Check if curent tab can be popped
-        if (widget.items[_selectedTab].navigatorkey?.currentState?.canPop() ??
-            false) {
-          widget.items[_selectedTab].navigatorkey?.currentState?.pop();
-          return false;
-        } else {
-          // if current tab can't be popped then use the root navigator
-          return true;
-        }
-      },
-      child: Scaffold(
-        body: IndexedStack(
-          index: _selectedTab,
-          children: widget.items
-              .map((page) => Navigator(
-                    key: page.navigatorkey,
-                    onGenerateInitialRoutes: (navigator, initialRoute) {
-                      return [
-                        MaterialPageRoute(builder: (context) => page.tab)
-                      ];
-                    },
-                  ))
-              .toList(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedTab,
-          selectedItemColor: widget.selectedItemColor, // Gunakan properti ini
-          unselectedItemColor: widget.unselectedItemColor, // Dan ini
-          onTap: (index) {
-            setState(() {
-              _selectedTab = index;
-            });
-          },
-          items: widget.items
-              .map((item) => BottomNavigationBarItem(
-                  icon: Icon(item.icon), label: item.title))
-              .toList(),
-        ),
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedTab = index;
+          });
+        },
+        children: [
+          const HomePage(),
+          const HistoryPage(),
+          ProfileScreen(isNavigatedByRoot: false),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedTab,
+        onTap: (index) {
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        },
+        items: widget.items
+            .map((item) => BottomNavigationBarItem(
+                icon: Icon(item.icon), label: item.title))
+            .toList(),
       ),
     );
   }

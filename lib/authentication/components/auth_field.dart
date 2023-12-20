@@ -56,7 +56,15 @@ Widget authField(TextEditingController controller, String label,
         labelStyle: const TextStyle(color: Color(0xFF8391A1)),
       ),
       obscureText: isPasswordField,
+      autovalidateMode: label == "Password2"
+          ? AutovalidateMode.onUserInteraction
+          : AutovalidateMode.disabled,
       validator: (value) => _validateField(value, label, otherController),
+      onChanged: label == "Password2"
+          ? (value) {
+              formKey.currentState!.validate();
+            }
+          : null,
     ),
   );
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 List<Book> bookFromJson(String str) =>
@@ -7,24 +9,24 @@ String bookToJson(List<Book> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Book {
-  Model model;
+  // Model model;
   int pk;
   Fields fields;
 
   Book({
-    required this.model,
+    // required this.model,
     required this.pk,
     required this.fields,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) => Book(
-        model: modelValues.map[json["model"]]!,
+        // model: modelValues.map[json["model"]]!,
         pk: json["pk"],
         fields: Fields.fromJson(json["fields"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "model": modelValues.reverse[model],
+        // "model": modelValues.reverse[model],
         "pk": pk,
         "fields": fields.toJson(),
       };

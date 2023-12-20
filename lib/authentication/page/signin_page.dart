@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:literalink/homepage/components/navbar.dart';
+import 'package:literalink/main.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:literalink/authentication/models/user.dart';
@@ -35,6 +37,18 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 1));
+    FlutterNativeSplash.remove();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +58,9 @@ class _SignInPageState extends State<SignInPage> {
         children: [
           _buildHeaderImages(),
           const SizedBox(height: 10),
-          Expanded(
-            child: Column(
-              children: [
-                _buildSignInForm(),
-                _buildFooter(context),
-              ],
-            ),
-          ),
+          _buildSignInForm(),
+          _buildFooter(context),
+          const Spacer(),
           _buildFooterImages()
         ],
       ),
@@ -65,6 +74,7 @@ class _SignInPageState extends State<SignInPage> {
       ],
     );
   }
+
   Widget _buildFooterImages() {
     return Stack(
       children: [
@@ -128,7 +138,10 @@ class _SignInPageState extends State<SignInPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account? ", style: TextStyle(color: Colors.black),),
+        const Text(
+          "Don't have an account? ",
+          style: TextStyle(color: Colors.black),
+        ),
         GestureDetector(
           onTap: () => Navigator.pushReplacement(
             context,
@@ -146,35 +159,54 @@ class _SignInPageState extends State<SignInPage> {
   Widget signInBtn(request) {
     return InkWell(
         onTap: () async {
+          if (_isLoading) return;
+
+          setState(() {
+            _isLoading = true;
+          });
+
           String password = _passwordController.text;
           if (_formKey.currentState!.validate()) {
-            final response = await request.login(
-              "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
-              {
-                'username': _usernameController.text,
-                'password': password,
-              });
+            final response = await request
+                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/", {
+              'username': _usernameController.text,
+              'password': password,
+            });
 
             if (request.loggedIn) {
-              String message = response['message'];
+              setState(() {
+                _isLoading = false;
+              });
+
               loggedInUser = User(
                   username: response["username"],
                   password: password,
                   fullName: response["full_name"],
                   email: response["email"],
                   role: response["role"]);
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PersistentBottomNavPage()),
-              );
+              Future.delayed(
+                  const Duration(seconds: 1),
+                  () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PersistentBottomNavPage()),
+                      ));
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                    content: Text(
-                        "$message Selamat datang, ${loggedInUser.username}.")));
+                ..showSnackBar(
+                  SnackBar(
+                      backgroundColor: LiteraLink.redOrange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      content:
+                          Text("Selamat datang, ${loggedInUser.username}.")),
+                );
             } else {
+              setState(() {
+                _isLoading = false; // Stop loading jika login gagal
+              });
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -192,6 +224,10 @@ class _SignInPageState extends State<SignInPage> {
               );
             }
             _formKey.currentState!.reset();
+          } else {
+            setState(() {
+              _isLoading = false; // Stop loading jika form tidak valid
+            });
           }
         },
         child: Container(
@@ -200,34 +236,39 @@ class _SignInPageState extends State<SignInPage> {
               color: const Color(0xFFEB6645)),
           height: 50,
           width: 200,
-          child: Row(
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: const Color(0xFFEB6645)),
-                  height: 50,
-                  width: 150,
-                  child: const Align(
-                      child: Text(
-                    "Sign In",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ))),
-              const Row(
-                children: [
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
+          child: _isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(
                     color: Colors.white,
                   ),
-                ],
-              )
-            ],
-          ),
+                )
+              : Row(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            color: const Color(0xFFEB6645)),
+                        height: 50,
+                        width: 150,
+                        child: const Align(
+                            child: Text(
+                          "Sign In",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ))),
+                    const Row(
+                      children: [
+                        SizedBox(
+                          width: 12,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
         ));
   }
 }
