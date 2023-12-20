@@ -26,7 +26,8 @@
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 
 ### Tautan 🔗
-[LiteraLink](http://literalink-e03-tk.pbp.cs.ui.ac.id/)
+Download Aplikasi LiteraLink pada tautan ini via AppCenter
+[LiteraLink]([http://literalink-e03-tk.pbp.cs.ui.ac.id/](https://install.appcenter.ms/orgs/pbp-deploy/apps/literalink/distribution_groups/public))
 
 ## Deskripsi Aplikasi 📙
 Melihat kesuksesan dan inovasi yang dihadirkan oleh startup seperti Gojek, yang telah merubah cara orang memandang transportasi dan pengantaran makanan, tim kami terinspirasi untuk menghadirkan solusi serupa dalam dunia literasi. Oleh karena itu, kami memulai proyek yang bernama LiteraLink dengan fitur-fitur inovatif yang terinspirasi dari Gojek, dengan harapan dapat menghadirkan perubahan positif dalam cara orang mengakses dan berinteraksi dengan buku, serta mendorong budaya literasi yang lebih kuat di seluruh Indonesia.
