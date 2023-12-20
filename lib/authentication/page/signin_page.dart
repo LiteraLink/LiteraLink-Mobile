@@ -167,11 +167,12 @@ class _SignInPageState extends State<SignInPage> {
 
           String password = _passwordController.text;
           if (_formKey.currentState!.validate()) {
-            final response = await request
-                .login("https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/", {
-              'username': _usernameController.text,
-              'password': password,
-            });
+            final response = await request.login(
+                "https://literalink-e03-tk.pbp.cs.ui.ac.id/auth/signin-flutter/",
+                {
+                  'username': _usernameController.text,
+                  'password': password,
+                });
 
             if (request.loggedIn) {
               setState(() {
